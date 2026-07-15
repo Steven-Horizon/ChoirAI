@@ -140,14 +140,22 @@ function WeeklyChart({ onExpand }: { onExpand: () => void }) {
           </div>
         ))}
       </div>
-      {/* Chart - 7 day slot bars */}
-      <div className="flex items-end gap-2 h-[200px]">
-        {data.map((d, di) => (
-          <div key={di} className="flex-1 flex flex-col items-center gap-1">
-            {/* Date label on top */}
-            <span className={`text-[10px] font-bold ${d.isToday ? 'text-accent' : 'text-[hsl(var(--text-tertiary))]'}`}>{d.date}</span>
-            {/* Bars */}
-            <div className="flex items-end gap-[2px] w-full justify-center" style={{ height: '160px' }}>
+      {/* Chart - 7 day slot bars with Y-axis */}
+      <div className="flex gap-2 h-[200px]">
+        {/* Y-axis labels */}
+        <div className="flex flex-col justify-between items-end pr-1 py-4" style={{ height: '160px', marginTop: '20px' }}>
+          {[100, 75, 50, 25, 0].map(v => (
+            <span key={v} className="text-[9px] font-bold" style={{ color: 'hsl(var(--text-tertiary))' }}>{v}%</span>
+          ))}
+        </div>
+        {/* Bars */}
+        <div className="flex-1 flex items-end gap-2">
+          {data.map((d, di) => (
+            <div key={di} className="flex-1 flex flex-col items-center gap-1">
+              {/* Date label on top */}
+              <span className={`text-[10px] font-bold ${d.isToday ? 'text-accent' : 'text-[hsl(var(--text-tertiary))]'}`}>{d.date}</span>
+              {/* Bars */}
+              <div className="flex items-end gap-[2px] w-full justify-center" style={{ height: '160px' }}>
               {parts.map(p => {
                 const val = (d as any)[p];
                 const isFuture = d.isFuture;
@@ -165,11 +173,12 @@ function WeeklyChart({ onExpand }: { onExpand: () => void }) {
                 );
               })}
             </div>
-            {/* Day label */}
-            <span className={`text-[10px] font-semibold ${d.isToday ? 'text-accent' : 'text-[hsl(var(--text-secondary))]'}`}>{d.day}</span>
-            {d.isReport && <span className="text-[7px] font-bold px-1 rounded text-accent bg-[var(--accent-soft)]">汇报</span>}
-          </div>
-        ))}
+              {/* Day label */}
+              <span className={`text-[10px] font-semibold ${d.isToday ? 'text-accent' : 'text-[hsl(var(--text-secondary))]'}`}>{d.day}</span>
+              {d.isReport && <span className="text-[7px] font-bold px-1 rounded text-accent bg-[var(--accent-soft)]">汇报</span>}
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

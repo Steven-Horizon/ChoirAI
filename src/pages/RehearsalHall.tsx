@@ -365,7 +365,7 @@ export default function RehearsalHall() {
         {scores.length === 0 && (
           <div className="text-center py-20">
             <Music className="w-12 h-12 text-neutral-700 mx-auto mb-4" />
-            <p className="text-[hsl(var(--text-tertiary))]">谱子库为空</p>
+            <div className="neu-inset py-12 rounded-2xl text-center"><div className="w-14 h-14 mx-auto mb-3 rounded-2xl flex items-center justify-center" style={{ background: 'var(--accent-soft)' }}><Monitor className="w-7 h-7 text-accent" /></div><p className="text-sm font-bold mb-1" style={{ color: 'hsl(var(--text))' }}>谱子库为空</p><p className="text-xs" style={{ color: 'hsl(var(--text-secondary))' }}>先上传谱子才能创建排练</p></div>
             <Link to="/scores" className="text-amber-600 hover:text-amber-300 text-sm">去上传谱子</Link>
           </div>
         )}
@@ -435,7 +435,7 @@ export default function RehearsalHall() {
               <div className="text-center text-[hsl(var(--text-tertiary))] py-20">无法显示此格式</div>
             )
           ) : (
-            <div className="text-center text-[hsl(var(--text-tertiary))] py-20">此谱子没有上传文件</div>
+            <div className="neu-inset py-12 rounded-2xl text-center"><p className="text-sm font-bold mb-1" style={{ color: 'hsl(var(--text))' }}>此谱子没有上传文件</p><p className="text-xs" style={{ color: 'hsl(var(--text-secondary))' }}>请在谱子库中上传PDF或MIDI文件</p></div>
           )}
         </div>
 

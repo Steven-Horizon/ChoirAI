@@ -173,17 +173,19 @@ export default function ScoreLibrary() {
       </div>
 
       {filteredScores.length === 0 ? (
-        <div className="text-center py-20 bg-transparent rounded-xl border border-[hsl(var(--border))] border-dashed">
-          <FileMusic className="w-12 h-12 text-neutral-700 mx-auto mb-4" />
+        <div className="neu-inset py-16 rounded-2xl text-center">
+          <div className="w-16 h-16 mx-auto mb-4 rounded-2xl flex items-center justify-center" style={{ background: 'var(--accent-soft)' }}>
+            <FileMusic className="w-8 h-8 text-accent" />
+          </div>
           {searchQuery ? (
             <>
-              <p className="text-[hsl(var(--text-tertiary))]">未找到相关谱子</p>
-              <p className="text-sm text-[hsl(var(--text-secondary))]">试试其他关键词</p>
+              <p className="text-base font-bold mb-1" style={{ color: 'hsl(var(--text))' }}>未找到相关谱子</p>
+              <p className="text-sm mb-4" style={{ color: 'hsl(var(--text-secondary))' }}>试试其他关键词</p>
             </>
           ) : (
             <>
-              <p className="text-[hsl(var(--text-tertiary))]">还没有谱子</p>
-              <p className="text-sm text-[hsl(var(--text-secondary))]">点击右上角上传你的第一首合唱谱</p>
+              <p className="text-base font-bold mb-1" style={{ color: 'hsl(var(--text))' }}>谱子库空空如也</p>
+              <p className="text-sm mb-4" style={{ color: 'hsl(var(--text-secondary))' }}>上传合唱谱，开始数字化管理</p>
             </>
           )}
         </div>

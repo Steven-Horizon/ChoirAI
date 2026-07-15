@@ -207,7 +207,7 @@ export default function VoicePartManager() {
         {parts.length === 0 ? (
           <div className="text-center py-20 bg-transparent rounded-xl border border-[hsl(var(--border))] border-dashed">
             <Users className="w-12 h-12 text-neutral-700 mx-auto mb-4" />
-            <p className="text-[hsl(var(--text-tertiary))]">还没有声部</p>
+            <div className="neu-inset py-12 rounded-2xl text-center"><div className="w-14 h-14 mx-auto mb-3 rounded-2xl flex items-center justify-center" style={{ background: 'var(--accent-soft)' }}><Users className="w-7 h-7 text-accent" /></div><p className="text-sm font-bold mb-1" style={{ color: 'hsl(var(--text))' }}>还没有声部</p><p className="text-xs" style={{ color: 'hsl(var(--text-secondary))' }}>创建声部来管理团员的声部分配</p></div>
             <p className="text-sm text-[hsl(var(--text-secondary))] mt-1">创建一个声部来管理成员和任务</p>
           </div>
         ) : (
@@ -376,7 +376,7 @@ export default function VoicePartManager() {
         )}
 
         {selectedPart.tasks.length === 0 ? (
-          <p className="text-sm text-[hsl(var(--text-secondary))] text-center py-4">还没有任务</p>
+          <div className="text-center py-6"><p className="text-sm font-medium mb-1" style={{ color: 'hsl(var(--text-secondary))' }}>还没有任务</p><p className="text-xs" style={{ color: 'hsl(var(--text-tertiary))' }}>点击下方按钮添加训练任务</p></div>
         ) : (
           <div className="space-y-2">
             {selectedPart.tasks.map(task => (
