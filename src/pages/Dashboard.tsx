@@ -17,33 +17,40 @@ const PART_COLORS: Record<string, { fill: string; bg: string; label: string }> =
   bass:    { fill: '#b45309', bg: 'rgba(180,83,9,0.12)', label: '男低音' },
 };
 
-// ========== GET REAL WEEK DATA (Mon-Sat) ==========
+// ========== GET REAL WEEK DATA (7 days with dates) ==========
 function getWeekData() {
-  const today = new Date().getDay(); // 0=Sun, 1=Mon, ..., 6=Sat
-  // Convert to 0=Mon for our logic
+  const now = new Date();
+  const today = now.getDay(); // 0=Sun, 1=Mon, ..., 6=Sat
   const mondayBased = today === 0 ? 6 : today - 1; // Mon=0, Tue=1, ..., Sat=5, Sun=6
+  const dayNames = ['周一', '周二', '周三', '周四', '周五', '周六', '周日'];
 
-  // Generate data: each day 10% base + random variation
-  const baseData = [
-    { day: '周一', soprano: 10, alto: 10, tenor: 10, bass: 10 },
-    { day: '周二', soprano: 10, alto: 10, tenor: 10, bass: 10 },
-    { day: '周三', soprano: 10, alto: 10, tenor: 10, bass: 10 },
-    { day: '周四', soprano: 10, alto: 10, tenor: 10, bass: 10 },
-    { day: '周五', soprano: 10, alto: 10, tenor: 10, bass: 10 },
-    { day: '周六', soprano: 10, alto: 10, tenor: 10, bass: 10, isReport: true },
-  ];
+  // Get Monday of this week
+  const monday = new Date(now);
+  monday.setDate(now.getDate() - mondayBased);
 
-  // Only show days up to today (if today is Thu, show Mon-Thu + Sat as upcoming)
-  const currentDayIndex = Math.min(mondayBased, 5); // Cap at Sat
-  const showDays = [];
-  for (let i = 0; i <= Math.min(currentDayIndex, 4); i++) {
-    showDays.push(baseData[i]);
+  // Generate all 7 days with dates
+  const allDays = [];
+  for (let i = 0; i < 7; i++) {
+    const d = new Date(monday);
+    d.setDate(monday.getDate() + i);
+    const dateStr = `${d.getMonth() + 1}/${d.getDate()}`;
+    const isPastOrToday = i <= mondayBased;
+    const isToday = i === mondayBased;
+    const isReport = i === 5; // Saturday = report day
+
+    allDays.push({
+      day: dayNames[i],
+      date: dateStr,
+      isToday,
+      isReport,
+      isFuture: !isPastOrToday,
+      soprano: isPastOrToday ? 10 : 0,
+      alto: isPastOrToday ? 10 : 0,
+      tenor: isPastOrToday ? 10 : 0,
+      bass: isPastOrToday ? 10 : 0,
+    });
   }
-  // Always show Saturday as upcoming/report day
-  if (currentDayIndex < 5) {
-    showDays.push(baseData[5]);
-  }
-  return showDays;
+  return allDays;
 }
 
 interface TodoItem { id: string; text: string; priority: 'high' | 'normal'; }
@@ -133,24 +140,34 @@ function WeeklyChart({ onExpand }: { onExpand: () => void }) {
           </div>
         ))}
       </div>
-      {/* Chart - slot bars */}
-      <div className="flex items-end gap-3 h-[180px]">
+      {/* Chart - 7 day slot bars */}
+      <div className="flex items-end gap-2 h-[200px]">
         {data.map((d, di) => (
-          <div key={di} className="flex-1 flex flex-col items-center gap-1.5">
+          <div key={di} className="flex-1 flex flex-col items-center gap-1">
+            {/* Date label on top */}
+            <span className={`text-[10px] font-bold ${d.isToday ? 'text-accent' : 'text-[hsl(var(--text-tertiary))]'}`}>{d.date}</span>
             {/* Bars */}
-            <div className="flex items-end gap-[3px] w-full justify-center" style={{ height: '140px' }}>
+            <div className="flex items-end gap-[2px] w-full justify-center" style={{ height: '160px' }}>
               {parts.map(p => {
                 const val = (d as any)[p];
+                const isFuture = d.isFuture;
                 return (
-                  <div key={p} className="slot-bar w-5 flex flex-col justify-end" style={{ height: '100%' }}>
-                    <div className="slot-fill w-full" style={{ height: `${val}%`, background: PART_COLORS[p].fill }} />
+                  <div key={p} className="w-4 flex flex-col justify-end rounded-lg overflow-hidden"
+                    style={{
+                      height: '100%',
+                      background: isFuture ? 'hsla(240,7%,90%,0.3)' : 'hsl(240 7% 90%)',
+                      boxShadow: isFuture ? 'inset 1px 1px 2px rgba(0,0,0,0.03)' : 'inset 2px 2px 4px var(--nd), inset -2px -2px 4px var(--nl)',
+                    }}>
+                    {!isFuture && (
+                      <div className="w-full transition-all duration-500" style={{ height: `${val}%`, background: PART_COLORS[p].fill, borderRadius: '4px 4px 0 0', boxShadow: '0 -1px 2px rgba(255,255,255,0.3)' }} />
+                    )}
                   </div>
                 );
               })}
             </div>
             {/* Day label */}
-            <span className="text-[11px] font-semibold" style={{ color: 'hsl(var(--text-secondary))' }}>{d.day}</span>
-            {(d as any).isReport && <span className="text-[8px] font-bold text-accent">汇报</span>}
+            <span className={`text-[10px] font-semibold ${d.isToday ? 'text-accent' : 'text-[hsl(var(--text-secondary))]'}`}>{d.day}</span>
+            {d.isReport && <span className="text-[7px] font-bold px-1 rounded text-accent bg-[var(--accent-soft)]">汇报</span>}
           </div>
         ))}
       </div>
@@ -217,24 +234,53 @@ function Shortcuts({ navigate }: { navigate: (p: string) => void }) {
 
 // ========== HORIZONTAL CARDS ==========
 function HorizCards() {
+  const [warmup, setWarmup] = useState<{morning: any[], evening: any[]}>({ morning: [], evening: [] });
+
+  useEffect(() => {
+    const data = getTodayWarmupExercises(5);
+    setWarmup(data);
+  }, []);
+
   return (
-    <div className="grid grid-cols-2 gap-3">
-      <div className="neu p-4 flex items-center gap-3">
+    <div className="space-y-3">
+      {/* AI Card */}
+      <div className="neu neu-hover p-4 flex items-center gap-3">
         <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: 'var(--accent-soft)' }}>
           <Sparkles className="w-5 h-5 text-accent" />
         </div>
-        <div>
+        <div className="flex-1">
           <div className="text-sm font-bold" style={{ color: 'hsl(var(--text))' }}>AI 建议</div>
           <div className="text-[10px] font-medium" style={{ color: 'hsl(var(--text-tertiary))' }}>点击查看今日建议</div>
         </div>
+        <ArrowRight className="w-4 h-4" style={{ color: 'hsl(var(--text-tertiary))' }} />
       </div>
-      <div className="neu p-4 flex items-center gap-3">
-        <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: 'hsla(30,80%,55%,0.12)' }}>
-          <Sun className="w-5 h-5" style={{ color: 'hsl(30,70%,50%)' }} />
+
+      {/* Warmup Card - with entries */}
+      <div className="neu p-4">
+        <div className="flex items-center gap-2 mb-3">
+          <Sun className="w-4 h-4" style={{ color: 'hsl(30,80%,50%)' }} />
+          <span className="text-sm font-bold" style={{ color: 'hsl(var(--text))' }}>今日开声</span>
+          <span className="text-[10px] font-semibold ml-auto" style={{ color: 'hsl(var(--text-tertiary))' }}>{warmup.morning.length + warmup.evening.length}条</span>
         </div>
-        <div>
-          <div className="text-sm font-bold" style={{ color: 'hsl(var(--text))' }}>今日开声</div>
-          <div className="text-[10px] font-medium" style={{ color: 'hsl(var(--text-tertiary))' }}>3条待完成</div>
+        <div className="grid grid-cols-2 gap-3">
+          <div>
+            <div className="text-[10px] font-semibold mb-1.5" style={{ color: 'hsl(var(--text-tertiary))' }}>白天 ({warmup.morning.length}条)</div>
+            <div className="space-y-1">
+              {warmup.morning.map((e, i) => (
+                <div key={i} className="neu-inset px-2 py-1.5 rounded-lg text-[10px] font-medium truncate" style={{ color: 'hsl(var(--text-secondary))' }}>{e.name}</div>
+              ))}
+              {warmup.morning.length === 0 && <div className="text-[10px]" style={{ color: 'hsl(var(--text-tertiary))' }}>—</div>}
+            </div>
+          </div>
+          <div>
+            <div className="text-[10px] font-semibold mb-1.5" style={{ color: 'hsl(var(--text-tertiary))' }}>晚上 ({warmup.evening.length}条)</div>
+            <div className="space-y-1">
+              {warmup.evening.map((e, i) => (
+                <div key={i} className="neu-inset px-2 py-1.5 rounded-lg text-[10px] font-medium truncate" style={{ color: 'hsl(var(--text-secondary))' }}>{e.name}</div>
+              ))}
+              {warmup.evening.length === 0 && <div className="text-[10px]" style={{ color: 'hsl(var(--text-tertiary))' }}>—</div>}
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -272,19 +318,31 @@ function ExpandedProgress({ onClose }: { onClose: () => void }) {
             <div className="flex items-center gap-4 mb-5">
               {Object.entries(PART_COLORS).map(([k, c]) => (<div key={k} className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-sm" style={{ background: c.fill }} /><span className="text-xs font-semibold" style={{ color: 'hsl(var(--text-secondary))' }}>{c.label}</span></div>))}
             </div>
-            {/* Large slot chart */}
-            <div className="flex items-end gap-4" style={{ height: '240px' }}>
+            {/* Large 7-day slot chart */}
+            <div className="flex items-end gap-3" style={{ height: '260px' }}>
               {data.map((d, di) => (
-                <div key={di} className="flex-1 flex flex-col items-center gap-2">
-                  <div className="flex items-end gap-[4px] w-full justify-center" style={{ height: '200px' }}>
-                    {parts.map(p => (
-                      <div key={p} className="slot-bar w-7 flex flex-col justify-end" style={{ height: '100%' }}>
-                        <div className="slot-fill w-full" style={{ height: `${(d as any)[p]}%`, background: PART_COLORS[p].fill }} />
-                      </div>
-                    ))}
+                <div key={di} className="flex-1 flex flex-col items-center gap-1.5">
+                  <span className={`text-[11px] font-bold ${d.isToday ? 'text-accent' : 'text-[hsl(var(--text-tertiary))]'}`}>{d.date}</span>
+                  <div className="flex items-end gap-[3px] w-full justify-center" style={{ height: '210px' }}>
+                    {parts.map(p => {
+                      const val = (d as any)[p];
+                      const isFuture = d.isFuture;
+                      return (
+                        <div key={p} className="w-6 flex flex-col justify-end rounded-lg overflow-hidden"
+                          style={{
+                            height: '100%',
+                            background: isFuture ? 'hsla(240,7%,90%,0.3)' : 'hsl(240 7% 90%)',
+                            boxShadow: isFuture ? 'inset 1px 1px 2px rgba(0,0,0,0.03)' : 'inset 2px 2px 4px var(--nd), inset -2px -2px 4px var(--nl)',
+                          }}>
+                          {!isFuture && (
+                            <div className="w-full transition-all duration-500" style={{ height: `${val}%`, background: PART_COLORS[p].fill, borderRadius: '4px 4px 0 0' }} />
+                          )}
+                        </div>
+                      );
+                    })}
                   </div>
-                  <span className="text-xs font-semibold" style={{ color: 'hsl(var(--text-secondary))' }}>{d.day}</span>
-                  {(d as any).isReport && <span className="text-[9px] font-bold px-1.5 py-0.5 rounded" style={{ background: 'var(--accent-soft)', color: 'var(--accent)' }}>汇报日</span>}
+                  <span className={`text-xs font-semibold ${d.isToday ? 'text-accent' : 'text-[hsl(var(--text-secondary))]'}`}>{d.day}</span>
+                  {d.isReport && <span className="text-[8px] font-bold px-1.5 py-0.5 rounded" style={{ background: 'var(--accent-soft)', color: 'var(--accent)' }}>汇报日</span>}
                 </div>
               ))}
             </div>
