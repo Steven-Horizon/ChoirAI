@@ -9,7 +9,7 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "npx tsc -b && npx vite build",
     "start": "node api/index.js",
     "postinstall": "cd api && npm install",
     "lint": "eslint .",
