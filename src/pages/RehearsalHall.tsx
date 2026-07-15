@@ -432,7 +432,7 @@ export default function RehearsalHall() {
             ) : isImage(selectedScore.file_path) ? (
               <img src={`${API_BASE}/api${selectedScore.file_path}`} alt={selectedScore.title} className="max-w-full mx-auto" />
             ) : (
-              <div className="text-center text-[hsl(var(--text-tertiary))] py-20">无法显示此格式</div>
+              <div className="neu-inset py-16 rounded-2xl text-center">无法显示此格式</div>
             )
           ) : (
             <div className="neu-inset py-12 rounded-2xl text-center"><p className="text-sm font-bold mb-1" style={{ color: 'hsl(var(--text))' }}>此谱子没有上传文件</p><p className="text-xs" style={{ color: 'hsl(var(--text-secondary))' }}>请在谱子库中上传PDF或MIDI文件</p></div>

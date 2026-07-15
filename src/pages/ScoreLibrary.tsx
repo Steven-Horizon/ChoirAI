@@ -192,7 +192,7 @@ export default function ScoreLibrary() {
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {filteredScores.map(s => (
-            <div key={s.id} className="bg-transparent rounded-xl border border-[hsl(var(--border))] p-5 hover:border-amber-500/30 transition-all group">
+            <div key={s.id} className="glass rounded-xl p-5 neu-hover transition-all group">
               <div className="flex items-start justify-between mb-3">
                 <div className="w-12 h-12 rounded-xl bg-amber-500/10 flex items-center justify-center">
                   <Music className="w-6 h-6 text-amber-600" />
@@ -231,8 +231,8 @@ export default function ScoreLibrary() {
 
       {/* Upload Modal */}
       {showUpload && (
-        <div className="fixed inset-0 bg-transparent/60 backdrop-blur-sm flex items-center justify-center z-50">
-          <div className="bg-transparent rounded-2xl border border-[hsl(var(--border))] p-6 w-full max-w-md">
+        <div className="fixed inset-0 flex items-center justify-center z-50" style={{ background: "rgba(0,0,0,0.15)", backdropFilter: "blur(8px)" }}>
+          <div className="glass rounded-2xl p-6 w-full max-w-md">
             <div className="flex items-center justify-between mb-5">
               <h3 className="font-semibold text-lg">上传谱子</h3>
               <button onClick={() => setShowUpload(false)} className="text-[hsl(var(--text-tertiary))] hover:text-[hsl(var(--text))]"><X className="w-5 h-5" /></button>
@@ -309,8 +309,8 @@ export default function ScoreLibrary() {
 
       {/* Preview Modal with Watermark */}
       {preview && (preview.file_path || preview.external_url) && (
-        <div className="fixed inset-0 bg-transparent/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-transparent rounded-2xl border border-[hsl(var(--border))] w-full max-w-4xl h-[85vh] flex flex-col">
+        <div className="fixed inset-0 flex items-center justify-center z-50 p-4" style={{ background: "rgba(0,0,0,0.15)", backdropFilter: "blur(8px)" }}>
+          <div className="glass rounded-2xl w-full max-w-4xl h-[85vh] flex flex-col">
             <div className="flex items-center justify-between p-4 border-b border-[hsl(var(--border))]">
               <div>
                 <h3 className="font-semibold">{preview.title}</h3>
@@ -321,7 +321,7 @@ export default function ScoreLibrary() {
                 <button onClick={() => setPreview(null)} className="text-[hsl(var(--text-tertiary))] hover:text-[hsl(var(--text))] p-1"><X className="w-5 h-5" /></button>
               </div>
             </div>
-            <div className="flex-1 overflow-auto relative bg-transparent">
+            <div className="flex-1 overflow-auto relative" style={{ background: "hsl(var(--bg))" }}>
               {/* Watermark overlay */}
               <div className="absolute inset-0 pointer-events-none z-10 overflow-hidden">
                 <div className="absolute inset-0 flex items-center justify-center opacity-[0.06]">

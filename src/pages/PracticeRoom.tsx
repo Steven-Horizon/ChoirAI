@@ -262,7 +262,7 @@ export default function PracticeRoom() {
 
   return (
     <div className="h-full flex flex-col">
-      <div className="flex items-center gap-4 px-6 py-3 border-b border-[hsl(var(--border))] bg-transparent">
+      <div className="flex items-center gap-4 px-6 py-3 border-b border-[hsl(var(--border))]" style={{ background: "hsl(var(--bg))" }}>
         <Link to="/" className="text-[hsl(var(--text-tertiary))] hover:text-[hsl(var(--text))]"><ArrowLeft className="w-5 h-5" /></Link>
         <h2 className="font-semibold">个人练习室</h2>
       </div>
@@ -295,7 +295,7 @@ export default function PracticeRoom() {
 
       {/* Add panel grouped by category */}
       {showAdd && availableDefs.length > 0 && (
-        <div className="p-3 bg-[hsl(var(--bg-deep))] border-b border-[hsl(var(--border))]">
+        <div className="p-3 border-b border-[hsl(var(--border))]" style={{ background: "hsl(var(--bg))" }}>
           {categories.map(cat => (
             <div key={cat} className="mb-2 last:mb-0">
               <p className="text-xs text-[hsl(var(--text-tertiary))] mb-1">{cat}</p>
@@ -372,7 +372,7 @@ function PitchExerciseSingle() {
   return (
     <div className="max-w-xl mx-auto">
       <ScoreBar score={score} total={total} />
-      <div className="bg-transparent rounded-xl border border-[hsl(var(--border))] p-6 text-center">
+      <div className="glass rounded-xl p-6 text-center">
         {phase === 'idle' && <button onClick={generate} className="px-6 py-3 bg-[var(--accent)] text-white font-medium rounded-lg hover:bg-amber-600">开始练习</button>}
         {phase === 'listen' && (
           <div>
@@ -462,7 +462,7 @@ function PitchExerciseInterval() {
   return (
     <div className="max-w-xl mx-auto">
       <ScoreBar score={score} total={total} />
-      <div className="bg-transparent rounded-xl border border-[hsl(var(--border))] p-6 text-center">
+      <div className="glass rounded-xl p-6 text-center">
         {phase === 'idle' && <button onClick={generate} className="px-6 py-3 bg-[var(--accent)] text-white font-medium rounded-lg hover:bg-amber-600">开始练习</button>}
         {phase === 'listen' && (
           <div>
@@ -537,7 +537,7 @@ function IntervalHighLow() {
   return (
     <div className="max-w-xl mx-auto">
       <ScoreBar score={score} total={total} />
-      <div className="bg-transparent rounded-xl border border-[hsl(var(--border))] p-6 text-center">
+      <div className="glass rounded-xl p-6 text-center">
         {!note1 ? (
           <button onClick={generate} className="px-6 py-3 bg-[var(--accent)] text-white font-medium rounded-lg hover:bg-amber-600">开始练习</button>
         ) : (
@@ -614,7 +614,7 @@ function ScaleExercise() {
   return (
     <div className="max-w-xl mx-auto">
       <ScoreBar score={score} total={total} />
-      <div className="bg-transparent rounded-xl border border-[hsl(var(--border))] p-6 text-center">
+      <div className="glass rounded-xl p-6 text-center">
         {phase === 'idle' && <button onClick={generate} className="px-6 py-3 bg-[var(--accent)] text-white font-medium rounded-lg hover:bg-amber-600">开始练习</button>}
         {phase === 'listen' && (
           <div>
@@ -675,7 +675,7 @@ function ChordExercise() {
   return (
     <div className="max-w-xl mx-auto">
       <ScoreBar score={score} total={total} />
-      <div className="bg-transparent rounded-xl border border-[hsl(var(--border))] p-6 text-center">
+      <div className="glass rounded-xl p-6 text-center">
         {/* Phase 1: Listen and identify chord */}
         {!singPhase && (
           <>
@@ -756,7 +756,7 @@ function KeyExercise() {
   return (
     <div className="max-w-xl mx-auto">
       <ScoreBar score={score} total={total} />
-      <div className="bg-transparent rounded-xl border border-[hsl(var(--border))] p-6 text-center">
+      <div className="glass rounded-xl p-6 text-center">
         {!singPhase && (
           <>
             <p className="text-sm text-[hsl(var(--text-tertiary))] mb-4">听旋律，判断是大调还是小调</p>
@@ -813,7 +813,7 @@ function RhythmExercise() {
   return (
     <div className="max-w-xl mx-auto">
       <ScoreBar score={score} total={total} />
-      <div className="bg-transparent rounded-xl border border-[hsl(var(--border))] p-6 text-center">
+      <div className="glass rounded-xl p-6 text-center">
         <p className="text-sm text-[hsl(var(--text-tertiary))] mb-4">听节奏型，选择对应的节奏</p>
         <button onClick={() => playRhythm(item.pattern)} className="flex items-center gap-2 mx-auto px-6 py-3 bg-amber-500/15 text-amber-600 rounded-lg hover:bg-amber-500/25 mb-6"><Volume2 className="w-5 h-5" />播放节奏</button>
         <div className="space-y-2">
@@ -871,7 +871,7 @@ function RhythmImitate() {
   return (
     <div className="max-w-xl mx-auto">
       <ScoreBar score={score} total={total} />
-      <div className="bg-transparent rounded-xl border border-[hsl(var(--border))] p-6 text-center">
+      <div className="glass rounded-xl p-6 text-center">
         {phase === 'idle' && <button onClick={generate} className="px-6 py-3 bg-[var(--accent)] text-white font-medium rounded-lg hover:bg-amber-600">开始练习</button>}
         {phase === 'listen' && (
           <div>
@@ -933,7 +933,7 @@ function TempoExercise() {
   return (
     <div className="max-w-xl mx-auto">
       <ScoreBar score={score} total={total} />
-      <div className="bg-transparent rounded-xl border border-[hsl(var(--border))] p-6 text-center">
+      <div className="glass rounded-xl p-6 text-center">
         {!actualBpm ? (
           <button onClick={generate} className="px-6 py-3 bg-[var(--accent)] text-white font-medium rounded-lg hover:bg-amber-600">开始练习</button>
         ) : (
@@ -1000,7 +1000,7 @@ function SightSingExercise() {
   return (
     <div className="max-w-xl mx-auto">
       <ScoreBar score={score} total={total} />
-      <div className="bg-transparent rounded-xl border border-[hsl(var(--border))] p-6 text-center">
+      <div className="glass rounded-xl p-6 text-center">
         {phase === 'idle' && <button onClick={generate} className="px-6 py-3 bg-[var(--accent)] text-white font-medium rounded-lg hover:bg-amber-600">开始练习</button>}
         {phase === 'show' && (
           <div>
@@ -1062,7 +1062,7 @@ function TimeSignatureExercise() {
   return (
     <div className="max-w-xl mx-auto">
       <ScoreBar score={score} total={total} />
-      <div className="bg-transparent rounded-xl border border-[hsl(var(--border))] p-6 text-center">
+      <div className="glass rounded-xl p-6 text-center">
         <p className="text-sm text-[hsl(var(--text-tertiary))] mb-4">听节拍重音，判断是几几拍</p>
         <button onClick={() => playRhythm(item.pattern)} className="flex items-center gap-2 mx-auto px-6 py-3 bg-amber-500/15 text-amber-600 rounded-lg hover:bg-amber-500/25 mb-6"><Volume2 className="w-5 h-5" />播放节奏</button>
         <div className="grid grid-cols-2 gap-2">

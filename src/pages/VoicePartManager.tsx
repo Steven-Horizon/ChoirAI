@@ -339,7 +339,7 @@ export default function VoicePartManager() {
       </div>
 
       {/* Tasks */}
-      <div className="bg-transparent rounded-xl border border-[hsl(var(--border))] p-4">
+      <div className="neu p-4 rounded-xl">
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-sm font-medium">任务列表</h3>
           {canManageTasks && (

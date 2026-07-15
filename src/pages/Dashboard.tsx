@@ -11,10 +11,10 @@ import { getCoachSuggestions, getTodayPlan, getVoicePartName } from '@/lib/ai-co
 
 // ========== VOICE PART COLORS ==========
 const PART_COLORS: Record<string, { fill: string; bg: string; label: string }> = {
-  soprano: { fill: '#e91e8c', bg: 'rgba(233,30,140,0.12)', label: '女高音' },
-  alto:    { fill: '#06b6d4', bg: 'rgba(6,182,212,0.12)', label: '女中音' },
-  tenor:   { fill: '#eab308', bg: 'rgba(234,179,8,0.12)', label: '男高音' },
-  bass:    { fill: '#b45309', bg: 'rgba(180,83,9,0.12)', label: '男低音' },
+  soprano: { fill: '#f472b6', bg: 'rgba(244,114,182,0.15)', label: '女高音' },
+  alto:    { fill: '#38bdf8', bg: 'rgba(56,189,248,0.15)', label: '女中音' },
+  tenor:   { fill: '#fbbf24', bg: 'rgba(251,191,36,0.15)', label: '男高音' },
+  bass:    { fill: '#a78bfa', bg: 'rgba(167,139,250,0.15)', label: '男低音' },
 };
 
 // ========== GET REAL WEEK DATA (7 days with dates) ==========
@@ -97,7 +97,7 @@ function AuthScreen({ onLogin, onRegister }: { onLogin: (n: string, p: string) =
         </div>
         {mode === 'register' && (<>
           <div className="grid grid-cols-4 gap-2">
-            {[{ k: 'soprano', l: 'S', c: 'hsla(330,80%,55%,0.15)', t: '#c2187a' }, { k: 'alto', l: 'A', c: 'hsla(190,80%,45%,0.15)', t: '#0891b2' }, { k: 'tenor', l: 'T', c: 'hsla(45,85%,45%,0.15)', t: '#a16207' }, { k: 'bass', l: 'B', c: 'hsla(30,60%,40%,0.15)', t: '#92400e' }].map(p => (
+            {[{ k: 'soprano', l: 'S', c: 'hsla(330,80%,70%,0.2)', t: '#db2777' }, { k: 'alto', l: 'A', c: 'hsla(200,80%,60%,0.2)', t: '#0ea5e9' }, { k: 'tenor', l: 'T', c: 'hsla(45,90%,60%,0.2)', t: '#ca8a04' }, { k: 'bass', l: 'B', c: 'hsla(260,60%,65%,0.2)', t: '#8b5cf6' }].map(p => (
               <button key={p.k} type="button" onClick={() => setPart(p.k)} className="py-2.5 rounded-xl text-sm font-bold transition-all" style={part === p.k ? { background: p.c, color: p.t, boxShadow: '2px 2px 6px var(--nd), -2px -2px 6px var(--nl)' } : { background: 'transparent', color: 'hsl(var(--text-tertiary))' }}>{p.l}</button>
             ))}
           </div>
@@ -141,9 +141,9 @@ function WeeklyChart({ onExpand }: { onExpand: () => void }) {
         ))}
       </div>
       {/* Chart - 7 day slot bars with Y-axis */}
-      <div className="flex gap-2 h-[200px]">
+      <div className="flex gap-2 h-[300px]">
         {/* Y-axis labels */}
-        <div className="flex flex-col justify-between items-end pr-1 py-4" style={{ height: '160px', marginTop: '20px' }}>
+        <div className="flex flex-col justify-between items-end pr-1 py-4" style={{ height: '240px', marginTop: '20px' }}>
           {[100, 75, 50, 25, 0].map(v => (
             <span key={v} className="text-[9px] font-bold" style={{ color: 'hsl(var(--text-tertiary))' }}>{v}%</span>
           ))}
@@ -155,7 +155,7 @@ function WeeklyChart({ onExpand }: { onExpand: () => void }) {
               {/* Date label on top */}
               <span className={`text-[10px] font-bold ${d.isToday ? 'text-accent' : 'text-[hsl(var(--text-tertiary))]'}`}>{d.date}</span>
               {/* Bars */}
-              <div className="flex items-end gap-[2px] w-full justify-center" style={{ height: '160px' }}>
+              <div className="flex items-end gap-[2px] w-full justify-center" style={{ height: '240px' }}>
               {parts.map(p => {
                 const val = (d as any)[p];
                 const isFuture = d.isFuture;
@@ -241,8 +241,8 @@ function Shortcuts({ navigate }: { navigate: (p: string) => void }) {
   );
 }
 
-// ========== HORIZONTAL CARDS ==========
-function HorizCards() {
+// ========== WARMUP COMPACT CARD ==========
+function WarmupCompact() {
   const [warmup, setWarmup] = useState<{morning: any[], evening: any[]}>({ morning: [], evening: [] });
 
   useEffect(() => {
@@ -251,47 +251,46 @@ function HorizCards() {
   }, []);
 
   return (
-    <div className="space-y-3">
-      {/* AI Card */}
-      <div className="neu neu-hover p-4 flex items-center gap-3">
-        <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: 'var(--accent-soft)' }}>
-          <Sparkles className="w-5 h-5 text-accent" />
-        </div>
-        <div className="flex-1">
-          <div className="text-sm font-bold" style={{ color: 'hsl(var(--text))' }}>AI 建议</div>
-          <div className="text-[10px] font-medium" style={{ color: 'hsl(var(--text-tertiary))' }}>点击查看今日建议</div>
-        </div>
-        <ArrowRight className="w-4 h-4" style={{ color: 'hsl(var(--text-tertiary))' }} />
+    <div className="neu p-4 h-full">
+      <div className="flex items-center gap-2 mb-3">
+        <Sun className="w-4 h-4" style={{ color: 'hsl(30,80%,50%)' }} />
+        <span className="text-sm font-bold" style={{ color: 'hsl(var(--text))' }}>今日开声</span>
+        <span className="text-[10px] font-semibold ml-auto" style={{ color: 'hsl(var(--text-tertiary))' }}>{warmup.morning.length + warmup.evening.length}条</span>
       </div>
+      <div className="grid grid-cols-2 gap-2">
+        <div>
+          <div className="text-[10px] font-semibold mb-1" style={{ color: 'hsl(var(--text-tertiary))' }}>白天 ({warmup.morning.length})</div>
+          <div className="space-y-1">
+            {warmup.morning.slice(0, 3).map((e, i) => (
+              <div key={i} className="neu-inset px-2 py-1 rounded-lg text-[10px] font-medium truncate" style={{ color: 'hsl(var(--text-secondary))' }}>{e.name}</div>
+            ))}
+          </div>
+        </div>
+        <div>
+          <div className="text-[10px] font-semibold mb-1" style={{ color: 'hsl(var(--text-tertiary))' }}>晚上 ({warmup.evening.length})</div>
+          <div className="space-y-1">
+            {warmup.evening.slice(0, 3).map((e, i) => (
+              <div key={i} className="neu-inset px-2 py-1 rounded-lg text-[10px] font-medium truncate" style={{ color: 'hsl(var(--text-secondary))' }}>{e.name}</div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
 
-      {/* Warmup Card - with entries */}
-      <div className="neu p-4">
-        <div className="flex items-center gap-2 mb-3">
-          <Sun className="w-4 h-4" style={{ color: 'hsl(30,80%,50%)' }} />
-          <span className="text-sm font-bold" style={{ color: 'hsl(var(--text))' }}>今日开声</span>
-          <span className="text-[10px] font-semibold ml-auto" style={{ color: 'hsl(var(--text-tertiary))' }}>{warmup.morning.length + warmup.evening.length}条</span>
-        </div>
-        <div className="grid grid-cols-2 gap-3">
-          <div>
-            <div className="text-[10px] font-semibold mb-1.5" style={{ color: 'hsl(var(--text-tertiary))' }}>白天 ({warmup.morning.length}条)</div>
-            <div className="space-y-1">
-              {warmup.morning.map((e, i) => (
-                <div key={i} className="neu-inset px-2 py-1.5 rounded-lg text-[10px] font-medium truncate" style={{ color: 'hsl(var(--text-secondary))' }}>{e.name}</div>
-              ))}
-              {warmup.morning.length === 0 && <div className="text-[10px]" style={{ color: 'hsl(var(--text-tertiary))' }}>—</div>}
-            </div>
-          </div>
-          <div>
-            <div className="text-[10px] font-semibold mb-1.5" style={{ color: 'hsl(var(--text-tertiary))' }}>晚上 ({warmup.evening.length}条)</div>
-            <div className="space-y-1">
-              {warmup.evening.map((e, i) => (
-                <div key={i} className="neu-inset px-2 py-1.5 rounded-lg text-[10px] font-medium truncate" style={{ color: 'hsl(var(--text-secondary))' }}>{e.name}</div>
-              ))}
-              {warmup.evening.length === 0 && <div className="text-[10px]" style={{ color: 'hsl(var(--text-tertiary))' }}>—</div>}
-            </div>
-          </div>
-        </div>
+// ========== AI CARD ==========
+function AICard() {
+  return (
+    <div className="neu neu-hover p-4 flex items-center gap-3">
+      <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: 'var(--accent-soft)' }}>
+        <Sparkles className="w-5 h-5 text-accent" />
       </div>
+      <div className="flex-1">
+        <div className="text-sm font-bold" style={{ color: 'hsl(var(--text))' }}>AI 建议</div>
+        <div className="text-[10px] font-medium" style={{ color: 'hsl(var(--text-tertiary))' }}>点击查看今日建议</div>
+      </div>
+      <ArrowRight className="w-4 h-4" style={{ color: 'hsl(var(--text-tertiary))' }} />
     </div>
   );
 }
@@ -328,11 +327,11 @@ function ExpandedProgress({ onClose }: { onClose: () => void }) {
               {Object.entries(PART_COLORS).map(([k, c]) => (<div key={k} className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-sm" style={{ background: c.fill }} /><span className="text-xs font-semibold" style={{ color: 'hsl(var(--text-secondary))' }}>{c.label}</span></div>))}
             </div>
             {/* Large 7-day slot chart */}
-            <div className="flex items-end gap-3" style={{ height: '260px' }}>
+            <div className="flex items-end gap-3" style={{ height: '380px' }}>
               {data.map((d, di) => (
                 <div key={di} className="flex-1 flex flex-col items-center gap-1.5">
                   <span className={`text-[11px] font-bold ${d.isToday ? 'text-accent' : 'text-[hsl(var(--text-tertiary))]'}`}>{d.date}</span>
-                  <div className="flex items-end gap-[3px] w-full justify-center" style={{ height: '210px' }}>
+                  <div className="flex items-end gap-[3px] w-full justify-center" style={{ height: '310px' }}>
                     {parts.map(p => {
                       const val = (d as any)[p];
                       const isFuture = d.isFuture;
@@ -520,11 +519,14 @@ function AdminDashboard({ userName, voicePart, isAdmin }: { userName: string; vo
         <div className="lg:col-span-1" style={{ minHeight: '300px' }}><TodoPanel /></div>
       </div>
 
-      {/* Horizontal cards */}
-      <div className="mb-5"><HorizCards /></div>
+      {/* AI Card */}
+      <div className="mb-4"><AICard /></div>
 
-      {/* Shortcuts */}
-      <div className="mb-5"><Shortcuts navigate={navigate} /></div>
+      {/* Warmup + Shortcuts side by side */}
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 mb-5">
+        <div className="lg:col-span-1"><WarmupCompact /></div>
+        <div className="lg:col-span-3"><Shortcuts navigate={navigate} /></div>
+      </div>
 
       {/* Admin Stats */}
       {isAdmin && stats && (
