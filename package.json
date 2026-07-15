@@ -11,7 +11,7 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "start": "node api/index.js",
-    "postinstall": "npm run build && cd api && npm install",
+    "postinstall": "cd api && npm install",
     "lint": "eslint .",
     "preview": "vite preview"
   },
