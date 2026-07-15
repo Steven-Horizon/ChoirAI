@@ -35,45 +35,52 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const role = user?.role || 'member';
   const navItems = MAIN_NAV.filter(n => {
     if (n.path === '/voice-parts') return role === 'captain' || role === 'admin';
+    if (n.path === '/warmup') return false; // 开声不在tab，在首页方块
     return true;
   });
   const mobileTabs = navItems.slice(0, 5);
 
   return (
-    <div className="bg-ambient w-screen h-screen overflow-hidden">
-      {/* PAD: Floating Narrow Vertical Tab */}
+    <div className="w-screen h-screen overflow-hidden" style={{ background: 'hsl(var(--bg))' }}>
+      {/* ========== PAD: Left Vertical Nav - 顶天立地 ========== */}
       {device === 'pad' && isLoggedIn && (
-        <div className="fixed left-4 top-1/2 -translate-y-1/2 z-50 flex flex-col items-center">
-          <div className="vtab-float flex flex-col items-center gap-1 p-2">
+        <div className="fixed left-4 top-4 bottom-4 z-50 flex flex-col">
+          <div className="vnav flex flex-col items-center gap-1 p-2 h-full">
             {/* Logo */}
-            <button onClick={() => navigate('/')} className="vtab-btn active mb-1 transition-transform hover:scale-110" style={{ background: 'var(--accent-soft)', color: 'var(--accent)' }}>
+            <Link to="/" className="vnav-item active shrink-0" style={{ background: 'var(--accent-soft)', color: 'var(--accent)' }}>
               <Mic2 className="w-[18px] h-[18px]" />
-            </button>
-            <div className="w-5 h-px bg-gradient-to-r from-transparent via-neutral-300 to-transparent my-0.5" />
-            {/* Main Nav */}
-            {navItems.map(item => {
-              const Icon = item.icon;
-              const isActive = item.path === '/' ? location.pathname === '/' : location.pathname.startsWith(item.path);
-              return (
-                <Link key={item.path} to={item.path} className={`vtab-btn transition-all hover:scale-110 ${isActive ? 'active' : ''}`} title={item.label}>
-                  <Icon className="w-[18px] h-[18px]" />
-                </Link>
-              );
-            })}
-            <div className="w-5 h-px bg-gradient-to-r from-transparent via-neutral-300 to-transparent my-0.5" />
+            </Link>
+
+            <div className="w-6 h-px bg-gradient-to-r from-transparent via-neutral-300 to-transparent my-1 shrink-0" />
+
+            {/* Main Nav - scrollable area */}
+            <nav className="flex flex-col items-center gap-1 flex-1 overflow-y-auto py-1 scroller">
+              {navItems.map(item => {
+                const Icon = item.icon;
+                const isActive = item.path === '/' ? location.pathname === '/' : location.pathname.startsWith(item.path);
+                return (
+                  <Link key={item.path} to={item.path} className={`vnav-item ${isActive ? 'active' : ''}`} title={item.label}>
+                    <Icon className="w-[18px] h-[18px]" />
+                  </Link>
+                );
+              })}
+            </nav>
+
+            {/* Divider */}
+            <div className="w-6 h-px bg-gradient-to-r from-transparent via-neutral-300 to-transparent my-1 shrink-0" />
+
             {/* Settings at bottom */}
-            <Link to="/settings" className={`vtab-btn transition-all hover:scale-110 ${location.pathname === '/settings' ? 'active' : ''}`} title="设置">
+            <Link to="/settings" className={`vnav-item shrink-0 ${location.pathname === '/settings' ? 'active' : ''}`} title="设置">
               <Settings className="w-[18px] h-[18px]" />
             </Link>
-            {/* Logout */}
-            <button onClick={handleLogout} className="vtab-btn transition-all hover:scale-110" title="退出">
+            <button onClick={handleLogout} className="vnav-item shrink-0" title="退出">
               <LogOut className="w-[18px] h-[18px]" />
             </button>
           </div>
         </div>
       )}
 
-      {/* MAIN CONTENT */}
+      {/* ========== MAIN CONTENT ========== */}
       <main className={`h-full overflow-y-auto overflow-x-hidden scroller relative z-10 ${device === 'pad' ? 'pl-20' : ''}`}>
         {children}
       </main>
@@ -81,7 +88,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       {/* AI Bookmark */}
       {isLoggedIn && <AIBookmark />}
 
-      {/* MOBILE: Bottom Floating Pill */}
+      {/* ========== MOBILE: Bottom Pill Nav ========== */}
       {device === 'mobile' && isLoggedIn && (
         <div className="fixed bottom-5 left-1/2 -translate-x-1/2 z-50">
           <nav className="pill flex items-center gap-0.5 px-2 py-1.5">
@@ -89,12 +96,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               const Icon = item.icon;
               const isActive = i === 0 ? location.pathname === '/' : location.pathname.startsWith(item.path);
               return (
-                <Link key={item.path} to={item.path} className={`pill-item transition-transform hover:scale-110 active:scale-95 ${isActive ? 'active' : ''}`}>
+                <Link key={item.path} to={item.path} className={`pill-item transition-all hover:scale-110 active:scale-95 ${isActive ? 'active' : ''}`}>
                   <Icon className="w-[18px] h-[18px]" /><span>{item.label}</span>
                 </Link>
               );
             })}
-            <button onClick={() => navigate('/settings')} className="pill-item transition-transform hover:scale-110 active:scale-95">
+            <button onClick={() => navigate('/settings')} className="pill-item transition-all hover:scale-110 active:scale-95">
               <Settings className="w-[18px] h-[18px]" /><span>更多</span>
             </button>
           </nav>
