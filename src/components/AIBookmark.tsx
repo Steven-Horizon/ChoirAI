@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { X, Send, Sparkles, Bot, User, ChevronRight } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 
@@ -12,266 +12,194 @@ interface ChatMessage {
 export default function AIBookmark() {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>([
-    {
-      id: 'welcome',
-      role: 'assistant',
-      content: '你好！我是你的合唱AI助手。在任何页面都可以问我问题，比如"这个计划合理吗"、"帮我调整训练计划"等。',
-      timestamp: new Date(),
-    },
+    { id: 'welcome', role: 'assistant', content: '你好！我是你的合唱AI助手。在任何页面都可以问我问题，比如"帮我调整训练计划"、"分析声部进度"等。', timestamp: new Date() },
   ]);
   const [input, setInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
+
+  // Drag state
+  const [pos, setPos] = useState({ y: 50 }); // percentage from top
+  const [dragging, setDragging] = useState(false);
+  const dragStartY = useRef(0);
+  const startPosY = useRef(0);
+
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-  useAuth(); // provides user context if needed later
+  useAuth();
+
+  useEffect(() => { messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' }); }, [messages, isTyping]);
+  useEffect(() => { if (isOpen) setTimeout(() => inputRef.current?.focus(), 300); }, [isOpen]);
+
+  // Drag handlers
+  const onMouseDown = useCallback((e: React.MouseEvent) => {
+    if (isOpen) return;
+    setDragging(true);
+    dragStartY.current = e.clientY;
+    startPosY.current = pos.y;
+  }, [isOpen, pos.y]);
+
+  const onTouchStart = useCallback((e: React.TouchEvent) => {
+    if (isOpen) return;
+    setDragging(true);
+    dragStartY.current = e.touches[0].clientY;
+    startPosY.current = pos.y;
+  }, [isOpen, pos.y]);
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages, isTyping]);
-
-  useEffect(() => {
-    if (isOpen) {
-      setTimeout(() => inputRef.current?.focus(), 300);
-    }
-  }, [isOpen]);
-
-  const handleSend = async () => {
-    if (!input.trim()) return;
-
-    const userMsg: ChatMessage = {
-      id: Date.now().toString(),
-      role: 'user',
-      content: input.trim(),
-      timestamp: new Date(),
+    if (!dragging) return;
+    const onMove = (e: MouseEvent | TouchEvent) => {
+      const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
+      const delta = clientY - dragStartY.current;
+      const vhDelta = (delta / window.innerHeight) * 100;
+      setPos({ y: Math.max(10, Math.min(85, startPosY.current + vhDelta)) });
     };
+    const onUp = () => setDragging(false);
+    window.addEventListener('mousemove', onMove);
+    window.addEventListener('mouseup', onUp);
+    window.addEventListener('touchmove', onMove);
+    window.addEventListener('touchend', onUp);
+    return () => {
+      window.removeEventListener('mousemove', onMove);
+      window.removeEventListener('mouseup', onUp);
+      window.removeEventListener('touchmove', onMove);
+      window.removeEventListener('touchend', onUp);
+    };
+  }, [dragging]);
 
+  const handleSend = () => {
+    if (!input.trim()) return;
+    const userMsg: ChatMessage = { id: Date.now().toString(), role: 'user', content: input.trim(), timestamp: new Date() };
     setMessages(prev => [...prev, userMsg]);
     setInput('');
     setIsTyping(true);
-
-    // Simulate AI response
     setTimeout(() => {
       const responses = [
-        '我理解你的想法。让我帮你分析一下当前的训练计划...',
-        '根据你声部的情况，我建议可以适当增加音准练习的时间。',
-        '好的，我可以帮你调整这个计划。你希望在哪些方面做出改变？',
-        '这是一个很好的想法！让我为你生成一个新的训练方案。',
+        '我来帮你分析一下...根据当前数据，建议增加女高音的周末练习量。',
+        '这个计划看起来合理！不过周三女中的进度偏低，可能需要调整。',
+        '已为你生成新的训练方案，可以在计划页面查看。',
+        '从进度图看，周六的汇报准备需要加强，建议提前排练。',
       ];
-      const assistantMsg: ChatMessage = {
-        id: (Date.now() + 1).toString(),
-        role: 'assistant',
-        content: responses[Math.floor(Math.random() * responses.length)],
-        timestamp: new Date(),
-      };
+      const assistantMsg: ChatMessage = { id: (Date.now() + 1).toString(), role: 'assistant', content: responses[Math.floor(Math.random() * responses.length)], timestamp: new Date() };
       setMessages(prev => [...prev, assistantMsg]);
       setIsTyping(false);
     }, 1200);
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
-      handleSend();
-    }
-  };
-
-  // Get current page context for AI
-  const pageContext = (() => {
-    const path = window.location.hash.replace('#/', '/') || '/';
-    if (path === '/') return '首页';
-    if (path.includes('scores')) return '谱子库';
-    if (path.includes('practice')) return '练习室';
-    if (path.includes('hall')) return '排练厅';
-    if (path.includes('voice')) return '声部管理';
-    if (path.includes('plans')) return '训练计划';
-    if (path.includes('warmup')) return '开声练习';
-    if (path.includes('settings')) return '设置';
-    return '当前页面';
-  })();
+  const handleKeyDown = (e: React.KeyboardEvent) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSend(); } };
 
   return (
     <>
-      {/* Bookmark Tab - prominent accent glow */}
+      {/* Draggable Bookmark */}
       {!isOpen && (
         <button
           onClick={() => setIsOpen(true)}
-          className="fixed right-0 top-1/2 -translate-y-1/2 z-50
-                     w-11 h-28 rounded-l-2xl rounded-r-none
-                     flex flex-col items-center justify-center gap-2
-                     transition-all duration-300 ease-out
-                     hover:w-14 hover:scale-105"
+          onMouseDown={onMouseDown}
+          onTouchStart={onTouchStart}
+          className={`fixed right-0 z-50 w-12 h-32 rounded-l-2xl rounded-r-none flex flex-col items-center justify-center gap-2 transition-all duration-200 hover:w-14 hover:scale-105 ${dragging ? 'cursor-grabbing' : 'cursor-grab'}`}
           style={{
-            background: 'linear-gradient(180deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.03) 100%)',
-            backdropFilter: 'blur(12px)',
-            WebkitBackdropFilter: 'blur(12px)',
-            border: '1px solid rgba(255,255,255,0.15)',
+            top: `${pos.y}%`,
+            transform: 'translateY(-50%)',
+            background: 'linear-gradient(180deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.04) 100%)',
+            backdropFilter: 'blur(16px) saturate(150%)',
+            WebkitBackdropFilter: 'blur(16px) saturate(150%)',
+            border: '1px solid rgba(255,255,255,0.2)',
             borderRight: 'none',
-            boxShadow: '-4px 0 24px var(--accent-glow), inset 2px 0 8px rgba(255,255,255,0.1)',
+            boxShadow: '-6px 0 28px var(--accent-glow), inset 2px 0 8px rgba(255,255,255,0.15)',
           }}
         >
-          {/* Glow dot */}
-          <span className="w-2 h-2 rounded-full animate-pulse" style={{ background: 'var(--accent)', boxShadow: '0 0 8px var(--accent-glow)' }} />
-          <Sparkles className="w-5 h-5" style={{ color: 'var(--accent)', filter: 'drop-shadow(0 0 4px var(--accent-glow))' }} />
-          {/* Vertical accent line */}
-          <div className="w-0.5 h-8 rounded-full" style={{ background: 'linear-gradient(to bottom, transparent, var(--accent), transparent)', opacity: 0.5 }} />
-          {/* AI text */}
-          <span className="text-[8px] font-bold tracking-wider" style={{ color: 'var(--accent)', writingMode: 'vertical-rl' }}>AI</span>
+          <span className="w-2.5 h-2.5 rounded-full animate-pulse" style={{ background: 'var(--accent)', boxShadow: '0 0 10px var(--accent-glow), 0 0 20px var(--accent-soft)' }} />
+          <Sparkles className="w-5 h-5" style={{ color: 'var(--accent)', filter: 'drop-shadow(0 0 6px var(--accent-glow))' }} />
+          <div className="w-0.5 h-6 rounded-full" style={{ background: 'linear-gradient(to bottom, transparent, var(--accent), transparent)', opacity: 0.6 }} />
+          <span className="text-[8px] font-black tracking-widest" style={{ color: 'var(--accent)', writingMode: 'vertical-rl' }}>AI</span>
         </button>
       )}
 
-      {/* Backdrop overlay with subtle distortion effect */}
+      {/* Backdrop */}
       {isOpen && (
-        <div
-          className="fixed inset-0 z-50 animate-fade-in"
-          onClick={() => setIsOpen(false)}
-          style={{
-            background: 'hsla(0,0%,0%,0.3)',
-            backdropFilter: 'blur(2px) brightness(0.95)',
-            WebkitBackdropFilter: 'blur(2px) brightness(0.95)',
-          }}
-        />
+        <div className="fixed inset-0 z-50 anim-fade" onClick={() => setIsOpen(false)}
+          style={{ background: 'hsla(0,0%,0%,0.25)', backdropFilter: 'blur(3px)', WebkitBackdropFilter: 'blur(3px)' }} />
       )}
 
-      {/* AI Panel */}
+      {/* Panel */}
       {isOpen && (
-        <div
-          className="fixed right-0 top-0 bottom-0 z-50 w-[340px] max-w-[85vw]
-                     liquid-glass-strong flex flex-col
-                     animate-slide-in-right"
+        <div className="fixed right-0 top-0 bottom-0 z-50 w-[340px] max-w-[85vw] flex flex-col anim-slide-in"
           style={{
-            borderLeft: '1px solid hsla(0,0%,100%,0.08)',
+            background: 'rgba(255,255,255,0.72)',
+            backdropFilter: 'blur(40px) saturate(160%)',
+            WebkitBackdropFilter: 'blur(40px) saturate(160%)',
+            borderLeft: '1px solid rgba(255,255,255,0.8)',
+            boxShadow: '-8px 0 32px rgba(0,0,0,0.08), inset 1px 0 2px rgba(255,255,255,0.9)',
             borderRadius: '24px 0 0 24px',
-          }}
-        >
+          }}>
           {/* Header */}
-          <div className="flex items-center justify-between p-4 border-b border-white/5">
+          <div className="flex items-center justify-between p-4" style={{ borderBottom: '1px solid rgba(0,0,0,0.06)' }}>
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-xl bg-accent-soft flex items-center justify-center">
+              <div className="w-9 h-9 rounded-xl flex items-center justify-center" style={{ background: 'var(--accent-soft)' }}>
                 <Sparkles className="w-4.5 h-4.5 text-accent" />
               </div>
               <div>
-                <h3 className="text-sm font-semibold">AI 助手</h3>
-                <p className="text-[10px] text-neutral-500 flex items-center gap-1">
-                  <span className="w-1.5 h-1.5 rounded-full bg-green-400" />
-                  在线 · {pageContext}
+                <h3 className="text-sm font-bold" style={{ color: 'hsl(var(--text))' }}>AI 助手</h3>
+                <p className="text-[10px] font-medium flex items-center gap-1" style={{ color: 'hsl(var(--text-tertiary))' }}>
+                  <span className="w-1.5 h-1.5 rounded-full bg-green-500" />在线
                 </p>
               </div>
             </div>
-            <button
-              onClick={() => setIsOpen(false)}
-              className="w-8 h-8 rounded-lg flex items-center justify-center
-                         text-neutral-500 hover:text-neutral-300 hover:bg-white/5
-                         transition-colors"
-            >
-              <X className="w-4 h-4" />
+            <button onClick={() => setIsOpen(false)} className="w-8 h-8 rounded-lg flex items-center justify-center transition-colors hover:bg-black/5">
+              <X className="w-4 h-4" style={{ color: 'hsl(var(--text-tertiary))' }} />
             </button>
           </div>
 
           {/* Messages */}
-          <div className="flex-1 overflow-y-auto custom-scrollbar p-4 space-y-4">
-            {messages.map((msg) => (
-              <div
-                key={msg.id}
-                className={`flex gap-2.5 ${msg.role === 'user' ? 'flex-row-reverse' : ''}`}
-              >
-                {/* Avatar */}
-                <div
-                  className={`w-7 h-7 rounded-lg flex-shrink-0 flex items-center justify-center ${
-                    msg.role === 'assistant'
-                      ? 'bg-accent-soft'
-                      : 'bg-neutral-700/50'
-                  }`}
-                >
-                  {msg.role === 'assistant' ? (
-                    <Bot className="w-3.5 h-3.5 text-accent" />
-                  ) : (
-                    <User className="w-3.5 h-3.5 text-neutral-400" />
-                  )}
+          <div className="flex-1 overflow-y-auto p-4 space-y-3" style={{ scrollbarWidth: 'thin' }}>
+            {messages.map(msg => (
+              <div key={msg.id} className={`flex gap-2.5 ${msg.role === 'user' ? 'flex-row-reverse' : ''}`}>
+                <div className={`w-7 h-7 rounded-lg flex-shrink-0 flex items-center justify-center ${msg.role === 'assistant' ? '' : ''}`} style={{ background: msg.role === 'assistant' ? 'var(--accent-soft)' : 'hsl(var(--border))' }}>
+                  {msg.role === 'assistant' ? <Bot className="w-3.5 h-3.5 text-accent" /> : <User className="w-3.5 h-3.5" style={{ color: 'hsl(var(--text-tertiary))' }} />}
                 </div>
-
-                {/* Bubble */}
-                <div
-                  className={`max-w-[75%] px-3.5 py-2.5 rounded-2xl text-[13px] leading-relaxed ${
-                    msg.role === 'assistant'
-                      ? 'bg-neutral-800/60 text-neutral-200 rounded-tl-sm'
-                      : 'bg-accent-soft text-neutral-100 rounded-tr-sm'
-                  }`}
-                >
+                <div className={`max-w-[75%] px-3 py-2 rounded-2xl text-[13px] leading-relaxed ${msg.role === 'assistant' ? 'rounded-tl-sm' : 'rounded-tr-sm'}`}
+                  style={{ background: msg.role === 'assistant' ? 'hsl(var(--bg-deep))' : 'var(--accent-soft)', color: 'hsl(var(--text))' }}>
                   {msg.content}
                 </div>
               </div>
             ))}
-
-            {/* Typing indicator */}
             {isTyping && (
               <div className="flex gap-2.5">
-                <div className="w-7 h-7 rounded-lg flex-shrink-0 flex items-center justify-center bg-accent-soft">
-                  <Bot className="w-3.5 h-3.5 text-accent" />
-                </div>
-                <div className="bg-neutral-800/60 rounded-2xl rounded-tl-sm px-4 py-3">
+                <div className="w-7 h-7 rounded-lg flex-shrink-0 flex items-center justify-center" style={{ background: 'var(--accent-soft)' }}><Bot className="w-3.5 h-3.5 text-accent" /></div>
+                <div className="rounded-2xl rounded-tl-sm px-4 py-3" style={{ background: 'hsl(var(--bg-deep))' }}>
                   <div className="flex gap-1">
-                    <span className="w-1.5 h-1.5 rounded-full bg-neutral-500 animate-bounce" style={{ animationDelay: '0ms' }} />
-                    <span className="w-1.5 h-1.5 rounded-full bg-neutral-500 animate-bounce" style={{ animationDelay: '150ms' }} />
-                    <span className="w-1.5 h-1.5 rounded-full bg-neutral-500 animate-bounce" style={{ animationDelay: '300ms' }} />
+                    <span className="w-1.5 h-1.5 rounded-full animate-bounce" style={{ background: 'hsl(var(--text-tertiary))', animationDelay: '0ms' }} />
+                    <span className="w-1.5 h-1.5 rounded-full animate-bounce" style={{ background: 'hsl(var(--text-tertiary))', animationDelay: '150ms' }} />
+                    <span className="w-1.5 h-1.5 rounded-full animate-bounce" style={{ background: 'hsl(var(--text-tertiary))', animationDelay: '300ms' }} />
                   </div>
                 </div>
               </div>
             )}
-
-            {/* Quick actions */}
             {messages.length <= 2 && !isTyping && (
               <div className="pt-2 space-y-2">
-                <p className="text-[10px] text-neutral-600 px-1">快速操作</p>
-                {[
-                  '帮我制定训练计划',
-                  '分析我最近的练习',
-                  '这个计划合理吗？',
-                ].map((text) => (
-                  <button
-                    key={text}
-                    onClick={() => { setInput(text); }}
-                    className="w-full text-left px-3 py-2 rounded-xl text-xs
-                               bg-neutral-800/40 text-neutral-400
-                               hover:bg-accent-soft hover:text-accent
-                               transition-colors flex items-center justify-between"
-                  >
-                    {text}
-                    <ChevronRight className="w-3 h-3 opacity-40" />
+                <p className="text-[10px] font-medium px-1" style={{ color: 'hsl(var(--text-tertiary))' }}>快速操作</p>
+                {['帮我制定训练计划', '分析我最近的练习', '这个计划合理吗？'].map(text => (
+                  <button key={text} onClick={() => setInput(text)}
+                    className="w-full text-left px-3 py-2 rounded-xl text-xs transition-colors flex items-center justify-between"
+                    style={{ background: 'hsl(var(--bg-deep))', color: 'hsl(var(--text-secondary))' }}>
+                    {text}<ChevronRight className="w-3 h-3 opacity-40" />
                   </button>
                 ))}
               </div>
             )}
-
             <div ref={messagesEndRef} />
           </div>
 
           {/* Input */}
-          <div className="p-3 border-t border-white/5">
-            <div className="flex items-center gap-2 bg-neutral-800/60 rounded-2xl px-4 py-2.5">
-              <input
-                ref={inputRef}
-                type="text"
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                onKeyDown={handleKeyDown}
-                placeholder="问我任何问题..."
-                className="flex-1 bg-transparent text-sm placeholder:text-neutral-600
-                           focus:outline-none text-neutral-200"
-              />
-              <button
-                onClick={handleSend}
-                disabled={!input.trim() || isTyping}
-                className="w-8 h-8 rounded-xl flex items-center justify-center
-                           bg-accent text-black
-                           disabled:opacity-30 disabled:cursor-not-allowed
-                           hover:brightness-110 transition-all"
-              >
+          <div className="p-3" style={{ borderTop: '1px solid rgba(0,0,0,0.06)' }}>
+            <div className="flex items-center gap-2 rounded-2xl px-4 py-2.5" style={{ background: 'hsl(var(--bg-deep))' }}>
+              <input ref={inputRef} type="text" value={input} onChange={e => setInput(e.target.value)} onKeyDown={handleKeyDown} placeholder="问我任何问题..."
+                className="flex-1 bg-transparent text-sm focus:outline-none placeholder:text-neutral-400" style={{ color: 'hsl(var(--text))' }} />
+              <button onClick={handleSend} disabled={!input.trim() || isTyping}
+                className="w-8 h-8 rounded-xl flex items-center justify-center transition-all disabled:opacity-30"
+                style={{ background: 'var(--accent)', color: '#fff' }}>
                 <Send className="w-3.5 h-3.5" />
               </button>
             </div>
-            <p className="text-[9px] text-neutral-700 text-center mt-2">
-              AI 助手可以查看当前页面内容并提供建议
-            </p>
           </div>
         </div>
       )}
