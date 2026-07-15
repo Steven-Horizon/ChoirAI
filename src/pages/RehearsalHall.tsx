@@ -343,29 +343,29 @@ export default function RehearsalHall() {
     return (
       <div className="p-4 md:p-8 w-full">
         <div className="flex flex-col sm:flex-row sm:items-center gap-4 mb-6">
-          <Link to="/" className="text-neutral-500 hover:text-white"><ArrowLeft className="w-5 h-5" /></Link>
+          <Link to="/" className="text-[hsl(var(--text-tertiary))] hover:text-[hsl(var(--text))]"><ArrowLeft className="w-5 h-5" /></Link>
           <div>
             <h2 className="text-2xl font-bold">排练厅</h2>
-            <p className="text-sm text-neutral-500">选择一首谱子开始排练</p>
+            <p className="text-sm text-[hsl(var(--text-tertiary))]">选择一首谱子开始排练</p>
           </div>
         </div>
         <div className="grid grid-cols-3 gap-4">
           {scores.map(s => (
             <button key={s.id} onClick={() => selectScore(s)}
-              className="text-left bg-neutral-900 rounded-xl border border-neutral-800 p-5 hover:border-amber-500/30 transition-all">
+              className="text-left bg-transparent rounded-xl border border-[hsl(var(--border))] p-5 hover:border-amber-500/30 transition-all">
               <div className="w-12 h-12 rounded-xl bg-amber-500/10 flex items-center justify-center mb-3">
                 <Music className="w-6 h-6 text-amber-400" />
               </div>
               <h3 className="font-semibold">{s.title}</h3>
-              <p className="text-sm text-neutral-500">{s.composer || '未知'}</p>
-              <p className="text-xs text-neutral-600 mt-1">{s.key_sig} · ♩={s.tempo} · {s.total_measures}小节</p>
+              <p className="text-sm text-[hsl(var(--text-tertiary))]">{s.composer || '未知'}</p>
+              <p className="text-xs text-[hsl(var(--text-secondary))] mt-1">{s.key_sig} · ♩={s.tempo} · {s.total_measures}小节</p>
             </button>
           ))}
         </div>
         {scores.length === 0 && (
           <div className="text-center py-20">
             <Music className="w-12 h-12 text-neutral-700 mx-auto mb-4" />
-            <p className="text-neutral-500">谱子库为空</p>
+            <p className="text-[hsl(var(--text-tertiary))]">谱子库为空</p>
             <Link to="/scores" className="text-amber-400 hover:text-amber-300 text-sm">去上传谱子</Link>
           </div>
         )}
@@ -374,21 +374,21 @@ export default function RehearsalHall() {
   }
 
   return (
-    <div className="h-full flex flex-col bg-neutral-950">
+    <div className="h-full flex flex-col bg-transparent">
       {/* Top bar */}
-      <div className="flex items-center justify-between px-6 py-3 border-b border-neutral-800 bg-neutral-900">
+      <div className="flex items-center justify-between px-6 py-3 border-b border-[hsl(var(--border))] bg-transparent">
         <div className="flex items-center gap-4">
           <button onClick={() => { handleStop(); setSelectedScore(null); setShowSetup(true); }}
-            className="text-neutral-500 hover:text-white"><ArrowLeft className="w-5 h-5" /></button>
+            className="text-[hsl(var(--text-tertiary))] hover:text-[hsl(var(--text))]"><ArrowLeft className="w-5 h-5" /></button>
           <div className="flex items-center gap-2">
             <Monitor className="w-5 h-5 text-green-400" />
             <h2 className="font-semibold">排练厅</h2>
           </div>
           <div className="flex items-center gap-3 text-sm">
             <span className="text-amber-400 font-medium">{selectedScore.title}</span>
-            <span className="text-neutral-500">{selectedScore.key_sig}</span>
-            <span className="text-neutral-500">♩={bpm}</span>
-            <span className="text-neutral-500">小节 {currentMeasure}/{endMeasure}</span>
+            <span className="text-[hsl(var(--text-tertiary))]">{selectedScore.key_sig}</span>
+            <span className="text-[hsl(var(--text-tertiary))]">♩={bpm}</span>
+            <span className="text-[hsl(var(--text-tertiary))]">小节 {currentMeasure}/{endMeasure}</span>
           </div>
         </div>
         <div className="flex items-center gap-3">
@@ -400,12 +400,12 @@ export default function RehearsalHall() {
               <span className="flex items-center gap-1 text-xs text-red-400"><MicOff className="w-3 h-3" />麦克风关闭</span>
             )}
           </div>
-          <div className="flex items-center gap-2 bg-neutral-800 rounded-lg px-3 py-1.5">
-            <Gauge className="w-4 h-4 text-neutral-400" />
+          <div className="flex items-center gap-2 bg-[hsl(var(--bg-deep))] rounded-lg px-3 py-1.5">
+            <Gauge className="w-4 h-4 text-[hsl(var(--text-tertiary))]" />
             <span className="text-sm font-mono">{formatTime(elapsed)}</span>
           </div>
           <button onClick={() => setShowSetup(!showSetup)}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm bg-neutral-800 text-neutral-300 hover:bg-neutral-700">
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm bg-[hsl(var(--bg-deep))] text-[hsl(var(--text-secondary))] hover:bg-[hsl(var(--bg))]">
             <SlidersHorizontal className="w-4 h-4" />配置
           </button>
           {!isRunning ? (
@@ -415,7 +415,7 @@ export default function RehearsalHall() {
             </button>
           ) : (
             <button onClick={handleStop}
-              className="px-4 py-1.5 rounded-lg text-sm font-medium bg-red-500/20 text-red-400 hover:bg-red-500/30">
+              className="px-4 py-1.5 rounded-lg text-sm font-medium bg-[hsla(0,70%,55%,0.12)] text-[hsl(0,65%,50%)] hover:bg-red-500/30">
               停止
             </button>
           )}
@@ -425,36 +425,36 @@ export default function RehearsalHall() {
       {/* Main area */}
       <div className="flex-1 flex overflow-hidden">
         {/* Left: Score display */}
-        <div className="flex-1 bg-neutral-950 overflow-auto p-4">
+        <div className="flex-1 bg-transparent overflow-auto p-4">
           {selectedScore.file_path ? (
             isPdf(selectedScore.file_path) ? (
               <embed src={`${API_BASE}/api${selectedScore.file_path}`} type="application/pdf" width="100%" height="100%" />
             ) : isImage(selectedScore.file_path) ? (
               <img src={`${API_BASE}/api${selectedScore.file_path}`} alt={selectedScore.title} className="max-w-full mx-auto" />
             ) : (
-              <div className="text-center text-neutral-500 py-20">无法显示此格式</div>
+              <div className="text-center text-[hsl(var(--text-tertiary))] py-20">无法显示此格式</div>
             )
           ) : (
-            <div className="text-center text-neutral-500 py-20">此谱子没有上传文件</div>
+            <div className="text-center text-[hsl(var(--text-tertiary))] py-20">此谱子没有上传文件</div>
           )}
         </div>
 
         {/* Right: Setup + Real-time meters */}
-        <div className="w-80 bg-neutral-900 border-l border-neutral-800 flex flex-col overflow-auto">
+        <div className="w-80 bg-transparent border-l border-[hsl(var(--border))] flex flex-col overflow-auto">
           {showSetup && (
-            <div className="p-4 border-b border-neutral-800 space-y-4">
-              <h3 className="text-sm font-medium text-neutral-300">排练配置</h3>
+            <div className="p-4 border-b border-[hsl(var(--border))] space-y-4">
+              <h3 className="text-sm font-medium text-[hsl(var(--text-secondary))]">排练配置</h3>
 
               {micError && (
                 <div className="p-2 rounded-lg bg-red-500/10 text-red-400 text-xs">{micError}</div>
               )}
 
               <div>
-                <label className="text-xs text-neutral-500 mb-2 block">参与声部</label>
+                <label className="text-xs text-[hsl(var(--text-tertiary))] mb-2 block">参与声部</label>
                 <div className="grid grid-cols-2 gap-2">
                   {PARTS.map(p => (
                     <button key={p.key} onClick={() => togglePart(p.key)}
-                      className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-colors ${activeParts.includes(p.key) ? `${p.bg} text-white` : 'bg-neutral-800 text-neutral-400'}`}>
+                      className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-colors ${activeParts.includes(p.key) ? `${p.bg} text-[hsl(var(--text))]` : 'bg-[hsl(var(--bg-deep))] text-[hsl(var(--text-tertiary))]'}`}>
                       <span className="font-bold">{p.short}</span><span>{p.label}</span>
                     </button>
                   ))}
@@ -462,20 +462,20 @@ export default function RehearsalHall() {
               </div>
 
               <div>
-                <label className="text-xs text-neutral-500 mb-2 block">排练小节范围</label>
+                <label className="text-xs text-[hsl(var(--text-tertiary))] mb-2 block">排练小节范围</label>
                 <div className="flex items-center gap-2">
                   <input type="number" min={1} value={startMeasure} onChange={e => setStartMeasure(Number(e.target.value))}
-                    className="w-16 bg-neutral-800 border border-neutral-700 rounded px-2 py-1.5 text-sm text-center focus:border-amber-500 outline-none" />
-                  <span className="text-neutral-500">-</span>
+                    className="w-16 bg-[hsl(var(--bg-deep))] border border-[hsl(var(--border))] rounded px-2 py-1.5 text-sm text-center focus:border-amber-500 outline-none" />
+                  <span className="text-[hsl(var(--text-tertiary))]">-</span>
                   <input type="number" min={1} max={selectedScore.total_measures || 99} value={endMeasure}
                     onChange={e => setEndMeasure(Number(e.target.value))}
-                    className="w-16 bg-neutral-800 border border-neutral-700 rounded px-2 py-1.5 text-sm text-center focus:border-amber-500 outline-none" />
-                  <span className="text-xs text-neutral-600">/ {selectedScore.total_measures || '?'} 小节</span>
+                    className="w-16 bg-[hsl(var(--bg-deep))] border border-[hsl(var(--border))] rounded px-2 py-1.5 text-sm text-center focus:border-amber-500 outline-none" />
+                  <span className="text-xs text-[hsl(var(--text-secondary))]">/ {selectedScore.total_measures || '?'} 小节</span>
                 </div>
               </div>
 
               <div>
-                <label className="text-xs text-neutral-500 mb-2 block">速度 (BPM)</label>
+                <label className="text-xs text-[hsl(var(--text-tertiary))] mb-2 block">速度 (BPM)</label>
                 <div className="flex items-center gap-2">
                   <span className="text-xs w-8">{bpm}</span>
                   <input type="range" min={40} max={200} value={bpm}
@@ -487,13 +487,13 @@ export default function RehearsalHall() {
           )}
 
           {/* Recording Status */}
-          <div className="p-4 border-b border-neutral-800">
+          <div className="p-4 border-b border-[hsl(var(--border))]">
             <div className="flex items-center justify-between mb-2">
-              <h3 className="text-sm font-medium text-neutral-300">录音状态</h3>
+              <h3 className="text-sm font-medium text-[hsl(var(--text-secondary))]">录音状态</h3>
               <span className={`text-xs px-2 py-0.5 rounded ${
-                recorderStatus === 'recording' ? 'bg-red-500/20 text-red-400' :
-                recorderStatus === 'stopped' ? 'bg-green-500/20 text-green-400' :
-                'bg-neutral-800 text-neutral-500'
+                recorderStatus === 'recording' ? 'bg-[hsla(0,70%,55%,0.12)] text-[hsl(0,65%,50%)]' :
+                recorderStatus === 'stopped' ? 'bg-[hsla(150,60%,45%,0.12)] text-[hsl(150,55%,40%)]' :
+                'bg-[hsl(var(--bg-deep))] text-[hsl(var(--text-tertiary))]'
               }`}>
                 {recorderStatus === 'recording' ? '录制中' : recorderStatus === 'stopped' ? '已保存' : '未开始'}
               </span>
@@ -502,7 +502,7 @@ export default function RehearsalHall() {
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
                 <span className="text-xs text-red-400 font-mono">{recordingDuration}s / 120s</span>
-                <div className="flex-1 h-1 bg-neutral-800 rounded-full overflow-hidden">
+                <div className="flex-1 h-1 bg-[hsl(var(--bg-deep))] rounded-full overflow-hidden">
                   <div className="h-full bg-red-500 transition-all" style={{ width: `${Math.min(100, (recordingDuration / 120) * 100)}%` }} />
                 </div>
               </div>
@@ -514,9 +514,9 @@ export default function RehearsalHall() {
 
           {/* Real-time meters - REAL DATA */}
           <div className="p-4 flex-1">
-            <h3 className="text-sm font-medium text-neutral-300 mb-3">实时音准监测</h3>
+            <h3 className="text-sm font-medium text-[hsl(var(--text-secondary))] mb-3">实时音准监测</h3>
             {!isListening && (
-              <div className="text-xs text-neutral-500 mb-3 p-2 bg-neutral-800 rounded-lg">
+              <div className="text-xs text-[hsl(var(--text-tertiary))] mb-3 p-2 bg-[hsl(var(--bg-deep))] rounded-lg">
                 点击"开始排练"启动麦克风进行真实音准分析
               </div>
             )}
@@ -530,16 +530,16 @@ export default function RehearsalHall() {
                   <div key={part.key} className={`${!activeParts.includes(part.key) ? 'opacity-30' : ''}`}>
                     <div className="flex items-center justify-between mb-1">
                       <div className="flex items-center gap-2">
-                        <span className={`w-5 h-5 rounded ${part.bg} flex items-center justify-center text-[10px] font-bold text-white`}>{part.short}</span>
+                        <span className={`w-5 h-5 rounded ${part.bg} flex items-center justify-center text-[10px] font-bold text-[hsl(var(--text))]`}>{part.short}</span>
                         <span className="text-xs">{part.label}</span>
                       </div>
                       <span className={`text-xs font-mono ${statusColor}`}>
                         {part.volume > 0.05 ? `${part.cents > 0 ? '+' : ''}${part.cents}¢` : '--'}
                       </span>
                     </div>
-                    <div className="h-20 bg-neutral-800 rounded-lg relative overflow-hidden">
+                    <div className="h-20 bg-[hsl(var(--bg-deep))] rounded-lg relative overflow-hidden">
                       {[25, 50, 75].map(pct => (
-                        <div key={pct} className="absolute w-full h-px bg-neutral-700/50" style={{ bottom: `${pct}%` }} />
+                        <div key={pct} className="absolute w-full h-px bg-[hsl(var(--bg))]" style={{ bottom: `${pct}%` }} />
                       ))}
                       <div className="absolute bottom-0 left-0 right-0 rounded-lg transition-all duration-100"
                         style={{ height: barHeight, background: isInTune ? `${part.color}44` : isWarning ? '#eab30844' : '#ef444444' }}>
@@ -547,7 +547,7 @@ export default function RehearsalHall() {
                       </div>
                     </div>
                     <div className="flex justify-between mt-1">
-                      <span className="text-[10px] text-neutral-600">{Math.round(part.volume * 100)}%</span>
+                      <span className="text-[10px] text-[hsl(var(--text-secondary))]">{Math.round(part.volume * 100)}%</span>
                       <span className={`text-[10px] ${statusColor}`}>
                         {part.volume <= 0.05 ? '未检测到声音' : isInTune ? '音准良好' : isWarning ? '需注意' : '偏差大'}
                       </span>

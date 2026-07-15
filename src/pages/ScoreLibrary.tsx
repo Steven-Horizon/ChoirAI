@@ -131,7 +131,7 @@ export default function ScoreLibrary() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-3">
         <div>
           <h2 className="text-2xl font-bold">我的谱子库</h2>
-          <p className="text-sm text-neutral-500 mt-1">上传谱子或直接贴网盘链接</p>
+          <p className="text-sm text-[hsl(var(--text-tertiary))] mt-1">上传谱子或直接贴网盘链接</p>
         </div>
         <div className="flex gap-2">
           <Link to="/editor"
@@ -148,72 +148,72 @@ export default function ScoreLibrary() {
       {/* Search */}
       <div className="mb-4">
         <div className="relative max-w-md">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-500" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[hsl(var(--text-tertiary))]" />
           <input
             type="text"
             value={searchQuery}
             onChange={e => setSearchQuery(e.target.value)}
             placeholder="搜索曲目或作曲家..."
-            className="w-full bg-neutral-800 border border-neutral-700 rounded-lg pl-10 pr-4 py-2.5 text-sm focus:outline-none focus:border-amber-500"
+            className="w-full bg-[hsl(var(--bg-deep))] border border-[hsl(var(--border))] rounded-lg pl-10 pr-4 py-2.5 text-sm focus:outline-none focus:border-amber-500"
           />
           {searchQuery && (
             <button
               onClick={() => setSearchQuery('')}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-500 hover:text-white"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-[hsl(var(--text-tertiary))] hover:text-[hsl(var(--text))]"
             >
               <X className="w-4 h-4" />
             </button>
           )}
         </div>
         {searchQuery && (
-          <p className="text-xs text-neutral-600 mt-1">
+          <p className="text-xs text-[hsl(var(--text-secondary))] mt-1">
             {filteredScores.length > 0 ? `找到 ${filteredScores.length} 个结果` : '未找到相关谱子'}
           </p>
         )}
       </div>
 
       {filteredScores.length === 0 ? (
-        <div className="text-center py-20 bg-neutral-900 rounded-xl border border-neutral-800 border-dashed">
+        <div className="text-center py-20 bg-transparent rounded-xl border border-[hsl(var(--border))] border-dashed">
           <FileMusic className="w-12 h-12 text-neutral-700 mx-auto mb-4" />
           {searchQuery ? (
             <>
-              <p className="text-neutral-500">未找到相关谱子</p>
-              <p className="text-sm text-neutral-600">试试其他关键词</p>
+              <p className="text-[hsl(var(--text-tertiary))]">未找到相关谱子</p>
+              <p className="text-sm text-[hsl(var(--text-secondary))]">试试其他关键词</p>
             </>
           ) : (
             <>
-              <p className="text-neutral-500">还没有谱子</p>
-              <p className="text-sm text-neutral-600">点击右上角上传你的第一首合唱谱</p>
+              <p className="text-[hsl(var(--text-tertiary))]">还没有谱子</p>
+              <p className="text-sm text-[hsl(var(--text-secondary))]">点击右上角上传你的第一首合唱谱</p>
             </>
           )}
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {filteredScores.map(s => (
-            <div key={s.id} className="bg-neutral-900 rounded-xl border border-neutral-800 p-5 hover:border-amber-500/30 transition-all group">
+            <div key={s.id} className="bg-transparent rounded-xl border border-[hsl(var(--border))] p-5 hover:border-amber-500/30 transition-all group">
               <div className="flex items-start justify-between mb-3">
                 <div className="w-12 h-12 rounded-xl bg-amber-500/10 flex items-center justify-center">
                   <Music className="w-6 h-6 text-amber-400" />
                 </div>
                 <div className="flex flex-col items-end gap-1">
-                  <span className="text-xs text-neutral-600 bg-neutral-800 px-2 py-1 rounded">{s.time_signature}</span>
+                  <span className="text-xs text-[hsl(var(--text-secondary))] bg-[hsl(var(--bg-deep))] px-2 py-1 rounded">{s.time_signature}</span>
                   {s.midi_parsed && (
                     <span className="text-[10px] bg-purple-500/20 text-purple-400 px-1.5 py-0.5 rounded">MIDI</span>
                   )}
                   {s.musicxml_parsed && (
-                    <span className="text-[10px] bg-green-500/20 text-green-400 px-1.5 py-0.5 rounded">五线谱</span>
+                    <span className="text-[10px] bg-[hsla(150,60%,45%,0.12)] text-[hsl(150,55%,40%)] px-1.5 py-0.5 rounded">五线谱</span>
                   )}
                   {s.external_url && (
-                    <span className="text-[10px] bg-blue-500/20 text-blue-400 px-1.5 py-0.5 rounded">网盘</span>
+                    <span className="text-[10px] bg-[hsla(210,70%,55%,0.12)] text-[hsl(210,65%,50%)] px-1.5 py-0.5 rounded">网盘</span>
                   )}
                 </div>
               </div>
               <h3 className="font-semibold mb-1 group-hover:text-amber-400 transition-colors">{s.title}</h3>
-              <p className="text-sm text-neutral-500 mb-2">{s.composer || ''}</p>
+              <p className="text-sm text-[hsl(var(--text-tertiary))] mb-2">{s.composer || ''}</p>
               <div className="flex gap-2">
                 {(s.file_path || s.external_url) && (
                   <button onClick={() => setPreview(s)}
-                    className="flex-1 flex items-center justify-center gap-1.5 py-2 bg-neutral-800 rounded-lg text-xs text-neutral-300 hover:bg-neutral-700 transition-colors">
+                    className="flex-1 flex items-center justify-center gap-1.5 py-2 bg-[hsl(var(--bg-deep))] rounded-lg text-xs text-[hsl(var(--text-secondary))] hover:bg-[hsl(var(--bg))] transition-colors">
                     <Eye className="w-3.5 h-3.5" />预览
                   </button>
                 )}
@@ -229,46 +229,46 @@ export default function ScoreLibrary() {
 
       {/* Upload Modal */}
       {showUpload && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50">
-          <div className="bg-neutral-900 rounded-2xl border border-neutral-800 p-6 w-full max-w-md">
+        <div className="fixed inset-0 bg-transparent/60 backdrop-blur-sm flex items-center justify-center z-50">
+          <div className="bg-transparent rounded-2xl border border-[hsl(var(--border))] p-6 w-full max-w-md">
             <div className="flex items-center justify-between mb-5">
               <h3 className="font-semibold text-lg">上传谱子</h3>
-              <button onClick={() => setShowUpload(false)} className="text-neutral-500 hover:text-white"><X className="w-5 h-5" /></button>
+              <button onClick={() => setShowUpload(false)} className="text-[hsl(var(--text-tertiary))] hover:text-[hsl(var(--text))]"><X className="w-5 h-5" /></button>
             </div>
 
             {/* Upload mode toggle */}
             <div className="flex gap-2 mb-4">
               <button
                 onClick={() => setUploadMode('file')}
-                className={`flex-1 py-2 rounded-lg text-sm ${uploadMode === 'file' ? 'bg-amber-500/15 text-amber-400' : 'bg-neutral-800 text-neutral-400'}`}>
+                className={`flex-1 py-2 rounded-lg text-sm ${uploadMode === 'file' ? 'bg-amber-500/15 text-amber-400' : 'bg-[hsl(var(--bg-deep))] text-[hsl(var(--text-tertiary))]'}`}>
                 <Upload className="w-4 h-4 inline mr-1" />上传文件
               </button>
               <button
                 onClick={() => setUploadMode('link')}
-                className={`flex-1 py-2 rounded-lg text-sm ${uploadMode === 'link' ? 'bg-blue-500/15 text-blue-400' : 'bg-neutral-800 text-neutral-400'}`}>
+                className={`flex-1 py-2 rounded-lg text-sm ${uploadMode === 'link' ? 'bg-blue-500/15 text-blue-400' : 'bg-[hsl(var(--bg-deep))] text-[hsl(var(--text-tertiary))]'}`}>
                 <LinkIcon className="w-4 h-4 inline mr-1" />网盘链接
               </button>
             </div>
 
             <form onSubmit={handleUpload} className="space-y-4">
               <div>
-                <label className="block text-sm text-neutral-400 mb-1.5">曲目标题 *</label>
+                <label className="block text-sm text-[hsl(var(--text-tertiary))] mb-1.5">曲目标题 *</label>
                 <input type="text" value={title} onChange={e => setTitle(e.target.value)} placeholder="例如：送别"
-                  className="w-full bg-neutral-800 border border-neutral-700 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-amber-500" required />
+                  className="w-full bg-[hsl(var(--bg-deep))] border border-[hsl(var(--border))] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-amber-500" required />
               </div>
               <div>
-                <label className="block text-sm text-neutral-400 mb-1.5">作曲家</label>
+                <label className="block text-sm text-[hsl(var(--text-tertiary))] mb-1.5">作曲家</label>
                 <input type="text" value={composer} onChange={e => setComposer(e.target.value)} placeholder="例如：约翰·庞德·奥特威"
-                  className="w-full bg-neutral-800 border border-neutral-700 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-amber-500" />
+                  className="w-full bg-[hsl(var(--bg-deep))] border border-[hsl(var(--border))] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-amber-500" />
               </div>
 
               {uploadMode === 'file' ? (
                 <div>
-                  <label className="block text-sm text-neutral-400 mb-1.5">谱子文件（PDF或图片）</label>
-                  <label className="border-2 border-dashed border-neutral-700 rounded-lg p-6 text-center cursor-pointer hover:border-amber-500/50 transition-colors block">
-                    <Upload className="w-6 h-6 text-neutral-500 mx-auto mb-2" />
-                    <p className="text-sm text-neutral-400">{file ? file.name : '点击上传文件'}</p>
-                    <p className="text-xs text-neutral-600 mt-1">支持：PDF、图片、MIDI(.mid)、音频(mp3/wav)</p>
+                  <label className="block text-sm text-[hsl(var(--text-tertiary))] mb-1.5">谱子文件（PDF或图片）</label>
+                  <label className="border-2 border-dashed border-[hsl(var(--border))] rounded-lg p-6 text-center cursor-pointer hover:border-amber-500/50 transition-colors block">
+                    <Upload className="w-6 h-6 text-[hsl(var(--text-tertiary))] mx-auto mb-2" />
+                    <p className="text-sm text-[hsl(var(--text-tertiary))]">{file ? file.name : '点击上传文件'}</p>
+                    <p className="text-xs text-[hsl(var(--text-secondary))] mt-1">支持：PDF、图片、MIDI(.mid)、音频(mp3/wav)</p>
                     <p className="text-xs text-amber-500/70 mt-1">⚠ 超过35MB的文件需使用网盘链接</p>
                     {file && file.size > MAX_FILE_SIZE && (
                       <p className="text-xs text-amber-400 mt-1">此文件 { (file.size / 1024 / 1024).toFixed(1) }MB，超过35MB需使用网盘链接</p>
@@ -278,7 +278,7 @@ export default function ScoreLibrary() {
                 </div>
               ) : (
                 <div>
-                  <label className="block text-sm text-neutral-400 mb-1.5">
+                  <label className="block text-sm text-[hsl(var(--text-tertiary))] mb-1.5">
                     <LinkIcon className="w-3.5 h-3.5 inline mr-1" />网盘分享链接
                   </label>
                   <input
@@ -286,9 +286,9 @@ export default function ScoreLibrary() {
                     value={externalUrl}
                     onChange={e => setExternalUrl(e.target.value)}
                     placeholder="粘贴百度网盘/阿里云盘/腾讯微云等分享链接"
-                    className="w-full bg-neutral-800 border border-neutral-700 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-blue-500"
+                    className="w-full bg-[hsl(var(--bg-deep))] border border-[hsl(var(--border))] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-blue-500"
                   />
-                  <p className="text-xs text-neutral-500 mt-1">支持任意网盘链接，点击预览将跳转到对应网盘</p>
+                  <p className="text-xs text-[hsl(var(--text-tertiary))] mt-1">支持任意网盘链接，点击预览将跳转到对应网盘</p>
                   <p className="text-xs text-blue-400/70 mt-1">💡 推荐：百度网盘、阿里云盘、腾讯微云</p>
                 </div>
               )}
@@ -307,19 +307,19 @@ export default function ScoreLibrary() {
 
       {/* Preview Modal with Watermark */}
       {preview && (preview.file_path || preview.external_url) && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-neutral-900 rounded-2xl border border-neutral-800 w-full max-w-4xl h-[85vh] flex flex-col">
-            <div className="flex items-center justify-between p-4 border-b border-neutral-800">
+        <div className="fixed inset-0 bg-transparent/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-transparent rounded-2xl border border-[hsl(var(--border))] w-full max-w-4xl h-[85vh] flex flex-col">
+            <div className="flex items-center justify-between p-4 border-b border-[hsl(var(--border))]">
               <div>
                 <h3 className="font-semibold">{preview.title}</h3>
-                <p className="text-xs text-neutral-500">{preview.composer} · {preview.key_sig} · ♩={preview.tempo}</p>
+                <p className="text-xs text-[hsl(var(--text-tertiary))]">{preview.composer} · {preview.key_sig} · ♩={preview.tempo}</p>
               </div>
               <div className="flex items-center gap-2">
                 <span className="text-[10px] bg-red-500/10 text-red-400 px-2 py-1 rounded border border-red-500/20">版权保护 · 禁止外传</span>
-                <button onClick={() => setPreview(null)} className="text-neutral-500 hover:text-white p-1"><X className="w-5 h-5" /></button>
+                <button onClick={() => setPreview(null)} className="text-[hsl(var(--text-tertiary))] hover:text-[hsl(var(--text))] p-1"><X className="w-5 h-5" /></button>
               </div>
             </div>
-            <div className="flex-1 overflow-auto relative bg-neutral-950">
+            <div className="flex-1 overflow-auto relative bg-transparent">
               {/* Watermark overlay */}
               <div className="absolute inset-0 pointer-events-none z-10 overflow-hidden">
                 <div className="absolute inset-0 flex items-center justify-center opacity-[0.06]">
@@ -341,10 +341,10 @@ export default function ScoreLibrary() {
                 {preview.external_url ? (
                   <div className="flex flex-col items-center justify-center">
                     <LinkIcon className="w-12 h-12 text-blue-400 mb-4" />
-                    <p className="text-sm text-neutral-400 mb-2">文件存储在外部网盘</p>
-                    <p className="text-xs text-neutral-600 mb-6 max-w-md text-center break-all">{preview.external_url}</p>
+                    <p className="text-sm text-[hsl(var(--text-tertiary))] mb-2">文件存储在外部网盘</p>
+                    <p className="text-xs text-[hsl(var(--text-secondary))] mb-6 max-w-md text-center break-all">{preview.external_url}</p>
                     <a href={preview.external_url} target="_blank" rel="noopener noreferrer"
-                      className="flex items-center gap-2 px-6 py-3 bg-blue-500 text-white rounded-lg text-sm font-medium hover:bg-blue-600 transition-colors">
+                      className="flex items-center gap-2 px-6 py-3 bg-blue-500 text-[hsl(var(--text))] rounded-lg text-sm font-medium hover:bg-blue-600 transition-colors">
                       <ExternalLink className="w-4 h-4" />在网盘打开
                     </a>
                   </div>
@@ -357,20 +357,20 @@ export default function ScoreLibrary() {
                 ) : isAudio(preview.file_path) ? (
                   <div className="flex flex-col items-center justify-center">
                     <audio controls src={`${API_BASE}${preview.file_path}`} className="w-full max-w-md" />
-                    <p className="text-sm text-neutral-500 mt-4">{preview.title}</p>
+                    <p className="text-sm text-[hsl(var(--text-tertiary))] mt-4">{preview.title}</p>
                   </div>
                 ) : (
-                  <div className="flex flex-col items-center justify-center text-neutral-500">
+                  <div className="flex flex-col items-center justify-center text-[hsl(var(--text-tertiary))]">
                     <p>此文件类型不支持在线预览</p>
-                    <p className="text-sm text-neutral-600 mt-2">{preview.file_path?.split('/').pop()}</p>
+                    <p className="text-sm text-[hsl(var(--text-secondary))] mt-2">{preview.file_path?.split('/').pop()}</p>
                     <a href={`${API_BASE}${preview.file_path}`} download className="mt-4 px-4 py-2 bg-amber-500/15 text-amber-400 rounded-lg text-sm hover:bg-amber-500/25">下载文件</a>
                   </div>
                 )}
               </div>
             </div>
-            <div className="p-4 border-t border-neutral-800 flex items-center justify-between">
+            <div className="p-4 border-t border-[hsl(var(--border))] flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <span className="text-[10px] text-neutral-600">水印保护中</span>
+                <span className="text-[10px] text-[hsl(var(--text-secondary))]">水印保护中</span>
               </div>
               <div className="flex gap-2">
                 <Link to={`/sheet/${preview.id}`}
@@ -378,7 +378,7 @@ export default function ScoreLibrary() {
                   onClick={() => setPreview(null)}>
                   <Eye className="w-4 h-4" />五线谱视图
                 </Link>
-                <button onClick={() => setPreview(null)} className="px-4 py-2 bg-neutral-800 rounded-lg text-sm text-neutral-300 hover:bg-neutral-700">
+                <button onClick={() => setPreview(null)} className="px-4 py-2 bg-[hsl(var(--bg-deep))] rounded-lg text-sm text-[hsl(var(--text-secondary))] hover:bg-[hsl(var(--bg))]">
                   关闭
                 </button>
               </div>

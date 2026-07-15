@@ -54,18 +54,18 @@ export default function WarmUpRoom() {
   };
 
   return (
-    <div className="text-white -mx-4 -mt-4">
-      <div className="sticky top-0 z-50 bg-neutral-950/80 backdrop-blur-md border-b border-neutral-800">
+    <div className="text-[hsl(var(--text))] page">
+      <div className="sticky top-0 z-50 bg-transparent backdrop-blur-[20px] border-b border-[hsl(var(--border))]">
         <div className="max-w-2xl mx-auto px-4 h-14 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <Link to="/" className="p-2 -ml-2 hover:bg-neutral-800 rounded-lg"><ArrowLeft className="w-5 h-5" /></Link>
+            <Link to="/" className="p-2 -ml-2 hover:bg-[hsl(var(--bg-deep))] rounded-lg"><ArrowLeft className="w-5 h-5" /></Link>
             <h1 className="font-semibold">开声练习</h1>
           </div>
           <div className="flex items-center gap-2">
-            <Clock className="w-4 h-4 text-neutral-500" />
-            <span className="text-sm text-neutral-400 font-mono">{fmt(elapsed)}</span>
+            <Clock className="w-4 h-4 text-[hsl(var(--text-tertiary))]" />
+            <span className="text-sm text-[hsl(var(--text-tertiary))] font-mono">{fmt(elapsed)}</span>
             <button onClick={() => { if (timerOn) { setTimerOn(false); recordPractice(Math.ceil(elapsed/60)); } else setTimerOn(true); }}
-              className={`px-3 py-1 rounded-lg text-xs font-medium ${timerOn ? 'bg-red-500/20 text-red-400' : 'bg-amber-500 text-black'}`}>
+              className={`px-3 py-1 rounded-lg text-xs font-medium ${timerOn ? 'bg-[hsla(0,70%,55%,0.12)] text-[hsl(0,65%,50%)]' : 'bg-[var(--accent)] text-white'}`}>
               {timerOn ? '结束' : '计时'}
             </button>
           </div>
@@ -77,7 +77,7 @@ export default function WarmUpRoom() {
         <div className="flex gap-2 mb-3">
           {['soprano','alto','tenor','bass'].map(p => (
             <button key={p} onClick={() => { setVoicePart(p); localStorage.setItem('choirai_voice_part', p); }}
-              className={`px-3 py-1.5 rounded-lg text-sm font-medium ${voicePart === p ? 'bg-amber-500 text-black' : 'bg-neutral-800 text-neutral-400'}`}>
+              className={`px-3 py-1.5 rounded-lg text-sm font-medium ${voicePart === p ? 'bg-[var(--accent)] text-white' : 'bg-[hsl(var(--bg-deep))] text-[hsl(var(--text-tertiary))]'}`}>
               {p === 'soprano' ? 'S' : p === 'alto' ? 'A' : p === 'tenor' ? 'T' : 'B'}
             </button>
           ))}
@@ -86,23 +86,23 @@ export default function WarmUpRoom() {
         {/* 早/晚 */}
         <div className="flex gap-2 mb-3">
           <button onClick={() => setTod('morning')}
-            className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-medium border ${tod === 'morning' ? 'bg-orange-500/10 border-orange-500/30 text-orange-400' : 'bg-neutral-900 border-neutral-800 text-neutral-500'}`}>
+            className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-medium border ${tod === 'morning' ? 'bg-[hsla(30,95%,53%,0.1)] border-[hsla(30,95%,53%,0.25)] text-[hsl(30,80%,45%)]' : 'bg-transparent border-[hsl(var(--border))] text-[hsl(var(--text-tertiary))]'}`}>
             <Sun className="w-4 h-4" />早间
           </button>
           <button onClick={() => setTod('evening')}
-            className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-medium border ${tod === 'evening' ? 'bg-indigo-500/10 border-indigo-500/30 text-indigo-400' : 'bg-neutral-900 border-neutral-800 text-neutral-500'}`}>
+            className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-medium border ${tod === 'evening' ? 'bg-[hsla(240,60%,55%,0.1)] border-[hsla(240,60%,55%,0.25)] text-[hsl(240,50%,50%)]' : 'bg-transparent border-[hsl(var(--border))] text-[hsl(var(--text-tertiary))]'}`}>
             <Moon className="w-4 h-4" />晚间
           </button>
         </div>
 
-        <div className="text-xs text-neutral-600 mb-3 flex items-center gap-1.5">
+        <div className="text-xs text-[hsl(var(--text-secondary))] mb-3 flex items-center gap-1.5">
           <RefreshCw className="w-3 h-3" />{todayEx.date} · 每日随机5条 · 勾选计入今日进度
         </div>
 
-        <div className="h-2 bg-neutral-800 rounded-full overflow-hidden mb-1">
+        <div className="h-2 bg-[hsl(var(--bg-deep))] rounded-full overflow-hidden mb-1">
           <div className="h-full bg-amber-500 transition-all" style={{ width: `${pct}%` }} />
         </div>
-        <div className="flex justify-between text-xs text-neutral-500 mb-4">
+        <div className="flex justify-between text-xs text-[hsl(var(--text-tertiary))] mb-4">
           <span>{completed.size}/{list.length} 已完成</span><span>{pct}%</span>
         </div>
 
@@ -112,7 +112,7 @@ export default function WarmUpRoom() {
 
         {/* 权限提示 */}
         {!canCheck && isLoggedIn && (
-          <div className="mb-3 p-2.5 bg-neutral-800/50 rounded-lg border border-neutral-700/50 flex items-center gap-2 text-xs text-neutral-500">
+          <div className="mb-3 p-2.5 bg-[hsl(var(--bg-deep))] rounded-lg border border-[hsl(var(--border))]/50 flex items-center gap-2 text-xs text-[hsl(var(--text-tertiary))]">
             <Eye className="w-3.5 h-3.5" />你是部员，只能查看开声条目
           </div>
         )}
@@ -135,16 +135,16 @@ export default function WarmUpRoom() {
               <button key={ex.id} onClick={() => toggle(ex.id)} disabled={!canCheck}
                 className={`w-full flex items-start gap-3 p-3.5 rounded-xl border text-left transition-all ${
                   done ? 'bg-green-500/5 border-green-500/20' : 
-                  canCheck ? 'bg-neutral-900 border-neutral-800 hover:border-neutral-700' : 'bg-neutral-900/50 border-neutral-800/50'
+                  canCheck ? 'bg-transparent border-[hsl(var(--border))] hover:border-[hsl(var(--border))]' : 'bg-transparent border-[hsl(var(--border))]/50'
                 } ${!canCheck ? 'cursor-default' : ''}`}>
-                <div className={`w-7 h-7 rounded-lg flex items-center justify-center shrink-0 ${done ? 'bg-green-500/20' : 'bg-neutral-800'}`}>
+                <div className={`w-7 h-7 rounded-lg flex items-center justify-center shrink-0 ${done ? 'bg-green-500/20' : 'bg-[hsl(var(--bg-deep))]'}`}>
                   {done ? <CheckCircle className="w-4 h-4 text-green-400" /> : 
-                   canCheck ? <span className="text-xs text-neutral-500">{i+1}</span> : <Eye className="w-3.5 h-3.5 text-neutral-600" />}
+                   canCheck ? <span className="text-xs text-[hsl(var(--text-tertiary))]">{i+1}</span> : <Eye className="w-3.5 h-3.5 text-[hsl(var(--text-secondary))]" />}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <div className={`text-sm font-medium ${done ? 'text-green-400 line-through' : 'text-neutral-200'}`}>{ex.name}</div>
-                  <div className="text-xs text-neutral-500 font-mono">{ex.notation}</div>
-                  <div className="text-[10px] text-neutral-600">{ex.category}</div>
+                  <div className={`text-sm font-medium ${done ? 'text-green-400 line-through' : 'text-[hsl(var(--text))]'}`}>{ex.name}</div>
+                  <div className="text-xs text-[hsl(var(--text-tertiary))] font-mono">{ex.notation}</div>
+                  <div className="text-[10px] text-[hsl(var(--text-secondary))]">{ex.category}</div>
                 </div>
               </button>
             );
@@ -159,10 +159,10 @@ export default function WarmUpRoom() {
         )}
 
         {/* 开声曲 */}
-        <h2 className="text-sm font-semibold mb-2 text-neutral-300">开声曲</h2>
+        <h2 className="text-sm font-semibold mb-2 text-[hsl(var(--text-secondary))]">开声曲</h2>
         <div className="grid grid-cols-3 gap-2 mb-6">
           {WARMUP_SONGS.map(s => (
-            <div key={s.id} className="bg-neutral-900 rounded-xl p-3 border border-neutral-800 text-center">
+            <div key={s.id} className="bg-transparent rounded-xl p-3 border border-[hsl(var(--border))] text-center">
               <Wind className="w-4 h-4 text-amber-400 mx-auto mb-1" />
               <div className="text-sm font-medium">{s.name}</div>
             </div>
@@ -171,7 +171,7 @@ export default function WarmUpRoom() {
 
         {/* 全部 */}
         <button onClick={() => setShowAll(!showAll)}
-          className="w-full py-2.5 rounded-xl bg-neutral-900 border border-neutral-800 text-sm text-neutral-400 flex items-center justify-center gap-2 mb-4 hover:text-neutral-200">
+          className="w-full py-2.5 rounded-xl bg-transparent border border-[hsl(var(--border))] text-sm text-[hsl(var(--text-tertiary))] flex items-center justify-center gap-2 mb-4 hover:text-[hsl(var(--text))]">
           {showAll ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
           {showAll ? '收起' : '查看全部27条'}
         </button>
@@ -180,15 +180,15 @@ export default function WarmUpRoom() {
           <div className="mb-6 space-y-4">
             {cats.map(cat => (
               <div key={cat}>
-                <div className="text-xs text-neutral-500 mb-1.5 font-medium">{cat}</div>
+                <div className="text-xs text-[hsl(var(--text-tertiary))] mb-1.5 font-medium">{cat}</div>
                 <div className="space-y-1">
                   {WARMUP_EXERCISES.filter(e => e.category === cat).map(ex => {
                     const done = completed.has(ex.id);
                     return (
                       <button key={ex.id} onClick={() => toggle(ex.id)}
-                        className={`w-full flex items-center gap-2 p-2 rounded-lg text-left ${done ? 'text-green-400' : 'text-neutral-400'}`}>
-                        <div className={`w-4 h-4 rounded-full border flex items-center justify-center ${done ? 'bg-green-500 border-green-500' : 'border-neutral-600'}`}>
-                          {done && <CheckCircle className="w-3 h-3 text-white" />}
+                        className={`w-full flex items-center gap-2 p-2 rounded-lg text-left ${done ? 'text-green-400' : 'text-[hsl(var(--text-tertiary))]'}`}>
+                        <div className={`w-4 h-4 rounded-full border flex items-center justify-center ${done ? 'bg-green-500 border-green-500' : 'border-[hsl(var(--border))]'}`}>
+                          {done && <CheckCircle className="w-3 h-3 text-[hsl(var(--text))]" />}
                         </div>
                         <span className={`text-xs ${done ? 'line-through' : ''}`}>{ex.name} · {ex.notation.slice(0, 25)}{ex.notation.length > 25 ? '...' : ''}</span>
                       </button>

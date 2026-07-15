@@ -128,7 +128,7 @@ export default function Settings() {
     <div className="page-container max-w-3xl mx-auto">
       {/* Header */}
       <div className="flex items-center gap-4 mb-8">
-        <button onClick={() => navigate('/')} className="w-9 h-9 rounded-xl neu-raised flex items-center justify-center text-neutral-500 hover:text-neutral-300">
+        <button onClick={() => navigate('/')} className="w-9 h-9 rounded-xl neu-raised flex items-center justify-center text-[hsl(var(--text-tertiary))] hover:text-[hsl(var(--text-secondary))]">
           <ArrowLeft className="w-4 h-4" />
         </button>
         <h2 className="text-xl font-bold">设置</h2>
@@ -174,7 +174,7 @@ export default function Settings() {
 
           {/* Custom color */}
           <div className="flex items-center gap-3">
-            <label className="text-xs text-neutral-600">自定义</label>
+            <label className="text-xs text-[hsl(var(--text-secondary))]">自定义</label>
             <div className="flex items-center gap-2">
               <input
                 type="color"
@@ -183,7 +183,7 @@ export default function Settings() {
                 className="w-8 h-8 rounded-lg border-0 cursor-pointer"
                 style={{ background: 'transparent' }}
               />
-              <span className="text-xs text-neutral-600 font-mono">{customColor}</span>
+              <span className="text-xs text-[hsl(var(--text-secondary))] font-mono">{customColor}</span>
             </div>
           </div>
         </div>
@@ -215,7 +215,7 @@ export default function Settings() {
                 <div>
                   <p className="text-sm font-medium">{user.name}</p>
                   <div className="flex items-center gap-2 mt-0.5">
-                    <span className="text-[10px] text-neutral-600">{PART_LABELS[user.part] || user.part}</span>
+                    <span className="text-[10px] text-[hsl(var(--text-secondary))]">{PART_LABELS[user.part] || user.part}</span>
                     <span className="text-[10px] text-neutral-700">·</span>
                     <span className="text-[10px] px-1.5 py-0.5 rounded-md"
                       style={{
@@ -238,7 +238,7 @@ export default function Settings() {
                 <LogOut className="w-3.5 h-3.5" />退出登录
               </button>
             </div>
-          ) : <p className="text-sm text-neutral-500">未登录</p>}
+          ) : <p className="text-sm text-[hsl(var(--text-tertiary))]">未登录</p>}
         </div>
 
         {/* Audio Settings */}
@@ -252,13 +252,13 @@ export default function Settings() {
           <div className="mb-5">
             <div className="flex items-center justify-between mb-3">
               <div className="flex items-center gap-2">
-                <Mic className="w-4 h-4 text-neutral-500" />
+                <Mic className="w-4 h-4 text-[hsl(var(--text-tertiary))]" />
                 <span className="text-sm">麦克风权限</span>
               </div>
               <span className={`text-[10px] px-2.5 py-1 rounded-lg ${
                 micStatus === 'granted' ? 'bg-green-500/10 text-green-400' :
                 micStatus === 'denied' ? 'bg-red-500/10 text-red-400' :
-                'neu-concave text-neutral-500'
+                'neu-concave text-[hsl(var(--text-tertiary))]'
               }`}>
                 {micStatus === 'granted' ? '已授权' : micStatus === 'denied' ? '被拒绝' : '待授权'}
               </span>
@@ -270,7 +270,7 @@ export default function Settings() {
               </div>
             )}
             <button onClick={requestMic}
-              className="text-xs neu-raised px-4 py-2 rounded-xl text-neutral-400 hover:text-neutral-300">
+              className="text-xs neu-raised px-4 py-2 rounded-xl text-[hsl(var(--text-tertiary))] hover:text-[hsl(var(--text-secondary))]">
               {micStatus === 'granted' ? '重新授权' : '请求授权'}
             </button>
           </div>
@@ -279,7 +279,7 @@ export default function Settings() {
               <span className="text-sm">麦克风测试</span>
               <button onClick={testMic}
                 className={`text-[10px] px-3 py-1.5 rounded-lg transition-all ${
-                  isTesting ? 'bg-red-500/10 text-red-400' : 'neu-raised text-neutral-400'
+                  isTesting ? 'bg-red-500/10 text-red-400' : 'neu-raised text-[hsl(var(--text-tertiary))]'
                 }`}>
                 {isTesting ? '停止' : '开始测试'}
               </button>
@@ -295,7 +295,7 @@ export default function Settings() {
                 ))}
               </div>
             </div>
-            <p className="text-[10px] text-neutral-600 mt-2">{isTesting ? '对着麦克风说话...' : '点击测试检查麦克风'}</p>
+            <p className="text-[10px] text-[hsl(var(--text-secondary))] mt-2">{isTesting ? '对着麦克风说话...' : '点击测试检查麦克风'}</p>
           </div>
         </div>
 
@@ -307,7 +307,7 @@ export default function Settings() {
             </div>
             <h3 className="font-semibold text-sm">数据管理</h3>
           </div>
-          <p className="text-xs text-neutral-600 mb-4">清除所有本地存储的数据。此操作不可恢复。</p>
+          <p className="text-xs text-[hsl(var(--text-secondary))] mb-4">清除所有本地存储的数据。此操作不可恢复。</p>
           <button onClick={clearAllData}
             className="flex items-center gap-2 text-xs font-medium px-4 py-2.5 rounded-xl transition-all"
             style={{ background: 'hsla(0,60%,50%,0.08)', color: 'hsl(0,60%,55%)' }}>
@@ -335,18 +335,18 @@ export default function Settings() {
                 ].map(item => (
                   <div key={item.label} className="neu-concave p-3 rounded-xl text-center">
                     <div className="text-lg font-bold text-accent">{item.value}</div>
-                    <div className="text-[9px] text-neutral-600 mt-1">{item.label}</div>
+                    <div className="text-[9px] text-[hsl(var(--text-secondary))] mt-1">{item.label}</div>
                   </div>
                 ))}
               </div>
             )}
 
             <div className="space-y-2">
-              <h4 className="text-xs font-medium mb-3 flex items-center gap-2 text-neutral-500">
+              <h4 className="text-xs font-medium mb-3 flex items-center gap-2 text-[hsl(var(--text-tertiary))]">
                 <Users className="w-3.5 h-3.5" />成员列表
               </h4>
               {allUsers.length === 0 ? (
-                <p className="text-xs text-neutral-600">暂无成员</p>
+                <p className="text-xs text-[hsl(var(--text-secondary))]">暂无成员</p>
               ) : (
                 allUsers.map(u => (
                   <div key={u.id} className="flex items-center justify-between neu-concave rounded-xl p-3">
@@ -365,7 +365,7 @@ export default function Settings() {
                         {u.name[0]}
                       </div>
                       <span className="text-sm font-medium">{u.name}</span>
-                      <span className="text-[10px] text-neutral-600">{PART_LABELS[u.part] || u.part}</span>
+                      <span className="text-[10px] text-[hsl(var(--text-secondary))]">{PART_LABELS[u.part] || u.part}</span>
                     </div>
                     <div className="flex items-center gap-2">
                       <span className="text-[10px] px-2 py-0.5 rounded-md"
@@ -380,7 +380,7 @@ export default function Settings() {
                         {ROLE_LABELS[u.role] || u.role}
                       </span>
                       <select value={u.role} onChange={e => changeRole(u.id, e.target.value)}
-                        className="neu-concave px-2 py-1 text-[10px] text-neutral-400 rounded-lg outline-none">
+                        className="neu-concave px-2 py-1 text-[10px] text-[hsl(var(--text-tertiary))] rounded-lg outline-none">
                         <option value="member">部员</option>
                         <option value="captain">声部长</option>
                         <option value="admin">团干</option>
@@ -401,7 +401,7 @@ export default function Settings() {
             </div>
             <h3 className="font-semibold text-sm">关于</h3>
           </div>
-          <div className="space-y-2 text-xs text-neutral-500">
+          <div className="space-y-2 text-xs text-[hsl(var(--text-tertiary))]">
             <p>ChoirAI 合唱智能训练助手</p>
             <p>版本: v2.0 · 新拟态UI</p>
             <p>AI模型: DeepSeek + Kimi</p>
