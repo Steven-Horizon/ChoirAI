@@ -91,30 +91,31 @@ export default function AIBookmark() {
 
   return (
     <>
-      {/* Bookmark Tab - peeking from right edge */}
+      {/* Bookmark Tab - prominent accent glow */}
       {!isOpen && (
         <button
           onClick={() => setIsOpen(true)}
-          className="fixed right-0 top-1/2 -translate-y-1/2 z-50 ai-bookmark
-                     w-10 h-24 rounded-l-2xl rounded-r-none
-                     flex items-center justify-center
+          className="fixed right-0 top-1/2 -translate-y-1/2 z-50
+                     w-11 h-28 rounded-l-2xl rounded-r-none
+                     flex flex-col items-center justify-center gap-2
                      transition-all duration-300 ease-out
-                     hover:w-12 hover:shadow-accent
-                     animate-pulse-glow"
-          style={{ animationDuration: '3s' }}
+                     hover:w-14 hover:scale-105"
+          style={{
+            background: 'linear-gradient(180deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.03) 100%)',
+            backdropFilter: 'blur(12px)',
+            WebkitBackdropFilter: 'blur(12px)',
+            border: '1px solid rgba(255,255,255,0.15)',
+            borderRight: 'none',
+            boxShadow: '-4px 0 24px var(--accent-glow), inset 2px 0 8px rgba(255,255,255,0.1)',
+          }}
         >
-          <div className="flex flex-col items-center gap-1.5">
-            <Bot className="w-5 h-5 text-accent" />
-            <div className="w-0.5 h-6 rounded-full bg-gradient-to-b from-transparent via-[var(--accent-color)] to-transparent opacity-60" />
-          </div>
-          {/* Subtle edge glow */}
-          <div
-            className="absolute inset-y-0 left-0 w-px"
-            style={{
-              background: 'linear-gradient(to bottom, transparent, var(--accent-color), transparent)',
-              opacity: 0.3,
-            }}
-          />
+          {/* Glow dot */}
+          <span className="w-2 h-2 rounded-full animate-pulse" style={{ background: 'var(--accent)', boxShadow: '0 0 8px var(--accent-glow)' }} />
+          <Sparkles className="w-5 h-5" style={{ color: 'var(--accent)', filter: 'drop-shadow(0 0 4px var(--accent-glow))' }} />
+          {/* Vertical accent line */}
+          <div className="w-0.5 h-8 rounded-full" style={{ background: 'linear-gradient(to bottom, transparent, var(--accent), transparent)', opacity: 0.5 }} />
+          {/* AI text */}
+          <span className="text-[8px] font-bold tracking-wider" style={{ color: 'var(--accent)', writingMode: 'vertical-rl' }}>AI</span>
         </button>
       )}
 
