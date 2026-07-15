@@ -135,7 +135,7 @@ export default function ScoreLibrary() {
         </div>
         <div className="flex gap-2">
           <Link to="/editor"
-            className="flex items-center gap-2 px-4 py-2.5 bg-green-500/15 text-green-400 rounded-lg hover:bg-green-500/25 text-sm font-medium">
+            className="flex items-center gap-2 px-4 py-2.5 bg-green-500/15 text-green-600 rounded-lg hover:bg-green-500/25 text-sm font-medium">
             <Music className="w-4 h-4" />在线打谱
           </Link>
           <button onClick={() => setShowUpload(true)}
@@ -193,12 +193,12 @@ export default function ScoreLibrary() {
             <div key={s.id} className="bg-transparent rounded-xl border border-[hsl(var(--border))] p-5 hover:border-amber-500/30 transition-all group">
               <div className="flex items-start justify-between mb-3">
                 <div className="w-12 h-12 rounded-xl bg-amber-500/10 flex items-center justify-center">
-                  <Music className="w-6 h-6 text-amber-400" />
+                  <Music className="w-6 h-6 text-amber-600" />
                 </div>
                 <div className="flex flex-col items-end gap-1">
                   <span className="text-xs text-[hsl(var(--text-secondary))] bg-[hsl(var(--bg-deep))] px-2 py-1 rounded">{s.time_signature}</span>
                   {s.midi_parsed && (
-                    <span className="text-[10px] bg-purple-500/20 text-purple-400 px-1.5 py-0.5 rounded">MIDI</span>
+                    <span className="text-[10px] bg-purple-500/20 text-purple-600 px-1.5 py-0.5 rounded">MIDI</span>
                   )}
                   {s.musicxml_parsed && (
                     <span className="text-[10px] bg-[hsla(150,60%,45%,0.12)] text-[hsl(150,55%,40%)] px-1.5 py-0.5 rounded">五线谱</span>
@@ -208,7 +208,7 @@ export default function ScoreLibrary() {
                   )}
                 </div>
               </div>
-              <h3 className="font-semibold mb-1 group-hover:text-amber-400 transition-colors">{s.title}</h3>
+              <h3 className="font-semibold mb-1 group-hover:text-amber-600 transition-colors">{s.title}</h3>
               <p className="text-sm text-[hsl(var(--text-tertiary))] mb-2">{s.composer || ''}</p>
               <div className="flex gap-2">
                 {(s.file_path || s.external_url) && (
@@ -218,7 +218,7 @@ export default function ScoreLibrary() {
                   </button>
                 )}
                 <Link to={`/sheet/${s.id}`}
-                  className="flex-1 flex items-center justify-center gap-1.5 py-2 bg-green-500/10 rounded-lg text-xs text-green-400 hover:bg-green-500/20 transition-colors text-center">
+                  className="flex-1 flex items-center justify-center gap-1.5 py-2 bg-green-500/10 rounded-lg text-xs text-green-600 hover:bg-green-500/20 transition-colors text-center">
                   <Music className="w-3.5 h-3.5" />五线谱
                 </Link>
               </div>
@@ -240,12 +240,12 @@ export default function ScoreLibrary() {
             <div className="flex gap-2 mb-4">
               <button
                 onClick={() => setUploadMode('file')}
-                className={`flex-1 py-2 rounded-lg text-sm ${uploadMode === 'file' ? 'bg-amber-500/15 text-amber-400' : 'bg-[hsl(var(--bg-deep))] text-[hsl(var(--text-tertiary))]'}`}>
+                className={`flex-1 py-2 rounded-lg text-sm ${uploadMode === 'file' ? 'bg-amber-500/15 text-amber-600' : 'bg-[hsl(var(--bg-deep))] text-[hsl(var(--text-tertiary))]'}`}>
                 <Upload className="w-4 h-4 inline mr-1" />上传文件
               </button>
               <button
                 onClick={() => setUploadMode('link')}
-                className={`flex-1 py-2 rounded-lg text-sm ${uploadMode === 'link' ? 'bg-blue-500/15 text-blue-400' : 'bg-[hsl(var(--bg-deep))] text-[hsl(var(--text-tertiary))]'}`}>
+                className={`flex-1 py-2 rounded-lg text-sm ${uploadMode === 'link' ? 'bg-blue-500/15 text-blue-600' : 'bg-[hsl(var(--bg-deep))] text-[hsl(var(--text-tertiary))]'}`}>
                 <LinkIcon className="w-4 h-4 inline mr-1" />网盘链接
               </button>
             </div>
@@ -271,7 +271,7 @@ export default function ScoreLibrary() {
                     <p className="text-xs text-[hsl(var(--text-secondary))] mt-1">支持：PDF、图片、MIDI(.mid)、音频(mp3/wav)</p>
                     <p className="text-xs text-amber-500/70 mt-1">⚠ 超过35MB的文件需使用网盘链接</p>
                     {file && file.size > MAX_FILE_SIZE && (
-                      <p className="text-xs text-amber-400 mt-1">此文件 { (file.size / 1024 / 1024).toFixed(1) }MB，超过35MB需使用网盘链接</p>
+                      <p className="text-xs text-amber-600 mt-1">此文件 { (file.size / 1024 / 1024).toFixed(1) }MB，超过35MB需使用网盘链接</p>
                     )}
                     <input type="file" accept=".pdf,.png,.jpg,.jpeg,.mp3,.wav,.m4a,.mid,.midi" onChange={e => setFile(e.target.files?.[0] || null)} className="hidden" />
                   </label>
@@ -289,12 +289,12 @@ export default function ScoreLibrary() {
                     className="w-full bg-[hsl(var(--bg-deep))] border border-[hsl(var(--border))] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-blue-500"
                   />
                   <p className="text-xs text-[hsl(var(--text-tertiary))] mt-1">支持任意网盘链接，点击预览将跳转到对应网盘</p>
-                  <p className="text-xs text-blue-400/70 mt-1">💡 推荐：百度网盘、阿里云盘、腾讯微云</p>
+                  <p className="text-xs text-blue-600/70 mt-1">💡 推荐：百度网盘、阿里云盘、腾讯微云</p>
                 </div>
               )}
 
               {uploadError && (
-                <div className="text-xs text-red-400 bg-red-500/10 rounded-lg p-2 text-center">{uploadError}</div>
+                <div className="text-xs text-red-500 bg-red-500/10 rounded-lg p-2 text-center">{uploadError}</div>
               )}
               <button type="submit" disabled={uploading || !title || (uploadMode === 'link' && !externalUrl.trim())}
                 className="w-full bg-amber-500 hover:bg-amber-600 disabled:opacity-50 text-black font-medium py-2.5 rounded-lg">
@@ -315,7 +315,7 @@ export default function ScoreLibrary() {
                 <p className="text-xs text-[hsl(var(--text-tertiary))]">{preview.composer} · {preview.key_sig} · ♩={preview.tempo}</p>
               </div>
               <div className="flex items-center gap-2">
-                <span className="text-[10px] bg-red-500/10 text-red-400 px-2 py-1 rounded border border-red-500/20">版权保护 · 禁止外传</span>
+                <span className="text-[10px] bg-red-500/10 text-red-500 px-2 py-1 rounded border border-red-500/20">版权保护 · 禁止外传</span>
                 <button onClick={() => setPreview(null)} className="text-[hsl(var(--text-tertiary))] hover:text-[hsl(var(--text))] p-1"><X className="w-5 h-5" /></button>
               </div>
             </div>
@@ -340,7 +340,7 @@ export default function ScoreLibrary() {
               <div className="relative z-0 p-4 flex items-center justify-center min-h-full">
                 {preview.external_url ? (
                   <div className="flex flex-col items-center justify-center">
-                    <LinkIcon className="w-12 h-12 text-blue-400 mb-4" />
+                    <LinkIcon className="w-12 h-12 text-blue-600 mb-4" />
                     <p className="text-sm text-[hsl(var(--text-tertiary))] mb-2">文件存储在外部网盘</p>
                     <p className="text-xs text-[hsl(var(--text-secondary))] mb-6 max-w-md text-center break-all">{preview.external_url}</p>
                     <a href={preview.external_url} target="_blank" rel="noopener noreferrer"
@@ -363,7 +363,7 @@ export default function ScoreLibrary() {
                   <div className="flex flex-col items-center justify-center text-[hsl(var(--text-tertiary))]">
                     <p>此文件类型不支持在线预览</p>
                     <p className="text-sm text-[hsl(var(--text-secondary))] mt-2">{preview.file_path?.split('/').pop()}</p>
-                    <a href={`${API_BASE}${preview.file_path}`} download className="mt-4 px-4 py-2 bg-amber-500/15 text-amber-400 rounded-lg text-sm hover:bg-amber-500/25">下载文件</a>
+                    <a href={`${API_BASE}${preview.file_path}`} download className="mt-4 px-4 py-2 bg-amber-500/15 text-amber-600 rounded-lg text-sm hover:bg-amber-500/25">下载文件</a>
                   </div>
                 )}
               </div>
@@ -374,7 +374,7 @@ export default function ScoreLibrary() {
               </div>
               <div className="flex gap-2">
                 <Link to={`/sheet/${preview.id}`}
-                  className="flex items-center gap-2 px-4 py-2 bg-green-500/10 rounded-lg text-sm text-green-400 hover:bg-green-500/20"
+                  className="flex items-center gap-2 px-4 py-2 bg-green-500/10 rounded-lg text-sm text-green-600 hover:bg-green-500/20"
                   onClick={() => setPreview(null)}>
                   <Eye className="w-4 h-4" />五线谱视图
                 </Link>

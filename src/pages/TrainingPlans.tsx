@@ -144,7 +144,7 @@ export default function TrainingPlans() {
       <div className="p-4 md:p-8 w-full text-center">
         <Target className="w-12 h-12 text-neutral-700 mx-auto mb-4" />
         <p className="text-[hsl(var(--text-tertiary))] mb-4">请先登录查看训练计划</p>
-        <Link to="/" className="text-amber-400 hover:text-amber-300 text-sm">去登录</Link>
+        <Link to="/" className="text-amber-600 hover:text-amber-300 text-sm">去登录</Link>
       </div>
     );
   }
@@ -161,12 +161,12 @@ export default function TrainingPlans() {
             <h2 className="text-xl font-bold truncate">{selectedPlan.title}</h2>
             <p className="text-xs text-[hsl(var(--text-tertiary))]">
               第{currentDay + 1}天 / 共{selectedPlan.daysTotal}天 ·
-              <span className={selectedPlan.type === 'personal' ? 'text-amber-400' : 'text-blue-400'}>
+              <span className={selectedPlan.type === 'personal' ? 'text-amber-600' : 'text-blue-600'}>
                 {selectedPlan.type === 'personal' ? ' 个人计划' : ' 声部计划'}
               </span>
             </p>
           </div>
-          <button onClick={() => deletePlan(selectedPlan.id)} className="text-[hsl(var(--text-secondary))] hover:text-red-400">
+          <button onClick={() => deletePlan(selectedPlan.id)} className="text-[hsl(var(--text-secondary))] hover:text-red-500">
             <Trash2 className="w-4 h-4" />
           </button>
         </div>
@@ -192,7 +192,7 @@ export default function TrainingPlans() {
 
             {/* Today's exercises */}
             <h3 className="text-sm font-semibold mb-3 flex items-center gap-2">
-              <Calendar className="w-4 h-4 text-amber-400" />
+              <Calendar className="w-4 h-4 text-amber-600" />
               今日任务（第{currentDay + 1}天）
             </h3>
 
@@ -206,11 +206,11 @@ export default function TrainingPlans() {
                     <div key={ex.id} className={`bg-transparent rounded-xl border p-4 transition-all ${done ? 'border-green-500/30 bg-green-500/5' : 'border-[hsl(var(--border))]'}`}>
                       <div className="flex items-start gap-3">
                         <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${done ? 'bg-green-500/20' : 'bg-[hsl(var(--bg-deep))]'}`}>
-                          {done ? <CheckCircle className="w-4 h-4 text-green-400" /> : <span className="text-sm text-[hsl(var(--text-tertiary))]">{i + 1}</span>}
+                          {done ? <CheckCircle className="w-4 h-4 text-green-600" /> : <span className="text-sm text-[hsl(var(--text-tertiary))]">{i + 1}</span>}
                         </div>
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2 mb-1">
-                            <span className={`font-medium text-sm ${done ? 'text-green-400 line-through' : 'text-[hsl(var(--text))]'}`}>{ex.name}</span>
+                            <span className={`font-medium text-sm ${done ? 'text-green-600 line-through' : 'text-[hsl(var(--text))]'}`}>{ex.name}</span>
                             <span className="text-[10px] px-1.5 py-0.5 rounded bg-[hsl(var(--bg-deep))] text-[hsl(var(--text-tertiary))]">
                               {TYPE_NAMES[ex.type] || ex.type}
                             </span>
@@ -229,10 +229,10 @@ export default function TrainingPlans() {
                                 </button>
                               </>
                             ) : (
-                              <span className="text-xs text-green-400 flex items-center gap-1">
+                              <span className="text-xs text-green-600 flex items-center gap-1">
                                 <CheckCircle className="w-3 h-3" />已完成
                                 {getCustomDesc(ex.id) && (
-                                  <span className="text-green-400/60 ml-1">({getCustomDesc(ex.id)})</span>
+                                  <span className="text-green-600/60 ml-1">({getCustomDesc(ex.id)})</span>
                                 )}
                               </span>
                             )}
@@ -283,7 +283,7 @@ export default function TrainingPlans() {
           <Target className="w-12 h-12 text-neutral-700 mx-auto mb-4" />
           <p className="text-[hsl(var(--text-tertiary))] mb-2">还没有训练计划</p>
           <p className="text-xs text-[hsl(var(--text-secondary))] mb-4">和AI助手聊天，让它帮你制定计划</p>
-          <Link to="/ai-agent" className="text-amber-400 hover:text-amber-300 text-sm">去AI助手</Link>
+          <Link to="/ai-agent" className="text-amber-600 hover:text-amber-300 text-sm">去AI助手</Link>
         </div>
       ) : (
         <div className="space-y-3">
@@ -297,7 +297,7 @@ export default function TrainingPlans() {
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center gap-2">
                     <h3 className="font-semibold">{plan.title}</h3>
-                    <span className={`text-[10px] px-2 py-0.5 rounded ${plan.type === 'personal' ? 'bg-amber-500/10 text-amber-400' : 'bg-blue-500/10 text-blue-400'}`}>
+                    <span className={`text-[10px] px-2 py-0.5 rounded ${plan.type === 'personal' ? 'bg-amber-500/10 text-amber-600' : 'bg-blue-500/10 text-blue-600'}`}>
                       {plan.type === 'personal' ? '个人' : '声部'}
                     </span>
                   </div>

@@ -297,8 +297,8 @@ export default function AIAgent() {
   }, [input]);
 
   const modelIndicator = () => {
-    if (effectiveModel === 'kimi') return { text: 'Kimi', color: 'bg-purple-500/20 text-purple-400', desc: '图片分析' };
-    return { text: 'DeepSeek', color: 'bg-blue-500/20 text-blue-400', desc: '文字对话' };
+    if (effectiveModel === 'kimi') return { text: 'Kimi', color: 'bg-purple-500/20 text-purple-600', desc: '图片分析' };
+    return { text: 'DeepSeek', color: 'bg-blue-500/20 text-blue-600', desc: '文字对话' };
   };
   const mi = modelIndicator();
 
@@ -307,23 +307,23 @@ export default function AIAgent() {
       {sidebarOpen && isMobile && <div className="fixed inset-0 bg-black/50 z-40" onClick={() => setSidebarOpen(false)} />}
       <aside className={`bg-neutral-900 border-r border-neutral-800 flex flex-col flex-shrink-0 ${isMobile ? sidebarOpen ? 'fixed top-0 left-0 bottom-0 w-64 z-50' : 'hidden' : 'w-64'}`}>
         <div className="p-3 border-b border-neutral-800 flex items-center gap-2">
-          <button onClick={() => navigate('/')} className="p-1.5 rounded-lg hover:bg-neutral-800 text-neutral-400"><ChevronLeft className="w-4 h-4" /></button>
+          <button onClick={() => navigate('/')} className="p-1.5 rounded-lg hover:bg-neutral-800 text-neutral-500"><ChevronLeft className="w-4 h-4" /></button>
           <div className="flex-1 min-w-0"><h3 className="text-sm font-medium truncate">会话历史</h3></div>
-          <button onClick={createNewSession} className="p-1.5 rounded-lg hover:bg-neutral-800 text-amber-400"><Plus className="w-4 h-4" /></button>
-          {isMobile && <button onClick={() => setSidebarOpen(false)} className="p-1.5 rounded-lg hover:bg-neutral-800 text-neutral-400"><X className="w-4 h-4" /></button>}
+          <button onClick={createNewSession} className="p-1.5 rounded-lg hover:bg-neutral-800 text-amber-600"><Plus className="w-4 h-4" /></button>
+          {isMobile && <button onClick={() => setSidebarOpen(false)} className="p-1.5 rounded-lg hover:bg-neutral-800 text-neutral-500"><X className="w-4 h-4" /></button>}
         </div>
         <div className="flex-1 overflow-auto p-2 space-y-0.5">
-          {!isLoggedIn && <p className="text-xs text-neutral-600 text-center py-4">登录后查看历史会话</p>}
-          {sessions.length === 0 ? <p className="text-xs text-neutral-600 text-center py-8">还没有会话</p> :
+          {!isLoggedIn && <p className="text-xs text-neutral-500 text-center py-4">登录后查看历史会话</p>}
+          {sessions.length === 0 ? <p className="text-xs text-neutral-500 text-center py-8">还没有会话</p> :
             sessions.map(s => (
               <button key={s.id} onClick={() => switchSession(s.id)}
-                className={`w-full text-left px-3 py-2.5 rounded-lg text-sm transition-colors group ${currentId === s.id ? 'bg-amber-500/10 text-amber-400' : 'text-neutral-400 hover:bg-neutral-800'}`}>
+                className={`w-full text-left px-3 py-2.5 rounded-lg text-sm transition-colors group ${currentId === s.id ? 'bg-amber-500/10 text-amber-600' : 'text-neutral-500 hover:bg-neutral-800'}`}>
                 <div className="flex items-center gap-2">
                   <MessageSquare className="w-3.5 h-3.5 flex-shrink-0" />
                   <span className="truncate flex-1">{s.title}</span>
-                  <button onClick={(e) => deleteSession(e, s.id)} className="opacity-0 group-hover:opacity-100 text-neutral-600 hover:text-red-400 p-0.5"><Trash2 className="w-3 h-3" /></button>
+                  <button onClick={(e) => deleteSession(e, s.id)} className="opacity-0 group-hover:opacity-100 text-neutral-500 hover:text-red-500 p-0.5"><Trash2 className="w-3 h-3" /></button>
                 </div>
-                <p className="text-[10px] text-neutral-600 mt-0.5 pl-5">{s.createdAt}</p>
+                <p className="text-[10px] text-neutral-500 mt-0.5 pl-5">{s.createdAt}</p>
               </button>
             ))}
         </div>
@@ -333,14 +333,14 @@ export default function AIAgent() {
         {/* Top Bar */}
         <div className="flex items-center justify-between px-4 py-2.5 border-b border-neutral-800 bg-neutral-900/80 backdrop-blur-sm">
           <div className="flex items-center gap-3">
-            <button onClick={() => setSidebarOpen(!sidebarOpen)} className="p-1.5 rounded-lg hover:bg-neutral-800 text-neutral-400"><Menu className="w-4 h-4" /></button>
+            <button onClick={() => setSidebarOpen(!sidebarOpen)} className="p-1.5 rounded-lg hover:bg-neutral-800 text-neutral-500"><Menu className="w-4 h-4" /></button>
             <div className="flex items-center gap-2">
               <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center"><Sparkles className="w-4 h-4 text-white" /></div>
               <div className="min-w-0">
                 <h2 className="text-sm font-medium truncate">{currentSession ? currentSession.title : 'AI助手'}</h2>
                 <div className="flex items-center gap-1">
                   <span className={`text-[10px] px-1.5 py-0.5 rounded ${mi.color}`}>{mi.text}</span>
-                  <span className="text-[10px] text-neutral-600">{mi.desc}</span>
+                  <span className="text-[10px] text-neutral-500">{mi.desc}</span>
                 </div>
               </div>
             </div>
@@ -385,7 +385,7 @@ export default function AIAgent() {
                 {msg.role === 'assistant' ? (
                   <div>
                     {msg.model && (
-                      <span className={`text-[10px] px-1.5 py-0.5 rounded mb-1 inline-block ${msg.model === 'kimi' ? 'bg-purple-500/20 text-purple-400' : 'bg-blue-500/20 text-blue-400'}`}>
+                      <span className={`text-[10px] px-1.5 py-0.5 rounded mb-1 inline-block ${msg.model === 'kimi' ? 'bg-purple-500/20 text-purple-600' : 'bg-blue-500/20 text-blue-600'}`}>
                         {msg.model === 'kimi' ? 'Kimi' : 'DeepSeek'}
                       </span>
                     )}
@@ -395,7 +395,7 @@ export default function AIAgent() {
                   <p className="text-sm">{msg.content}</p>
                 )}
               </div>
-              {msg.role === 'user' && <div className="w-7 h-7 rounded-full bg-amber-500/20 flex items-center justify-center flex-shrink-0 mt-0.5"><User className="w-4 h-4 text-amber-400" /></div>}
+              {msg.role === 'user' && <div className="w-7 h-7 rounded-full bg-amber-500/20 flex items-center justify-center flex-shrink-0 mt-0.5"><User className="w-4 h-4 text-amber-600" /></div>}
             </div>
           ))}
 
@@ -403,13 +403,13 @@ export default function AIAgent() {
           {planSuggestion && (
             <div className="bg-amber-500/5 border border-amber-500/20 rounded-xl p-4">
               <div className="flex items-center gap-2 mb-3">
-                <Target className="w-4 h-4 text-amber-400" />
-                <h3 className="text-sm font-semibold text-amber-400">AI为你制定了训练计划</h3>
+                <Target className="w-4 h-4 text-amber-600" />
+                <h3 className="text-sm font-semibold text-amber-600">AI为你制定了训练计划</h3>
               </div>
               <div className="space-y-2 mb-3">
                 {planSuggestion.goals.map((goal, i) => (
                   <div key={i} className="flex items-start gap-2 bg-neutral-900 rounded-lg p-2.5">
-                    <CheckCircle className="w-4 h-4 text-green-400 mt-0.5" />
+                    <CheckCircle className="w-4 h-4 text-green-600 mt-0.5" />
                     <div>
                       <div className="text-sm font-medium">{goal.title}</div>
                       <div className="text-xs text-neutral-500">{goal.desc}</div>
@@ -424,7 +424,7 @@ export default function AIAgent() {
                 </button>
                 {(isAdmin || isCaptain) && (
                   <button onClick={() => addToPlan('voicePart')}
-                    className="flex items-center gap-1.5 px-3 py-2 bg-blue-500/20 text-blue-400 rounded-lg text-xs font-medium hover:bg-blue-500/30">
+                    className="flex items-center gap-1.5 px-3 py-2 bg-blue-500/20 text-blue-600 rounded-lg text-xs font-medium hover:bg-blue-500/30">
                     <UserPlus className="w-3.5 h-3.5" />加入声部计划
                   </button>
                 )}
@@ -436,7 +436,7 @@ export default function AIAgent() {
             <div className="flex gap-3">
               <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center flex-shrink-0"><Loader2 className="w-4 h-4 text-white animate-spin" /></div>
               <div className="bg-neutral-800/80 border border-neutral-700/50 rounded-xl px-4 py-3">
-                <p className="text-sm text-neutral-400">助手思考中...</p>
+                <p className="text-sm text-neutral-500">助手思考中...</p>
               </div>
             </div>
           )}
@@ -457,23 +457,23 @@ export default function AIAgent() {
                     </div>
                   ) : (
                     <div className="flex items-center gap-1.5 bg-neutral-800 rounded-lg px-3 py-1.5 text-xs border border-neutral-700">
-                      <FileText className="w-3.5 h-3.5 text-neutral-400" />
+                      <FileText className="w-3.5 h-3.5 text-neutral-500" />
                       <span className="truncate max-w-[100px] text-neutral-300">{att.name}</span>
-                      <button onClick={() => removeAttachment(i)} className="ml-1 text-neutral-500 hover:text-red-400"><X className="w-3 h-3" /></button>
+                      <button onClick={() => removeAttachment(i)} className="ml-1 text-neutral-500 hover:text-red-500"><X className="w-3 h-3" /></button>
                     </div>
                   )}
                 </div>
               ))}
               {hasImageAttachments && model === 'auto' && (
-                <span className="text-[10px] bg-purple-500/20 text-purple-400 px-2 py-1 rounded self-center">检测到图片 → Kimi</span>
+                <span className="text-[10px] bg-purple-500/20 text-purple-600 px-2 py-1 rounded self-center">检测到图片 → Kimi</span>
               )}
             </div>
           )}
           <div className="flex items-end gap-2 max-w-3xl mx-auto">
             <button onClick={() => fileInputRef.current?.click()}
-              className="w-10 h-10 rounded-xl bg-neutral-800 flex items-center justify-center hover:bg-neutral-700 transition-colors flex-shrink-0 text-neutral-400"
+              className="w-10 h-10 rounded-xl bg-neutral-800 flex items-center justify-center hover:bg-neutral-700 transition-colors flex-shrink-0 text-neutral-500"
               title="上传图片">
-              {hasImageAttachments ? <ImageIcon className="w-4 h-4 text-purple-400" /> : <Paperclip className="w-4 h-4" />}
+              {hasImageAttachments ? <ImageIcon className="w-4 h-4 text-purple-600" /> : <Paperclip className="w-4 h-4" />}
             </button>
             <input ref={fileInputRef} type="file" multiple accept="image/*,.pdf,.txt,.doc,.docx" onChange={handleFileSelect} className="hidden" />
             <textarea ref={inputRef} value={input} onChange={e => setInput(e.target.value)} onKeyDown={handleKeyDown}
@@ -484,7 +484,7 @@ export default function AIAgent() {
               <Send className="w-4 h-4 text-black" />
             </button>
           </div>
-          <p className="text-[10px] text-neutral-600 text-center mt-2">
+          <p className="text-[10px] text-neutral-500 text-center mt-2">
             {effectiveModel === 'kimi' ? 'Kimi 模式：支持图片分析' : 'DeepSeek 模式：文字对话 · 试试说"我想增强听力"'}
           </p>
         </div>

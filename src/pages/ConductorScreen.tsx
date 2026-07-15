@@ -14,9 +14,9 @@ interface PartMeter {
 }
 
 const INITIAL_PARTS: PartMeter[] = [
-  { name: '女高音', short: 'S', color: '#ef4444', colorClass: 'text-red-400', volume: 0, pitch: 0, cents: 0, issues: 0 },
-  { name: '女低音', short: 'A', color: '#3b82f6', colorClass: 'text-blue-400', volume: 0, pitch: 0, cents: 0, issues: 0 },
-  { name: '男高音', short: 'T', color: '#22c55e', colorClass: 'text-green-400', volume: 0, pitch: 0, cents: 0, issues: 0 },
+  { name: '女高音', short: 'S', color: '#ef4444', colorClass: 'text-red-500', volume: 0, pitch: 0, cents: 0, issues: 0 },
+  { name: '女低音', short: 'A', color: '#3b82f6', colorClass: 'text-blue-600', volume: 0, pitch: 0, cents: 0, issues: 0 },
+  { name: '男高音', short: 'T', color: '#22c55e', colorClass: 'text-green-600', volume: 0, pitch: 0, cents: 0, issues: 0 },
   { name: '男低音', short: 'B', color: '#a16207', colorClass: 'text-yellow-500', volume: 0, pitch: 0, cents: 0, issues: 0 },
 ];
 
@@ -105,7 +105,7 @@ export default function ConductorScreen() {
             <ArrowLeft className="w-5 h-5" />
           </Link>
           <div className="flex items-center gap-2">
-            <Monitor className="w-5 h-5 text-green-400" />
+            <Monitor className="w-5 h-5 text-green-600" />
             <h2 className="font-semibold">指挥大屏</h2>
           </div>
         </div>
@@ -113,13 +113,13 @@ export default function ConductorScreen() {
         <div className="flex items-center gap-4">
           {/* Timer */}
           <div className="flex items-center gap-2 bg-neutral-800 rounded-lg px-3 py-1.5">
-            <Activity className="w-4 h-4 text-neutral-400" />
+            <Activity className="w-4 h-4 text-neutral-500" />
             <span className="text-sm font-mono">{formatTime(elapsed)}</span>
           </div>
 
           {/* Measure counter */}
           <div className="flex items-center gap-2 bg-neutral-800 rounded-lg px-3 py-1.5">
-            <Music className="w-4 h-4 text-amber-400" />
+            <Music className="w-4 h-4 text-amber-600" />
             <span className="text-sm">小节 {currentMeasure}/16</span>
           </div>
 
@@ -128,7 +128,7 @@ export default function ConductorScreen() {
             onClick={isRunning ? handleStop : handleStart}
             className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-colors ${
               isRunning
-                ? 'bg-red-500/20 text-red-400 hover:bg-red-500/30'
+                ? 'bg-red-500/20 text-red-500 hover:bg-red-500/30'
                 : 'bg-green-500 text-black hover:bg-green-600'
             }`}
           >
@@ -160,7 +160,7 @@ export default function ConductorScreen() {
                   <p className={`text-sm font-medium ${part.colorClass}`}>{part.name}</p>
                   <div className="flex items-center gap-2 mt-1">
                     <span className="text-xs text-neutral-500">{Math.round(part.volume * 100)}%</span>
-                    <span className={`text-xs font-mono ${isInTune ? 'text-green-400' : isError ? 'text-red-400' : 'text-yellow-400'}`}>
+                    <span className={`text-xs font-mono ${isInTune ? 'text-green-600' : isError ? 'text-red-500' : 'text-yellow-600'}`}>
                       {part.cents > 0 ? '+' : ''}{part.cents}¢
                     </span>
                   </div>
@@ -212,17 +212,17 @@ export default function ConductorScreen() {
                 {/* Status */}
                 <div className="mt-3">
                   {isError ? (
-                    <span className="flex items-center gap-1 text-xs text-red-400">
+                    <span className="flex items-center gap-1 text-xs text-red-500">
                       <AlertTriangle className="w-3 h-3" />
                       音准偏差
                     </span>
                   ) : isWarning ? (
-                    <span className="flex items-center gap-1 text-xs text-yellow-400">
+                    <span className="flex items-center gap-1 text-xs text-yellow-600">
                       <AlertTriangle className="w-3 h-3" />
                       需注意
                     </span>
                   ) : (
-                    <span className="text-xs text-green-400">音准良好</span>
+                    <span className="text-xs text-green-600">音准良好</span>
                   )}
                 </div>
               </div>
@@ -233,7 +233,7 @@ export default function ConductorScreen() {
         {/* Right: Issues Panel */}
         <div className="w-72 bg-neutral-900 border-l border-neutral-800 p-4">
           <h3 className="font-semibold mb-4 flex items-center gap-2">
-            <AlertTriangle className="w-4 h-4 text-amber-400" />
+            <AlertTriangle className="w-4 h-4 text-amber-600" />
             问题检测
           </h3>
 
@@ -254,14 +254,14 @@ export default function ConductorScreen() {
                   <div className="flex items-center justify-between mb-1">
                     <span className="text-xs font-medium text-neutral-300">第{issue.measure}小节</span>
                     <span className={`text-[10px] px-1.5 py-0.5 rounded ${
-                      issue.type === 'pitch' ? 'bg-red-500/20 text-red-400' :
-                      issue.type === 'rhythm' ? 'bg-blue-500/20 text-blue-400' :
-                      'bg-yellow-500/20 text-yellow-400'
+                      issue.type === 'pitch' ? 'bg-red-500/20 text-red-500' :
+                      issue.type === 'rhythm' ? 'bg-blue-500/20 text-blue-600' :
+                      'bg-yellow-500/20 text-yellow-600'
                     }`}>
                       {issue.type === 'pitch' ? '音准' : issue.type === 'rhythm' ? '节奏' : '节拍'}
                     </span>
                   </div>
-                  <p className="text-xs text-neutral-400">{issue.part}</p>
+                  <p className="text-xs text-neutral-500">{issue.part}</p>
                   <p className="text-xs text-neutral-500 mt-1">{issue.detail}</p>
                 </div>
               ))}
@@ -273,11 +273,11 @@ export default function ConductorScreen() {
             <div className="mt-4 pt-4 border-t border-neutral-800">
               <div className="grid grid-cols-2 gap-2">
                 <div className="bg-neutral-800/50 rounded-lg p-2 text-center">
-                  <p className="text-lg font-bold text-amber-400">{detectedIssues.length}</p>
+                  <p className="text-lg font-bold text-amber-600">{detectedIssues.length}</p>
                   <p className="text-[10px] text-neutral-500">问题数</p>
                 </div>
                 <div className="bg-neutral-800/50 rounded-lg p-2 text-center">
-                  <p className="text-lg font-bold text-red-400">
+                  <p className="text-lg font-bold text-red-500">
                     {detectedIssues.filter(i => i.type === 'pitch').length}
                   </p>
                   <p className="text-[10px] text-neutral-500">音准问题</p>

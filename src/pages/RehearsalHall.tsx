@@ -354,7 +354,7 @@ export default function RehearsalHall() {
             <button key={s.id} onClick={() => selectScore(s)}
               className="text-left bg-transparent rounded-xl border border-[hsl(var(--border))] p-5 hover:border-amber-500/30 transition-all">
               <div className="w-12 h-12 rounded-xl bg-amber-500/10 flex items-center justify-center mb-3">
-                <Music className="w-6 h-6 text-amber-400" />
+                <Music className="w-6 h-6 text-amber-600" />
               </div>
               <h3 className="font-semibold">{s.title}</h3>
               <p className="text-sm text-[hsl(var(--text-tertiary))]">{s.composer || '未知'}</p>
@@ -366,7 +366,7 @@ export default function RehearsalHall() {
           <div className="text-center py-20">
             <Music className="w-12 h-12 text-neutral-700 mx-auto mb-4" />
             <p className="text-[hsl(var(--text-tertiary))]">谱子库为空</p>
-            <Link to="/scores" className="text-amber-400 hover:text-amber-300 text-sm">去上传谱子</Link>
+            <Link to="/scores" className="text-amber-600 hover:text-amber-300 text-sm">去上传谱子</Link>
           </div>
         )}
       </div>
@@ -381,11 +381,11 @@ export default function RehearsalHall() {
           <button onClick={() => { handleStop(); setSelectedScore(null); setShowSetup(true); }}
             className="text-[hsl(var(--text-tertiary))] hover:text-[hsl(var(--text))]"><ArrowLeft className="w-5 h-5" /></button>
           <div className="flex items-center gap-2">
-            <Monitor className="w-5 h-5 text-green-400" />
+            <Monitor className="w-5 h-5 text-green-600" />
             <h2 className="font-semibold">排练厅</h2>
           </div>
           <div className="flex items-center gap-3 text-sm">
-            <span className="text-amber-400 font-medium">{selectedScore.title}</span>
+            <span className="text-amber-600 font-medium">{selectedScore.title}</span>
             <span className="text-[hsl(var(--text-tertiary))]">{selectedScore.key_sig}</span>
             <span className="text-[hsl(var(--text-tertiary))]">♩={bpm}</span>
             <span className="text-[hsl(var(--text-tertiary))]">小节 {currentMeasure}/{endMeasure}</span>
@@ -395,9 +395,9 @@ export default function RehearsalHall() {
           {/* Mic status */}
           <div className="flex items-center gap-2">
             {isListening ? (
-              <span className="flex items-center gap-1 text-xs text-green-400"><Mic className="w-3 h-3" />麦克风开启</span>
+              <span className="flex items-center gap-1 text-xs text-green-600"><Mic className="w-3 h-3" />麦克风开启</span>
             ) : (
-              <span className="flex items-center gap-1 text-xs text-red-400"><MicOff className="w-3 h-3" />麦克风关闭</span>
+              <span className="flex items-center gap-1 text-xs text-red-500"><MicOff className="w-3 h-3" />麦克风关闭</span>
             )}
           </div>
           <div className="flex items-center gap-2 bg-[hsl(var(--bg-deep))] rounded-lg px-3 py-1.5">
@@ -446,7 +446,7 @@ export default function RehearsalHall() {
               <h3 className="text-sm font-medium text-[hsl(var(--text-secondary))]">排练配置</h3>
 
               {micError && (
-                <div className="p-2 rounded-lg bg-red-500/10 text-red-400 text-xs">{micError}</div>
+                <div className="p-2 rounded-lg bg-red-500/10 text-red-500 text-xs">{micError}</div>
               )}
 
               <div>
@@ -501,14 +501,14 @@ export default function RehearsalHall() {
             {recorderStatus === 'recording' && (
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
-                <span className="text-xs text-red-400 font-mono">{recordingDuration}s / 120s</span>
+                <span className="text-xs text-red-500 font-mono">{recordingDuration}s / 120s</span>
                 <div className="flex-1 h-1 bg-[hsl(var(--bg-deep))] rounded-full overflow-hidden">
                   <div className="h-full bg-red-500 transition-all" style={{ width: `${Math.min(100, (recordingDuration / 120) * 100)}%` }} />
                 </div>
               </div>
             )}
             {recorderStatus === 'stopped' && (
-              <div className="text-xs text-green-400">录音已保存到服务器</div>
+              <div className="text-xs text-green-600">录音已保存到服务器</div>
             )}
           </div>
 
@@ -525,7 +525,7 @@ export default function RehearsalHall() {
                 const barHeight = `${Math.min(100, part.volume * 100)}%`;
                 const isInTune = Math.abs(part.cents) < 25;
                 const isWarning = Math.abs(part.cents) >= 25 && Math.abs(part.cents) < 50;
-                const statusColor = isInTune ? 'text-green-400' : isWarning ? 'text-yellow-400' : 'text-red-400';
+                const statusColor = isInTune ? 'text-green-600' : isWarning ? 'text-yellow-600' : 'text-red-500';
                 return (
                   <div key={part.key} className={`${!activeParts.includes(part.key) ? 'opacity-30' : ''}`}>
                     <div className="flex items-center justify-between mb-1">

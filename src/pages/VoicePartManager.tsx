@@ -247,7 +247,7 @@ export default function VoicePartManager() {
           <button onClick={() => setView('list')} className="text-[hsl(var(--text-tertiary))] hover:text-[hsl(var(--text))] mb-6"><ArrowLeft className="w-5 h-5" /></button>
           <h2 className="text-xl font-bold mb-6">创建声部</h2>
           {!isLoggedIn && (
-            <div className="mb-4 p-3 bg-red-500/10 border border-red-500/20 rounded-lg flex items-center gap-2 text-sm text-red-400">
+            <div className="mb-4 p-3 bg-red-500/10 border border-red-500/20 rounded-lg flex items-center gap-2 text-sm text-red-500">
               <LogIn className="w-4 h-4" />请先登录后再创建声部
             </div>
           )}
@@ -264,7 +264,7 @@ export default function VoicePartManager() {
               <input type="password" value={newPassword} onChange={e => setNewPassword(e.target.value)} placeholder="输入密码"
                 className="w-full bg-[hsl(var(--bg-deep))] border border-[hsl(var(--border))] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-amber-500" />
             </div>
-            {error && <p className="text-xs text-red-400 bg-red-500/10 rounded-lg p-2">{error}</p>}
+            {error && <p className="text-xs text-red-500 bg-red-500/10 rounded-lg p-2">{error}</p>}
             <button onClick={createPart} disabled={loading || !newName.trim() || !newPassword.trim()}
               className="w-full bg-[var(--accent)] text-white font-medium py-2.5 rounded-lg disabled:opacity-50 hover:bg-amber-600">
               {loading ? '创建中...' : '创建'}
@@ -295,7 +295,7 @@ export default function VoicePartManager() {
               <input type="password" value={joinPassword} onChange={e => setJoinPassword(e.target.value)} placeholder="输入声部密码"
                 className="w-full bg-[hsl(var(--bg-deep))] border border-[hsl(var(--border))] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-amber-500" />
             </div>
-            {error && <p className="text-xs text-red-400 bg-red-500/10 rounded-lg p-2">{error}</p>}
+            {error && <p className="text-xs text-red-500 bg-red-500/10 rounded-lg p-2">{error}</p>}
             <button onClick={joinPart} disabled={loading || !joinCode.trim() || !joinPassword.trim()}
               className="w-full bg-[var(--accent)] text-white font-medium py-2.5 rounded-lg disabled:opacity-50 hover:bg-amber-600">
               {loading ? '加入中...' : '加入'}
@@ -320,7 +320,7 @@ export default function VoicePartManager() {
           </div>
         </div>
         <button onClick={() => deletePart(selectedPart.id)}
-          className="text-[hsl(var(--text-tertiary))] hover:text-red-400"><Trash2 className="w-4 h-4" /></button>
+          className="text-[hsl(var(--text-tertiary))] hover:text-red-500"><Trash2 className="w-4 h-4" /></button>
       </div>
 
       {/* Members */}
@@ -328,13 +328,13 @@ export default function VoicePartManager() {
         <h3 className="text-sm font-medium mb-3">成员列表</h3>
         <div className="flex flex-wrap gap-2">
           {selectedPart.members.map((m, i) => (
-            <span key={i} className={`text-sm px-3 py-1.5 rounded-lg ${m === userName ? 'bg-amber-500/20 text-amber-400' : 'bg-[hsl(var(--bg-deep))] text-[hsl(var(--text-secondary))]'}`}>
+            <span key={i} className={`text-sm px-3 py-1.5 rounded-lg ${m === userName ? 'bg-amber-500/20 text-amber-600' : 'bg-[hsl(var(--bg-deep))] text-[hsl(var(--text-secondary))]'}`}>
               {m} {m === selectedPart.creator && '(创建者)'}
             </span>
           ))}
         </div>
         {!isMember && (
-          <p className="text-xs text-red-400 mt-2">你不是该声部成员，无法接收任务</p>
+          <p className="text-xs text-red-500 mt-2">你不是该声部成员，无法接收任务</p>
         )}
       </div>
 
@@ -344,7 +344,7 @@ export default function VoicePartManager() {
           <h3 className="text-sm font-medium">任务列表</h3>
           {canManageTasks && (
             <button onClick={() => setShowTaskForm(!showTaskForm)}
-              className="flex items-center gap-1.5 text-xs bg-amber-500/15 text-amber-400 px-3 py-1.5 rounded-lg hover:bg-amber-500/25">
+              className="flex items-center gap-1.5 text-xs bg-amber-500/15 text-amber-600 px-3 py-1.5 rounded-lg hover:bg-amber-500/25">
               <Send className="w-3.5 h-3.5" />发任务
             </button>
           )}
@@ -383,12 +383,12 @@ export default function VoicePartManager() {
               <div key={task.id}
                 className={`flex items-center gap-3 p-3 rounded-lg ${task.completed ? 'bg-[hsl(var(--bg-deep))]' : 'bg-[hsl(var(--bg-deep))]'}`}>
                 <button onClick={() => toggleTask(task.id)}>
-                  <CheckCircle className={`w-5 h-5 ${task.completed ? 'text-green-400' : 'text-[hsl(var(--text-secondary))]'}`} />
+                  <CheckCircle className={`w-5 h-5 ${task.completed ? 'text-green-600' : 'text-[hsl(var(--text-secondary))]'}`} />
                 </button>
                 <div className="flex-1">
                   <p className={`text-sm ${task.completed ? 'line-through text-[hsl(var(--text-tertiary))]' : 'text-[hsl(var(--text))]'}`}>{task.title}</p>
                   <div className="flex items-center gap-2 mt-0.5">
-                    <span className={`text-[10px] px-1.5 py-0.5 rounded ${task.type === 'practice' ? 'bg-[hsla(210,70%,55%,0.12)] text-[hsl(210,65%,50%)]' : 'bg-purple-500/20 text-purple-400'}`}>
+                    <span className={`text-[10px] px-1.5 py-0.5 rounded ${task.type === 'practice' ? 'bg-[hsla(210,70%,55%,0.12)] text-[hsl(210,65%,50%)]' : 'bg-purple-500/20 text-purple-600'}`}>
                       {task.type === 'practice' ? '练习' : '录音'}
                     </span>
                     <span className="text-[10px] text-[hsl(var(--text-tertiary))]">{task.assignee}</span>

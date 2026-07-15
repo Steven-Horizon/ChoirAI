@@ -241,7 +241,7 @@ export default function SheetMusic() {
   };
 
   if (loading) return <div className="p-8 text-center text-neutral-500">加载中...</div>;
-  if (error) return <div className="p-8 text-center text-red-400">{error}</div>;
+  if (error) return <div className="p-8 text-center text-red-500">{error}</div>;
   if (!score) return <div className="p-8 text-center text-neutral-500">谱子不存在</div>;
 
   return (
@@ -264,7 +264,7 @@ export default function SheetMusic() {
         <div className="flex items-center gap-3">
           {/* Tempo Control */}
           <div className="flex items-center gap-2 bg-neutral-800 rounded-lg px-3 py-1.5">
-            <Gauge className="w-3.5 h-3.5 text-neutral-400" />
+            <Gauge className="w-3.5 h-3.5 text-neutral-500" />
             <input
               type="range"
               min={40}
@@ -278,11 +278,11 @@ export default function SheetMusic() {
 
           {/* Measure Navigation */}
           <div className="flex items-center gap-1 bg-neutral-800 rounded-lg px-2 py-1.5">
-            <button onClick={() => goToMeasure(currentMeasure - 1)} className="p-1 text-neutral-400 hover:text-white">
+            <button onClick={() => goToMeasure(currentMeasure - 1)} className="p-1 text-neutral-500 hover:text-white">
               <SkipBack className="w-4 h-4" />
             </button>
             <span className="text-xs mx-2">{currentMeasure}/{totalMeasures}</span>
-            <button onClick={() => goToMeasure(currentMeasure + 1)} className="p-1 text-neutral-400 hover:text-white">
+            <button onClick={() => goToMeasure(currentMeasure + 1)} className="p-1 text-neutral-500 hover:text-white">
               <SkipForward className="w-4 h-4" />
             </button>
           </div>
@@ -291,7 +291,7 @@ export default function SheetMusic() {
           <button
             onClick={playScore}
             className={`flex items-center gap-1.5 px-4 py-1.5 rounded-lg text-sm font-medium ${
-              isPlaying ? 'bg-red-500/15 text-red-400 hover:bg-red-500/25' : 'bg-amber-500 text-black hover:bg-amber-600'
+              isPlaying ? 'bg-red-500/15 text-red-500 hover:bg-red-500/25' : 'bg-amber-500 text-black hover:bg-amber-600'
             }`}
           >
             {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
@@ -307,7 +307,7 @@ export default function SheetMusic() {
           style={{ minHeight: '400px', padding: '20px' }}
         />
         {!osmdReady && (
-          <div className="flex items-center justify-center h-full text-neutral-400">
+          <div className="flex items-center justify-center h-full text-neutral-500">
             <Music className="w-8 h-8 mr-2" />
             <span>正在加载五线谱渲染引擎...</span>
           </div>
@@ -324,8 +324,8 @@ export default function SheetMusic() {
         ].map(v => (
           <div key={v.name} className="flex items-center gap-1.5 text-xs">
             <span className="w-2 h-2 rounded-full" style={{ backgroundColor: v.color }} />
-            <span className="text-neutral-400">{v.name}</span>
-            <span className="text-neutral-600">({v.part.notes.length}音符)</span>
+            <span className="text-neutral-500">{v.name}</span>
+            <span className="text-neutral-500">({v.part.notes.length}音符)</span>
           </div>
         ))}
       </div>

@@ -199,7 +199,7 @@ export default function RehearsalRoom() {
                 <h3 className="text-lg font-bold">{score.title}</h3>
                 <p className="text-sm text-neutral-500">{score.composer || '未知作曲家'}</p>
               </div>
-              <div className="text-right text-sm text-neutral-400">
+              <div className="text-right text-sm text-neutral-500">
                 <p>{score.key_sig}</p>
                 <p>♩ = {player.bpm}</p>
               </div>
@@ -214,7 +214,7 @@ export default function RehearsalRoom() {
                     <span className={`w-6 h-6 rounded-full ${part.bg} flex items-center justify-center text-xs font-bold text-white`}>
                       {part.short}
                     </span>
-                    <span className="text-xs text-neutral-400">{part.label}</span>
+                    <span className="text-xs text-neutral-500">{part.label}</span>
                   </div>
                   {/* Jianpu bar */}
                   <div className="bg-neutral-950 rounded-lg border border-neutral-800/50 p-3 overflow-x-auto">
@@ -232,7 +232,7 @@ export default function RehearsalRoom() {
                             >
                               {jianpu.num}
                             </span>
-                            <span className="text-[9px] text-neutral-600">{jianpu.solfege}</span>
+                            <span className="text-[9px] text-neutral-500">{jianpu.solfege}</span>
                           </div>
                         );
                       })}
@@ -275,7 +275,7 @@ export default function RehearsalRoom() {
             </div>
             <div className="flex items-center gap-2">
               <Gauge className="w-4 h-4 text-neutral-500" />
-              <span className="text-xs text-neutral-400 w-7">{player.bpm}</span>
+              <span className="text-xs text-neutral-500 w-7">{player.bpm}</span>
               <input type="range" min={40} max={200} value={player.bpm}
                 onChange={e => player.updateBpm(Number(e.target.value))}
                 className="w-24 accent-amber-500" />
@@ -292,7 +292,7 @@ export default function RehearsalRoom() {
           <div className="grid grid-cols-4 gap-1.5">
             {PARTS.map(p => (
               <button key={p.key} onClick={() => setMyPart(p.key)}
-                className={`py-2 rounded-lg text-xs font-medium transition-colors ${myPart === p.key ? `${p.bg} text-white` : 'bg-neutral-800 text-neutral-400 hover:bg-neutral-700'}`}>
+                className={`py-2 rounded-lg text-xs font-medium transition-colors ${myPart === p.key ? `${p.bg} text-white` : 'bg-neutral-800 text-neutral-500 hover:bg-neutral-700'}`}>
                 {p.short}
               </button>
             ))}
@@ -306,7 +306,7 @@ export default function RehearsalRoom() {
           {PARTS.map(p => (
             <div key={p.key} className="flex items-center gap-2">
               <button onClick={() => handleTogglePart(p.key)}
-                className={`w-7 h-7 rounded flex items-center justify-center ${enabled[p.key as keyof typeof enabled] ? `${p.bg} text-white` : 'bg-neutral-800 text-neutral-600'}`}>
+                className={`w-7 h-7 rounded flex items-center justify-center ${enabled[p.key as keyof typeof enabled] ? `${p.bg} text-white` : 'bg-neutral-800 text-neutral-500'}`}>
                 {enabled[p.key as keyof typeof enabled] ? <Volume2 className="w-3.5 h-3.5" /> : <VolumeX className="w-3.5 h-3.5" />}
               </button>
               <span className="text-xs w-8" style={{ color: p.color }}>{p.short}</span>
@@ -323,7 +323,7 @@ export default function RehearsalRoom() {
           <label className="text-xs text-neutral-500 mb-2 block">音高检测</label>
 
           {pitch.error && (
-            <div className="flex items-center gap-2 mb-2 text-xs text-red-400 bg-red-500/10 rounded-lg p-2">
+            <div className="flex items-center gap-2 mb-2 text-xs text-red-500 bg-red-500/10 rounded-lg p-2">
               <AlertCircle className="w-3.5 h-3.5 flex-shrink-0" />
               <span>{pitch.error}</span>
             </div>
@@ -338,7 +338,7 @@ export default function RehearsalRoom() {
               <p className="text-xl font-bold font-mono">
                 {pitch.pitchData?.note || '-'}
                 {pitch.pitchData && (
-                  <span className={`text-sm ml-1 ${Math.abs(pitch.pitchData.cents) < 25 ? 'text-green-400' : 'text-red-400'}`}>
+                  <span className={`text-sm ml-1 ${Math.abs(pitch.pitchData.cents) < 25 ? 'text-green-600' : 'text-red-500'}`}>
                     {pitch.pitchData.cents > 0 ? '+' : ''}{pitch.pitchData.cents}¢
                   </span>
                 )}
@@ -351,7 +351,7 @@ export default function RehearsalRoom() {
           </div>
 
           <button onClick={() => pitch.isListening ? pitch.stopListening() : pitch.startListening()}
-            className={`w-full py-2.5 rounded-lg flex items-center justify-center gap-2 text-sm font-medium transition-colors ${pitch.isListening ? 'bg-red-500/20 text-red-400 hover:bg-red-500/30' : 'bg-amber-500 text-black hover:bg-amber-600'}`}>
+            className={`w-full py-2.5 rounded-lg flex items-center justify-center gap-2 text-sm font-medium transition-colors ${pitch.isListening ? 'bg-red-500/20 text-red-500 hover:bg-red-500/30' : 'bg-amber-500 text-black hover:bg-amber-600'}`}>
             {pitch.isListening ? <><MicOff className="w-4 h-4" />停止检测</> : <><Mic className="w-4 h-4" />开始音高检测</>}
           </button>
 
@@ -364,10 +364,10 @@ export default function RehearsalRoom() {
 
         {/* Tips */}
         <div className="p-4">
-          <div className="bg-neutral-800/50 rounded-lg p-3 text-xs text-neutral-400 leading-relaxed">
+          <div className="bg-neutral-800/50 rounded-lg p-3 text-xs text-neutral-500 leading-relaxed">
             <p className="text-neutral-300 font-medium mb-1">练习建议</p>
             <p>关闭自己的声部，跟着其他三个声部练习。点击"开始音高检测"后对着麦克风唱，看实时偏差。</p>
-            <p className="mt-1 text-green-400/70">±25音分以内 = 合格</p>
+            <p className="mt-1 text-green-600/70">±25音分以内 = 合格</p>
           </div>
         </div>
       </div>

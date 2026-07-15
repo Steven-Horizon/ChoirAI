@@ -294,7 +294,7 @@ ${parts}
           </button>
           <div>
             <h2 className="text-sm font-medium flex items-center gap-2">
-              <Music className="w-4 h-4 text-amber-400" />
+              <Music className="w-4 h-4 text-amber-600" />
               在线打谱
             </h2>
             <p className="text-[10px] text-neutral-500">ABC 记谱法 → 五线谱</p>
@@ -320,14 +320,14 @@ ${parts}
 
           <button onClick={playSheet}
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium ${
-              isPlaying ? 'bg-red-500/15 text-red-400 hover:bg-red-500/25' : 'bg-green-500/15 text-green-400 hover:bg-green-500/25'
+              isPlaying ? 'bg-red-500/15 text-red-500 hover:bg-red-500/25' : 'bg-green-500/15 text-green-600 hover:bg-green-500/25'
             }`}>
             {isPlaying ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5" />}
             {isPlaying ? '停止' : '播放'}
           </button>
 
           <button onClick={downloadXML}
-            className="flex items-center gap-1.5 px-3 py-1.5 bg-blue-500/15 text-blue-400 rounded-lg text-xs hover:bg-blue-500/25">
+            className="flex items-center gap-1.5 px-3 py-1.5 bg-blue-500/15 text-blue-600 rounded-lg text-xs hover:bg-blue-500/25">
             <Download className="w-3.5 h-3.5" />导出 XML
           </button>
 
@@ -346,7 +346,7 @@ ${parts}
       <div className="flex-1 flex flex-col md:flex-row overflow-hidden">
         {/* Left: ABC Editor */}
         <div className="w-full md:w-1/3 flex flex-col border-r border-neutral-800">
-          <div className="p-2 bg-neutral-800/50 text-xs text-neutral-400 flex items-center justify-between">
+          <div className="p-2 bg-neutral-800/50 text-xs text-neutral-500 flex items-center justify-between">
             <span>ABC 记谱法编辑</span>
             <button onClick={() => setAbcText(DEFAULT_ABC)} className="text-neutral-500 hover:text-white">
               <RotateCcw className="w-3 h-3" />
@@ -359,7 +359,7 @@ ${parts}
             spellCheck={false}
           />
           {error && (
-            <div className="p-2 bg-red-500/10 text-red-400 text-xs">{error}</div>
+            <div className="p-2 bg-red-500/10 text-red-500 text-xs">{error}</div>
           )}
         </div>
 
@@ -367,7 +367,7 @@ ${parts}
         <div className="flex-1 flex flex-col bg-white overflow-auto">
           <div className="p-2 bg-neutral-100 text-xs text-neutral-500 flex items-center justify-between">
             <span className="text-neutral-700 font-medium">五线谱预览</span>
-            <span className="text-neutral-400">{title || '未命名'} {composer ? `- ${composer}` : ''}</span>
+            <span className="text-neutral-500">{title || '未命名'} {composer ? `- ${composer}` : ''}</span>
           </div>
           <div
             ref={sheetRef}
@@ -387,7 +387,7 @@ ${parts}
             </div>
             <div className="space-y-3 text-sm text-neutral-300">
               <div>
-                <h4 className="text-amber-400 font-medium mb-1">基本信息</h4>
+                <h4 className="text-amber-600 font-medium mb-1">基本信息</h4>
                 <pre className="bg-neutral-800 p-2 rounded text-xs">
 {`X:1              ← 编号
 T:曲目名称        ← 标题
@@ -399,7 +399,7 @@ K:C              ← 调号`}
                 </pre>
               </div>
               <div>
-                <h4 className="text-amber-400 font-medium mb-1">声部定义</h4>
+                <h4 className="text-amber-600 font-medium mb-1">声部定义</h4>
                 <pre className="bg-neutral-800 p-2 rounded text-xs">
 {`V:1 clef=treble name="女高音"    ← 高音谱号
 V:2 clef=treble name="女低音"
@@ -408,7 +408,7 @@ V:4 clef=bass name="男低音"`}
                 </pre>
               </div>
               <div>
-                <h4 className="text-amber-400 font-medium mb-1">音符输入</h4>
+                <h4 className="text-amber-600 font-medium mb-1">音符输入</h4>
                 <pre className="bg-neutral-800 p-2 rounded text-xs">
 {`C D E F G A B c    ← C大调音阶
 C, D, E,           ← 低八度 (加逗号)
@@ -419,14 +419,14 @@ C/2                 ← 八分音符 (除以2)
                 </pre>
               </div>
               <div>
-                <h4 className="text-amber-400 font-medium mb-1">和弦</h4>
+                <h4 className="text-amber-600 font-medium mb-1">和弦</h4>
                 <pre className="bg-neutral-800 p-2 rounded text-xs">
 {`[C E G]    ← C大三和弦
 [G B d]    ← G大三和弦`}
                 </pre>
               </div>
               <p className="text-xs text-neutral-500 mt-2">
-                更多语法参考：<a href="http://abcnotation.com/wiki/abc:standard" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">abcnotation.com</a>
+                更多语法参考：<a href="http://abcnotation.com/wiki/abc:standard" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">abcnotation.com</a>
               </p>
             </div>
           </div>

@@ -106,7 +106,7 @@ export default function WarmUpRoom() {
           <span>{completed.size}/{list.length} 已完成</span><span>{pct}%</span>
         </div>
 
-        <div className="bg-blue-500/5 rounded-lg p-3 mb-4 border border-blue-500/10 text-xs text-blue-400">
+        <div className="bg-blue-500/5 rounded-lg p-3 mb-4 border border-blue-500/10 text-xs text-blue-600">
           {voicePart === 'soprano' ? '女高音' : voicePart === 'alto' ? '女低音' : voicePart === 'tenor' ? '男高音' : '男低音'}提示：{tips[0]}
         </div>
 
@@ -117,14 +117,14 @@ export default function WarmUpRoom() {
           </div>
         )}
         {canCheck && (
-          <div className="mb-3 p-2.5 bg-amber-500/5 rounded-lg border border-amber-500/10 flex items-center gap-2 text-xs text-amber-400">
+          <div className="mb-3 p-2.5 bg-amber-500/5 rounded-lg border border-amber-500/10 flex items-center gap-2 text-xs text-amber-600">
             <Shield className="w-3.5 h-3.5" />你是{isAdmin ? '团干' : '声部长'}，可以勾选确认开声条目
           </div>
         )}
 
         {/* 今日5条 */}
         <h2 className="text-sm font-semibold mb-2 flex items-center gap-2">
-          {tod === 'morning' ? <Sun className="w-4 h-4 text-orange-400" /> : <Moon className="w-4 h-4 text-indigo-400" />}
+          {tod === 'morning' ? <Sun className="w-4 h-4 text-orange-600" /> : <Moon className="w-4 h-4 text-indigo-600" />}
           今日{tod === 'morning' ? '早间' : '晚间'}开声
         </h2>
 
@@ -138,11 +138,11 @@ export default function WarmUpRoom() {
                   canCheck ? 'bg-transparent border-[hsl(var(--border))] hover:border-[hsl(var(--border))]' : 'bg-transparent border-[hsl(var(--border))]/50'
                 } ${!canCheck ? 'cursor-default' : ''}`}>
                 <div className={`w-7 h-7 rounded-lg flex items-center justify-center shrink-0 ${done ? 'bg-green-500/20' : 'bg-[hsl(var(--bg-deep))]'}`}>
-                  {done ? <CheckCircle className="w-4 h-4 text-green-400" /> : 
+                  {done ? <CheckCircle className="w-4 h-4 text-green-600" /> : 
                    canCheck ? <span className="text-xs text-[hsl(var(--text-tertiary))]">{i+1}</span> : <Eye className="w-3.5 h-3.5 text-[hsl(var(--text-secondary))]" />}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <div className={`text-sm font-medium ${done ? 'text-green-400 line-through' : 'text-[hsl(var(--text))]'}`}>{ex.name}</div>
+                  <div className={`text-sm font-medium ${done ? 'text-green-600 line-through' : 'text-[hsl(var(--text))]'}`}>{ex.name}</div>
                   <div className="text-xs text-[hsl(var(--text-tertiary))] font-mono">{ex.notation}</div>
                   <div className="text-[10px] text-[hsl(var(--text-secondary))]">{ex.category}</div>
                 </div>
@@ -153,8 +153,8 @@ export default function WarmUpRoom() {
 
         {allDone && (
           <div className="text-center py-4 mb-6 bg-green-500/5 rounded-xl border border-green-500/20">
-            <CheckCircle className="w-8 h-8 text-green-400 mx-auto mb-1" />
-            <p className="text-sm text-green-400 font-medium">{tod === 'morning' ? '早间' : '晚间'}开声完成！</p>
+            <CheckCircle className="w-8 h-8 text-green-600 mx-auto mb-1" />
+            <p className="text-sm text-green-600 font-medium">{tod === 'morning' ? '早间' : '晚间'}开声完成！</p>
           </div>
         )}
 
@@ -163,7 +163,7 @@ export default function WarmUpRoom() {
         <div className="grid grid-cols-3 gap-2 mb-6">
           {WARMUP_SONGS.map(s => (
             <div key={s.id} className="bg-transparent rounded-xl p-3 border border-[hsl(var(--border))] text-center">
-              <Wind className="w-4 h-4 text-amber-400 mx-auto mb-1" />
+              <Wind className="w-4 h-4 text-amber-600 mx-auto mb-1" />
               <div className="text-sm font-medium">{s.name}</div>
             </div>
           ))}
@@ -186,7 +186,7 @@ export default function WarmUpRoom() {
                     const done = completed.has(ex.id);
                     return (
                       <button key={ex.id} onClick={() => toggle(ex.id)}
-                        className={`w-full flex items-center gap-2 p-2 rounded-lg text-left ${done ? 'text-green-400' : 'text-[hsl(var(--text-tertiary))]'}`}>
+                        className={`w-full flex items-center gap-2 p-2 rounded-lg text-left ${done ? 'text-green-600' : 'text-[hsl(var(--text-tertiary))]'}`}>
                         <div className={`w-4 h-4 rounded-full border flex items-center justify-center ${done ? 'bg-green-500 border-green-500' : 'border-[hsl(var(--border))]'}`}>
                           {done && <CheckCircle className="w-3 h-3 text-[hsl(var(--text))]" />}
                         </div>

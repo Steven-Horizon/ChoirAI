@@ -192,7 +192,7 @@ export default function Settings() {
         <div className="glass-card p-6">
           <div className="flex items-center gap-3 mb-5">
             <div className="w-9 h-9 rounded-xl flex items-center justify-center" style={{ background: 'hsla(210,60%,50%,0.12)' }}>
-              <User className="w-4 h-4 text-blue-400" />
+              <User className="w-4 h-4 text-blue-600" />
             </div>
             <h3 className="font-semibold text-sm">我的信息</h3>
           </div>
@@ -245,7 +245,7 @@ export default function Settings() {
         <div className="glass-card p-6">
           <div className="flex items-center gap-3 mb-5">
             <div className="w-9 h-9 rounded-xl flex items-center justify-center" style={{ background: 'hsla(35,80%,50%,0.12)' }}>
-              <Volume2 className="w-4 h-4 text-amber-400" />
+              <Volume2 className="w-4 h-4 text-amber-600" />
             </div>
             <h3 className="font-semibold text-sm">音频设置</h3>
           </div>
@@ -256,8 +256,8 @@ export default function Settings() {
                 <span className="text-sm">麦克风权限</span>
               </div>
               <span className={`text-[10px] px-2.5 py-1 rounded-lg ${
-                micStatus === 'granted' ? 'bg-green-500/10 text-green-400' :
-                micStatus === 'denied' ? 'bg-red-500/10 text-red-400' :
+                micStatus === 'granted' ? 'bg-green-500/10 text-green-600' :
+                micStatus === 'denied' ? 'bg-red-500/10 text-red-500' :
                 'neu-concave text-[hsl(var(--text-tertiary))]'
               }`}>
                 {micStatus === 'granted' ? '已授权' : micStatus === 'denied' ? '被拒绝' : '待授权'}
@@ -279,7 +279,7 @@ export default function Settings() {
               <span className="text-sm">麦克风测试</span>
               <button onClick={testMic}
                 className={`text-[10px] px-3 py-1.5 rounded-lg transition-all ${
-                  isTesting ? 'bg-red-500/10 text-red-400' : 'neu-raised text-[hsl(var(--text-tertiary))]'
+                  isTesting ? 'bg-red-500/10 text-red-500' : 'neu-raised text-[hsl(var(--text-tertiary))]'
                 }`}>
                 {isTesting ? '停止' : '开始测试'}
               </button>
@@ -397,7 +397,7 @@ export default function Settings() {
         <div className="glass-card p-6">
           <div className="flex items-center gap-3 mb-5">
             <div className="w-9 h-9 rounded-xl flex items-center justify-center" style={{ background: 'hsla(150,50%,45%,0.12)' }}>
-              <Info className="w-4 h-4 text-green-400" />
+              <Info className="w-4 h-4 text-green-600" />
             </div>
             <h3 className="font-semibold text-sm">关于</h3>
           </div>
