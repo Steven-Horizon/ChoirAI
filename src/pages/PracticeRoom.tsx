@@ -261,7 +261,11 @@ export default function PracticeRoom() {
 
   return (
     <div className="h-full flex flex-col">
-      {/* Tabs */}
+      {/* Title + Tabs */}
+      <div className="flex items-center justify-between mb-3">
+        <h1 className="text-xl font-bold" style={{ color: 'hsl(var(--text))' }}>个人练习室</h1>
+        <p className="text-xs font-medium" style={{ color: 'hsl(var(--text-secondary))' }}>选择练习项目开始训练</p>
+      </div>
       <div className="flex items-center gap-2 mb-4 overflow-x-auto overscroll-x-contain pb-1" style={{ scrollbarWidth: 'none' }}>
         {activeDefs.map(def => {
           const Icon = ICON_MAP[def.icon] || Mic;
@@ -675,7 +679,7 @@ function ChordExercise() {
           <>
             <p className="text-sm text-[hsl(var(--text-tertiary))] mb-4">听和弦，判断和弦类型</p>
             <button onClick={() => playChord(item.notes)} className="flex items-center gap-2 mx-auto px-6 py-3 glass rounded-xl font-bold mb-6" style={{ color: "var(--accent)" }}><Headphones className="w-5 h-5" style={{ color: "hsl(var(--accent-h), var(--accent-s), calc(var(--accent-l) * 0.6))" }} />播放和弦</button>
-            <div className="grid grid-cols-2 gap-2">{item.opts.map((opt: string) => <button key={opt} onClick={() => guess(opt)} className={`py-3 rounded-xl text-sm font-medium border transition-all ${result && opt === item.type ? 'text-green-600' : result && opt !== item.type ? 'text-red-500' : ''}`} style={result && opt === item.type ? { background: 'hsla(150,60%,45%,0.08)', backdropFilter: 'blur(12px)', borderColor: 'rgba(34,197,94,0.2)' } : result && opt !== item.type ? { background: 'hsla(0,70%,55%,0.08)', backdropFilter: 'blur(12px)', borderColor: 'rgba(239,68,68,0.2)' } : { background: 'hsla(var(--bg-deep), 0.6)', backdropFilter: 'blur(12px)', borderColor: 'transparent' }}>{opt}</button>)}</div>
+            <div className="grid grid-cols-2 gap-2">{item.opts.map((opt: string) => <button key={opt} onClick={() => guess(opt)} className={`py-3 rounded-xl text-sm font-medium transition-all ${result && opt === item.type ? 'neu-inset text-green-600' : result && opt !== item.type ? 'neu-inset text-red-500' : 'neu-sm neu-sm-hover'}`}>{opt}</button>)}</div>
             {result && (
               <div className="mt-4">
                 <p className={`text-sm font-medium ${result === 'correct' ? 'text-green-600' : 'text-red-500'}`}>{result === 'correct' ? '正确!' : `这是${item.type}`}</p>
@@ -756,7 +760,7 @@ function KeyExercise() {
             <p className="text-sm text-[hsl(var(--text-tertiary))] mb-4">听旋律，判断是大调还是小调</p>
             <button onClick={() => playMelody(item.notes)} className="flex items-center gap-2 mx-auto px-6 py-3 glass rounded-xl font-bold mb-6" style={{ color: "var(--accent)" }}><Volume2 className="w-5 h-5" style={{ color: "hsl(var(--accent-h), var(--accent-s), calc(var(--accent-l) * 0.6))" }} />播放旋律</button>
             {!result && <div className="neu-inset rounded-xl p-3 mb-4"><p className="text-xs text-[hsl(var(--text-tertiary))]">仔细听旋律的色彩，选择你的判断</p></div>}
-            <div className="flex gap-3 justify-center">{item.opts.map((opt: string) => <button key={opt} onClick={() => guess(opt)} className={`px-10 py-3 rounded-xl text-sm font-medium border transition-all ${result && opt === item.type ? 'text-green-600' : result && opt !== item.type ? 'text-red-500' : ''}`} style={result && opt === item.type ? { background: 'hsla(150,60%,45%,0.08)', backdropFilter: 'blur(12px)', borderColor: 'rgba(34,197,94,0.2)' } : result && opt !== item.type ? { background: 'hsla(0,70%,55%,0.08)', backdropFilter: 'blur(12px)', borderColor: 'rgba(239,68,68,0.2)' } : { background: 'hsla(var(--bg-deep), 0.6)', backdropFilter: 'blur(12px)', borderColor: 'transparent' }}>{opt}</button>)}</div>
+            <div className="flex gap-3 justify-center">{item.opts.map((opt: string) => <button key={opt} onClick={() => guess(opt)} className={`px-10 py-3 rounded-xl text-sm font-medium transition-all ${result && opt === item.type ? 'neu-inset text-green-600' : result && opt !== item.type ? 'neu-inset text-red-500' : 'neu-sm neu-sm-hover'}`}>{opt}</button>)}</div>
             {result && (
               <div className="mt-4">
                 <p className={`text-sm font-medium ${result === 'correct' ? 'text-green-600' : 'text-red-500'}`}>{result === 'correct' ? '正确!' : `错误，这是${item.type}`}</p>
@@ -936,7 +940,7 @@ function TempoExercise() {
             <button onClick={play} className="flex items-center gap-2 mx-auto px-6 py-3 glass rounded-xl font-bold mb-6" style={{ color: "var(--accent)" }}><Volume2 className="w-5 h-5" style={{ color: "hsl(var(--accent-h), var(--accent-s), calc(var(--accent-l) * 0.6))" }} />播放节拍器</button>
             <div className="grid grid-cols-5 gap-2">
               {bpmOptions.map(bpm => (
-                <button key={bpm} onClick={() => guess(bpm)} className={`py-3 rounded-xl text-sm font-medium border transition-all ${result && Math.abs(bpm - actualBpm) <= 12 ? 'text-green-600' : result && Math.abs(bpm - actualBpm) > 12 ? 'text-red-500' : ''}`} style={result && Math.abs(bpm - actualBpm) <= 12 ? { background: 'hsla(150,60%,45%,0.08)', backdropFilter: 'blur(12px)', borderColor: 'rgba(34,197,94,0.2)' } : result && Math.abs(bpm - actualBpm) > 12 ? { background: 'hsla(0,70%,55%,0.08)', backdropFilter: 'blur(12px)', borderColor: 'rgba(239,68,68,0.2)' } : { background: 'hsla(var(--bg-deep), 0.6)', backdropFilter: 'blur(12px)', borderColor: 'transparent' }}>{bpm}</button>
+                <button key={bpm} onClick={() => guess(bpm)} className={`py-3 rounded-xl text-sm font-medium border transition-all ${result && Math.abs(bpm - actualBpm) <= 12 ? 'text-green-600' : result && Math.abs(bpm - actualBpm) > 12 ? 'text-red-500' : ''}`}>{bpm}</button>
               ))}
             </div>
             <p className="text-xs text-[hsl(var(--text-secondary))] mt-2">单位: 拍/分钟(BPM)</p>
@@ -1061,7 +1065,7 @@ function TimeSignatureExercise() {
         <button onClick={() => playRhythm(item.pattern)} className="flex items-center gap-2 mx-auto px-6 py-3 glass rounded-xl font-bold mb-6" style={{ color: "var(--accent)" }}><Volume2 className="w-5 h-5" style={{ color: "hsl(var(--accent-h), var(--accent-s), calc(var(--accent-l) * 0.6))" }} />播放节奏</button>
         <div className="grid grid-cols-2 gap-2">
           {item.opts.map((opt: string) => (
-            <button key={opt} onClick={() => guess(opt)} className={`py-3 rounded-xl text-sm font-medium border transition-all ${result && opt === item.type ? 'text-green-600' : result && opt !== item.type ? 'text-red-500' : ''}`} style={result && opt === item.type ? { background: 'hsla(150,60%,45%,0.08)', backdropFilter: 'blur(12px)', borderColor: 'rgba(34,197,94,0.2)' } : result && opt !== item.type ? { background: 'hsla(0,70%,55%,0.08)', backdropFilter: 'blur(12px)', borderColor: 'rgba(239,68,68,0.2)' } : { background: 'hsla(var(--bg-deep), 0.6)', backdropFilter: 'blur(12px)', borderColor: 'transparent' }}>{opt}</button>
+            <button key={opt} onClick={() => guess(opt)} className={`py-3 rounded-xl text-sm font-medium border transition-all ${result && opt === item.type ? 'text-green-600' : result && opt !== item.type ? 'text-red-500' : ''}`}>{opt}</button>
           ))}
         </div>
         {result && <div className="mt-4"><p className={`text-sm font-medium ${result === 'correct' ? 'text-green-600' : 'text-red-500'}`}>{result === 'correct' ? '正确!' : `这是${item.type}`}</p><button onClick={next} className="mt-3 px-6 py-2 glass rounded-xl font-bold" style={{ color: "var(--accent)" }}>下一题</button></div>}
