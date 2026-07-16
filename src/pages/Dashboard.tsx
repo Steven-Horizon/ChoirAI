@@ -134,14 +134,14 @@ function AuthScreen({ onLogin, onRegister }: { onLogin: (n: string, p: string) =
             ))}
           </div>
         </>)}
-        {/* Main action button - glass accent with hover animation */}
-        <button type="submit" disabled={loading} className="w-full py-3.5 rounded-2xl text-sm font-bold transition-all duration-200 disabled:opacity-50 glass hover:scale-[1.02] hover:shadow-lg active:scale-95" style={{ backdropFilter: 'blur(16px) saturate(150%)', color: 'var(--accent)', borderRadius: '16px', boxShadow: '0 4px 16px var(--accent-glow), inset 0 1px 2px rgba(255,255,255,0.5)' }}>
+        {/* Main action button - HIGH saturation solid accent */}
+        <button type="submit" disabled={loading} className="w-full py-3.5 rounded-2xl text-sm font-bold transition-all duration-200 disabled:opacity-50 hover:scale-[1.02] active:scale-95" style={{ background: 'linear-gradient(135deg, hsl(var(--accent-h), var(--accent-s), var(--accent-l)), hsl(var(--accent-h), var(--accent-s), calc(var(--accent-l) - 8%)))', color: '#fff', borderRadius: '16px', boxShadow: '0 4px 16px hsla(var(--accent-h), var(--accent-s), var(--accent-l), 0.35), inset 0 1px 2px rgba(255,255,255,0.2)' }}>
           {loading ? '请稍候...' : mode === 'login' ? '登录' : '注册'}
         </button>
-        {/* Toggle button - neu accent with hover inset animation */}
+        {/* Toggle button - SMALL shadow neu */}
         <p className="text-center text-xs mt-2.5 font-medium" style={{ color: 'hsl(var(--text-tertiary))' }}>
           <span style={{ color: 'hsl(var(--text-secondary))' }}>{mode === 'login' ? '还没有账号？' : '已有账号？'}</span>
-          <button type="button" onClick={() => { setMode(mode === 'login' ? 'register' : 'login'); setError(''); }} className="ml-1.5 font-bold text-xs px-3 py-1.5 rounded-full transition-all duration-200 neu hover:neu-inset active:scale-90" style={{ color: 'var(--accent)' }}>{mode === 'login' ? '注册' : '登录'}</button>
+          <button type="button" onClick={() => { setMode(mode === 'login' ? 'register' : 'login'); setError(''); }} className="ml-1.5 font-bold text-xs px-3 py-1.5 rounded-full transition-all duration-200 neu-sm hover:neu-inset active:scale-90" style={{ color: 'var(--accent)' }}>{mode === 'login' ? '注册' : '登录'}</button>
         </p>
       </form>
     </div>

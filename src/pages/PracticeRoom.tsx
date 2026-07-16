@@ -261,10 +261,12 @@ export default function PracticeRoom() {
 
   return (
     <div className="h-full flex flex-col">
-      {/* Title + Tabs */}
-      <div className="flex items-center justify-between mb-3">
-        <h1 className="text-xl font-bold" style={{ color: 'hsl(var(--text))' }}>个人练习室</h1>
-        <p className="text-xs font-medium" style={{ color: 'hsl(var(--text-secondary))' }}>选择练习项目开始训练</p>
+      {/* Header - reference ScoreLibrary layout */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-3">
+        <div>
+          <h1 className="text-xl font-bold" style={{ color: 'hsl(var(--text))' }}>个人练习室</h1>
+          <p className="text-xs font-medium mt-1" style={{ color: 'hsl(var(--text-secondary))' }}>选择练习项目开始训练</p>
+        </div>
       </div>
       <div className="flex items-center gap-2 mb-4 overflow-x-auto overscroll-x-contain pb-1" style={{ scrollbarWidth: 'none' }}>
         {activeDefs.map(def => {
