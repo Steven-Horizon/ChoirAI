@@ -128,7 +128,7 @@ export default function AIBookmark() {
           className={`fixed right-0 z-50 flex flex-col items-center justify-center gap-2 rounded-l-2xl rounded-r-none neu-hover ${dragging ? 'cursor-grabbing' : 'cursor-grab'}`}
           style={{
             top: `${pos.y}%`, transform: 'translateY(-50%)',
-            width: '48px', height: '140px',
+            width: '48px', height: '70px',
             background: 'linear-gradient(180deg, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0.75) 100%)',
             backdropFilter: 'blur(16px) saturate(150%)',
             WebkitBackdropFilter: 'blur(16px) saturate(150%)',
@@ -140,8 +140,6 @@ export default function AIBookmark() {
         >
           <span className="w-2.5 h-2.5 rounded-full animate-pulse" style={{ background: 'var(--accent)', boxShadow: '0 0 10px var(--accent-glow), 0 0 20px var(--accent-soft)' }} />
           <Wand2 className="w-5 h-5" style={{ color: 'var(--accent)', filter: 'drop-shadow(0 0 6px var(--accent-glow))' }} />
-          <div className="w-0.5 h-8 rounded-full" style={{ background: 'linear-gradient(to bottom, transparent, var(--accent), transparent)', opacity: 0.6 }} />
-          <span className="text-[8px] font-black tracking-widest" style={{ color: 'var(--accent)', writingMode: 'vertical-rl' }}>AI</span>
         </button>
       )}
 
@@ -249,12 +247,12 @@ export default function AIBookmark() {
             <div ref={messagesEndRef} />
           </div>
 
-          {/* Input */}
-          <div className="p-3" style={{ borderTop: '1px solid rgba(0,0,0,0.06)' }}>
+          {/* Input - pb-20 on mobile to avoid bottom tab bar */}
+          <div className="p-3 pb-16 md:pb-3" style={{ borderTop: '1px solid rgba(0,0,0,0.06)' }}>
             <div className="flex items-center gap-2 rounded-2xl px-4 py-2.5 neu-inset">
               <input ref={inputRef} type="text" value={input} onChange={e => setInput(e.target.value)} onKeyDown={handleKeyDown}
                 placeholder={`问 ${model === 'deepseek' ? 'DeepSeek' : 'Kimi'}...`}
-                className="flex-1 bg-transparent text-sm focus:outline-none placeholder:text-neutral-400" style={{ color: 'hsl(var(--text))' }} />
+                className="flex-1 bg-transparent text-sm md:text-sm focus:outline-none placeholder:text-neutral-400 py-1" style={{ color: 'hsl(var(--text))', fontSize: '16px' }} />
               <button onClick={() => handleSend()} disabled={!input.trim() || isTyping}
                 className="w-8 h-8 rounded-xl flex items-center justify-center transition-all disabled:opacity-30"
                 style={{ background: 'var(--accent)', color: '#fff' }}>

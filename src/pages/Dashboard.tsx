@@ -132,50 +132,50 @@ function WeeklyChart({ onExpand }: { onExpand: () => void }) {
         <span className="text-xs font-semibold flex items-center gap-1" style={{ color: 'hsl(var(--text-tertiary))' }}>本周 <ChevronRight className="w-3.5 h-3.5" /></span>
       </div>
       {/* Legend */}
-      <div className="flex items-center gap-4 mb-5">
+      <div className="flex items-center gap-2 md:gap-4 mb-3 md:mb-5">
         {Object.entries(PART_COLORS).map(([key, c]) => (
-          <div key={key} className="flex items-center gap-1.5">
-            <span className="w-2.5 h-2.5 rounded-sm" style={{ background: c.fill }} />
-            <span className="text-[11px] font-semibold" style={{ color: 'hsl(var(--text-secondary))' }}>{c.label}</span>
+          <div key={key} className="flex items-center gap-1">
+            <span className="w-2 h-2 md:w-2.5 md:h-2.5 rounded-sm" style={{ background: c.fill }} />
+            <span className="text-[9px] md:text-[11px] font-semibold" style={{ color: 'hsl(var(--text-secondary))' }}>{c.label}</span>
           </div>
         ))}
       </div>
       {/* Chart - 7 day slot bars with Y-axis */}
-      <div className="flex gap-2 h-[300px]">
+      <div className="flex gap-1.5 md:gap-2 h-[220px] md:h-[300px]">
         {/* Y-axis labels */}
-        <div className="flex flex-col justify-between items-end pr-1 py-4" style={{ height: '240px', marginTop: '20px' }}>
+        <div className="hidden md:flex flex-col justify-between items-end pr-1 py-4" style={{ height: '240px', marginTop: '20px' }}>
           {[100, 75, 50, 25, 0].map(v => (
             <span key={v} className="text-[9px] font-bold" style={{ color: 'hsl(var(--text-tertiary))' }}>{v}%</span>
           ))}
         </div>
         {/* Bars */}
-        <div className="flex-1 flex items-end gap-2">
+        <div className="flex-1 flex items-end gap-1 md:gap-2">
           {data.map((d, di) => (
             <div key={di} className="flex-1 flex flex-col items-center gap-1">
               {/* Date label on top */}
-              <span className={`text-[10px] font-bold ${d.isToday ? 'text-accent' : 'text-[hsl(var(--text-tertiary))]'}`}>{d.date}</span>
+              <span className={`text-[8px] md:text-[10px] font-bold ${d.isToday ? 'text-accent' : 'text-[hsl(var(--text-tertiary))]'}`}>{d.date}</span>
               {/* Bars */}
-              <div className="flex items-end gap-[2px] w-full justify-center" style={{ height: '240px' }}>
+              <div className="flex items-end gap-[1px] md:gap-[2px] w-full justify-center" style={{ height: '170px' }}>
               {parts.map(p => {
                 const val = (d as any)[p];
                 const isFuture = d.isFuture;
                 return (
-                  <div key={p} className="w-4 flex flex-col justify-end rounded-lg overflow-hidden"
+                  <div key={p} className="w-2.5 md:w-4 flex flex-col justify-end rounded-md md:rounded-lg overflow-hidden"
                     style={{
                       height: '100%',
                       background: isFuture ? 'hsla(240,7%,90%,0.3)' : 'hsl(240 7% 90%)',
                       boxShadow: isFuture ? 'inset 1px 1px 2px rgba(0,0,0,0.03)' : 'inset 2px 2px 4px var(--nd), inset -2px -2px 4px var(--nl)',
                     }}>
                     {!isFuture && (
-                      <div className="w-full transition-all duration-500" style={{ height: `${val}%`, background: PART_COLORS[p].fill, borderRadius: '4px 4px 0 0', boxShadow: '0 -1px 2px rgba(255,255,255,0.3)' }} />
+                      <div className="w-full transition-all duration-500" style={{ height: `${val}%`, background: PART_COLORS[p].fill, borderRadius: '3px 3px 0 0', boxShadow: '0 -1px 2px rgba(255,255,255,0.3)' }} />
                     )}
                   </div>
                 );
               })}
             </div>
               {/* Day label */}
-              <span className={`text-[10px] font-semibold ${d.isToday ? 'text-accent' : 'text-[hsl(var(--text-secondary))]'}`}>{d.day}</span>
-              {d.isReport && <span className="text-[7px] font-bold px-1 rounded text-accent bg-[var(--accent-soft)]">汇报</span>}
+              <span className={`text-[8px] md:text-[10px] font-semibold ${d.isToday ? 'text-accent' : 'text-[hsl(var(--text-secondary))]'}`}>{d.day}</span>
+              {d.isReport && <span className="text-[6px] md:text-[7px] font-bold px-1 rounded text-accent bg-[var(--accent-soft)]">汇报</span>}
             </div>
           ))}
         </div>
@@ -454,7 +454,7 @@ function MemberHome({ userName, voicePart }: { userName: string; voicePart: stri
         <p className="text-xs font-semibold" style={{ color: 'hsl(var(--text-tertiary))' }}>{greeting}</p>
         <div className="flex items-center justify-between mt-0.5">
           <h1 className="text-2xl font-bold" style={{ color: 'hsl(var(--text))' }}>{userName}</h1>
-          <span className="glass px-3 py-1 rounded-full text-[10px] font-bold text-accent">{vpName}</span>
+          <span className="neu px-3 py-1 rounded-full text-[10px] font-bold" style={{ color: 'var(--accent)' }}>{vpName}</span>
         </div>
       </div>
 
@@ -542,15 +542,15 @@ function AdminDashboard({ userName, voicePart, isAdmin }: { userName: string; vo
           <h1 className="text-2xl font-bold mt-0.5" style={{ color: 'hsl(var(--text))' }}>{userName}</h1>
         </div>
         <div className="flex items-center gap-2">
-          <span className="glass px-3 py-1 rounded-full text-[10px] font-bold text-accent">{vpName}</span>
-          <span className="glass px-3 py-1 rounded-full text-[10px] font-bold text-accent flex items-center gap-1"><Shield className="w-3 h-3" />{isAdmin ? '团干' : '声部长'}</span>
+          <span className="neu px-3 py-1 rounded-full text-[10px] font-bold" style={{ color: 'var(--accent)' }}>{vpName}</span>
+          <span className="neu px-3 py-1 rounded-full text-[10px] font-bold flex items-center gap-1" style={{ color: 'var(--accent)' }}><Shield className="w-3 h-3" />{isAdmin ? '团干' : '声部长'}</span>
         </div>
       </div>
 
-      {/* Main: Chart + Todos */}
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 mb-5">
-        <div className="lg:col-span-3"><WeeklyChart onExpand={() => setExpanded(true)} /></div>
-        <div className="lg:col-span-1" style={{ minHeight: '300px' }}><TodoPanel /></div>
+      {/* Main: Todos on top on mobile, Chart left on desktop */}
+      <div className="flex flex-col lg:grid lg:grid-cols-4 gap-4 mb-5">
+        <div className="lg:col-span-1 order-first lg:order-last" style={{ minHeight: '300px' }}><TodoPanel /></div>
+        <div className="lg:col-span-3 order-last lg:order-first"><WeeklyChart onExpand={() => setExpanded(true)} /></div>
       </div>
 
       {/* AI Suggestions + Warmup side by side */}
