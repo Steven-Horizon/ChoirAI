@@ -245,7 +245,7 @@ export default function Settings() {
         <div className="glass-card p-6">
           <div className="flex items-center gap-3 mb-5">
             <div className="w-9 h-9 rounded-xl flex items-center justify-center" style={{ background: 'hsla(35,80%,50%,0.12)' }}>
-              <Volume2 className="w-4 h-4 text-amber-600" />
+              <Volume2 className="w-4 h-4 text-accent" />
             </div>
             <h3 className="font-semibold text-sm">音频设置</h3>
           </div>

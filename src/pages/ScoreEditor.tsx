@@ -294,7 +294,7 @@ ${parts}
           </button>
           <div>
             <h2 className="text-sm font-medium flex items-center gap-2">
-              <Music className="w-4 h-4 text-amber-600" />
+              <Music className="w-4 h-4 text-accent" />
               在线打谱
             </h2>
             <p className="text-[10px] text-neutral-500">ABC 记谱法 → 五线谱</p>
@@ -332,7 +332,7 @@ ${parts}
           </button>
 
           <button onClick={exportAndSave}
-            className="flex items-center gap-1.5 px-3 py-1.5 bg-amber-500 text-black rounded-lg text-xs font-medium hover:bg-amber-600">
+            className="flex items-center gap-1.5 px-3 py-1.5 bg-accent text-black rounded-lg text-xs font-medium hover:bg-amber-600">
             <Save className="w-3.5 h-3.5" />保存到曲库
           </button>
 
@@ -387,7 +387,7 @@ ${parts}
             </div>
             <div className="space-y-3 text-sm text-neutral-300">
               <div>
-                <h4 className="text-amber-600 font-medium mb-1">基本信息</h4>
+                <h4 className="text-accent font-medium mb-1">基本信息</h4>
                 <pre className="bg-neutral-800 p-2 rounded text-xs">
 {`X:1              ← 编号
 T:曲目名称        ← 标题
@@ -399,7 +399,7 @@ K:C              ← 调号`}
                 </pre>
               </div>
               <div>
-                <h4 className="text-amber-600 font-medium mb-1">声部定义</h4>
+                <h4 className="text-accent font-medium mb-1">声部定义</h4>
                 <pre className="bg-neutral-800 p-2 rounded text-xs">
 {`V:1 clef=treble name="女高音"    ← 高音谱号
 V:2 clef=treble name="女低音"
@@ -408,7 +408,7 @@ V:4 clef=bass name="男低音"`}
                 </pre>
               </div>
               <div>
-                <h4 className="text-amber-600 font-medium mb-1">音符输入</h4>
+                <h4 className="text-accent font-medium mb-1">音符输入</h4>
                 <pre className="bg-neutral-800 p-2 rounded text-xs">
 {`C D E F G A B c    ← C大调音阶
 C, D, E,           ← 低八度 (加逗号)
@@ -419,7 +419,7 @@ C/2                 ← 八分音符 (除以2)
                 </pre>
               </div>
               <div>
-                <h4 className="text-amber-600 font-medium mb-1">和弦</h4>
+                <h4 className="text-accent font-medium mb-1">和弦</h4>
                 <pre className="bg-neutral-800 p-2 rounded text-xs">
 {`[C E G]    ← C大三和弦
 [G B d]    ← G大三和弦`}

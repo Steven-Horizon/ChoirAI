@@ -10,7 +10,7 @@ const PARTS = [
   { key: 'soprano', label: '女高音', short: 'S', color: '#ef4444', bg: 'bg-red-500' },
   { key: 'alto', label: '女低音', short: 'A', color: '#3b82f6', bg: 'bg-blue-500' },
   { key: 'tenor', label: '男高音', short: 'T', color: '#22c55e', bg: 'bg-green-500' },
-  { key: 'bass', label: '男低音', short: 'B', color: '#d97706', bg: 'bg-amber-600' },
+  { key: 'bass', label: '男低音', short: 'B', color: '#d97706', bg: 'bg-accent-600' },
 ];
 
 interface Score { id: string | number; title: string; composer?: string; key_sig?: string; tempo?: number; total_measures?: number; file_path?: string; }
@@ -352,13 +352,13 @@ export default function RehearsalHall() {
         <div className="grid grid-cols-3 gap-4">
           {scores.map(s => (
             <button key={s.id} onClick={() => selectScore(s)}
-              className="text-left bg-transparent rounded-xl border border-[hsl(var(--border))] p-5 hover:border-amber-500/30 transition-all">
-              <div className="w-12 h-12 rounded-xl bg-amber-500/10 flex items-center justify-center mb-3">
-                <Music className="w-6 h-6 text-amber-600" />
+              className="text-left bg-transparent rounded-xl border border-[hsl(var(--border))] p-5 hover:border-accent-500/30 transition-all">
+              <div className="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center mb-3">
+                <Music className="w-6 h-6 text-accent-600" />
               </div>
               <h3 className="font-semibold">{s.title}</h3>
               <p className="text-sm text-[hsl(var(--text-tertiary))]">{s.composer || '未知'}</p>
-              <p className="text-xs text-[hsl(var(--text-secondary))] mt-1">{s.key_sig} · ♩={s.tempo} · {s.total_measures}小节</p>
+              <p className="text-xs text-[hsl(var(--text-secondary))] mt-1">{s.key_sig}  · {s.total_measures}小节</p>
             </button>
           ))}
         </div>
@@ -366,7 +366,7 @@ export default function RehearsalHall() {
           <div className="text-center py-20">
             <Music className="w-12 h-12 text-neutral-700 mx-auto mb-4" />
             <div className="neu-inset py-12 rounded-2xl text-center"><div className="w-14 h-14 mx-auto mb-3 rounded-2xl flex items-center justify-center" style={{ background: 'var(--accent-soft)' }}><Monitor className="w-7 h-7 text-accent" /></div><p className="text-sm font-bold mb-1" style={{ color: 'hsl(var(--text))' }}>谱子库为空</p><p className="text-xs" style={{ color: 'hsl(var(--text-secondary))' }}>先上传谱子才能创建排练</p></div>
-            <Link to="/scores" className="text-amber-600 hover:text-amber-300 text-sm">去上传谱子</Link>
+            <Link to="/scores" className="text-accent-600 hover:text-accent-300 text-sm">去上传谱子</Link>
           </div>
         )}
       </div>
@@ -385,7 +385,7 @@ export default function RehearsalHall() {
             <h2 className="font-semibold">排练厅</h2>
           </div>
           <div className="flex items-center gap-3 text-sm">
-            <span className="text-amber-600 font-medium">{selectedScore.title}</span>
+            <span className="text-accent-600 font-medium">{selectedScore.title}</span>
             <span className="text-[hsl(var(--text-tertiary))]">{selectedScore.key_sig}</span>
             <span className="text-[hsl(var(--text-tertiary))]">♩={bpm}</span>
             <span className="text-[hsl(var(--text-tertiary))]">小节 {currentMeasure}/{endMeasure}</span>
@@ -465,11 +465,11 @@ export default function RehearsalHall() {
                 <label className="text-xs text-[hsl(var(--text-tertiary))] mb-2 block">排练小节范围</label>
                 <div className="flex items-center gap-2">
                   <input type="number" min={1} value={startMeasure} onChange={e => setStartMeasure(Number(e.target.value))}
-                    className="w-16 bg-[hsl(var(--bg-deep))] border border-[hsl(var(--border))] rounded px-2 py-1.5 text-sm text-center focus:border-amber-500 outline-none" />
+                    className="w-16 bg-[hsl(var(--bg-deep))] border border-[hsl(var(--border))] rounded px-2 py-1.5 text-sm text-center focus:border-accent-500 outline-none" />
                   <span className="text-[hsl(var(--text-tertiary))]">-</span>
                   <input type="number" min={1} max={selectedScore.total_measures || 99} value={endMeasure}
                     onChange={e => setEndMeasure(Number(e.target.value))}
-                    className="w-16 bg-[hsl(var(--bg-deep))] border border-[hsl(var(--border))] rounded px-2 py-1.5 text-sm text-center focus:border-amber-500 outline-none" />
+                    className="w-16 bg-[hsl(var(--bg-deep))] border border-[hsl(var(--border))] rounded px-2 py-1.5 text-sm text-center focus:border-accent-500 outline-none" />
                   <span className="text-xs text-[hsl(var(--text-secondary))]">/ {selectedScore.total_measures || '?'} 小节</span>
                 </div>
               </div>
@@ -480,7 +480,7 @@ export default function RehearsalHall() {
                   <span className="text-xs w-8">{bpm}</span>
                   <input type="range" min={40} max={200} value={bpm}
                     onChange={e => { setBpm(Number(e.target.value)); player.updateBpm(Number(e.target.value)); }}
-                    className="flex-1 accent-amber-500" />
+                    className="flex-1 accent-accent-500" />
                 </div>
               </div>
             </div>

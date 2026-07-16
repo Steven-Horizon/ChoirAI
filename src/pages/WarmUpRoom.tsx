@@ -100,7 +100,7 @@ export default function WarmUpRoom() {
         </div>
 
         <div className="h-2 bg-[hsl(var(--bg-deep))] rounded-full overflow-hidden mb-1">
-          <div className="h-full bg-amber-500 transition-all" style={{ width: `${pct}%` }} />
+          <div className="h-full bg-accent transition-all" style={{ width: `${pct}%` }} />
         </div>
         <div className="flex justify-between text-xs text-[hsl(var(--text-tertiary))] mb-4">
           <span>{completed.size}/{list.length} 已完成</span><span>{pct}%</span>
@@ -117,14 +117,14 @@ export default function WarmUpRoom() {
           </div>
         )}
         {canCheck && (
-          <div className="mb-3 p-2.5 bg-amber-500/5 rounded-lg border border-amber-500/10 flex items-center gap-2 text-xs text-amber-600">
+          <div className="mb-3 p-2.5 bg-accent/5 rounded-lg border border-amber-500/10 flex items-center gap-2 text-xs text-accent">
             <Shield className="w-3.5 h-3.5" />你是{isAdmin ? '团干' : '声部长'}，可以勾选确认开声条目
           </div>
         )}
 
         {/* 今日5条 */}
         <h2 className="text-sm font-semibold mb-2 flex items-center gap-2">
-          {tod === 'morning' ? <Sun className="w-4 h-4 text-orange-600" /> : <Moon className="w-4 h-4 text-indigo-600" />}
+          {tod === 'morning' ? <Sun className="w-4 h-4 text-accent" /> : <Moon className="w-4 h-4 text-indigo-600" />}
           今日{tod === 'morning' ? '早间' : '晚间'}开声
         </h2>
 
@@ -163,7 +163,7 @@ export default function WarmUpRoom() {
         <div className="grid grid-cols-3 gap-2 mb-6">
           {WARMUP_SONGS.map(s => (
             <div key={s.id} className="bg-transparent rounded-xl p-3 border border-[hsl(var(--border))] text-center">
-              <Wind className="w-4 h-4 text-amber-600 mx-auto mb-1" />
+              <Wind className="w-4 h-4 text-accent mx-auto mb-1" />
               <div className="text-sm font-medium">{s.name}</div>
             </div>
           ))}

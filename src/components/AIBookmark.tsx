@@ -91,7 +91,7 @@ export default function AIBookmark() {
           onPointerDown={onPointerDown}
           onPointerMove={onPointerMove}
           onPointerUp={onPointerUp}
-          className={`fixed right-0 z-50 flex flex-col items-center justify-center gap-2 rounded-l-2xl rounded-r-none ${dragging ? 'cursor-grabbing' : 'cursor-grab'}`}
+          className={`fixed right-0 z-50 flex flex-col items-center justify-center gap-2 rounded-l-2xl rounded-r-none neu-hover ${dragging ? 'cursor-grabbing' : 'cursor-grab'}`}
           style={{
             top: `${pos.y}%`,
             transform: 'translateY(-50%)',

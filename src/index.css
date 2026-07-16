@@ -103,18 +103,74 @@
     overflow-x: hidden;
   }
 
-  /* ========== GLOBAL AMBIENT BACKGROUND ========== */
-  body::before {
-    content: '';
+  /* ========== GLOBAL AMBIENT BACKGROUND - Animated Mesh Blobs ========== */
+  .ambient-bg {
     position: fixed;
     inset: 0;
     z-index: 0;
     pointer-events: none;
-    background:
-      radial-gradient(ellipse 600px 500px at 20% 30%, hsla(var(--accent-h), 65%, 72%, 0.2) 0%, transparent 60%),
-      radial-gradient(ellipse 500px 400px at 80% 70%, hsla(calc(var(--accent-h) + 35), 55%, 68%, 0.16) 0%, transparent 50%),
-      radial-gradient(ellipse 400px 300px at 50% 10%, hsla(var(--accent-h), 45%, 75%, 0.12) 0%, transparent 40%);
-    animation: diffuseMove 12s ease-in-out infinite alternate;
+    overflow: hidden;
+  }
+  .ambient-bg .blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.22;
+    will-change: transform;
+  }
+  .ambient-bg .blob-1 {
+    width: 600px; height: 500px;
+    background: hsl(var(--accent-h), 75%, 72%);
+    top: -10%; left: -5%;
+    animation: blobFloat1 18s ease-in-out infinite;
+  }
+  .ambient-bg .blob-2 {
+    width: 500px; height: 450px;
+    background: hsl(calc(var(--accent-h) + 25), 65%, 68%);
+    top: 40%; right: -10%;
+    animation: blobFloat2 22s ease-in-out infinite;
+  }
+  .ambient-bg .blob-3 {
+    width: 450px; height: 400px;
+    background: hsl(calc(var(--accent-h) - 30), 60%, 70%);
+    bottom: -5%; left: 30%;
+    animation: blobFloat3 20s ease-in-out infinite;
+  }
+  .ambient-bg .blob-4 {
+    width: 350px; height: 300px;
+    background: hsl(calc(var(--accent-h) + 55), 55%, 65%);
+    top: 10%; right: 25%;
+    animation: blobFloat4 16s ease-in-out infinite;
+  }
+  .ambient-bg .blob-5 {
+    width: 400px; height: 350px;
+    background: hsl(var(--accent-h), 50%, 75%);
+    bottom: 20%; left: -8%;
+    animation: blobFloat5 24s ease-in-out infinite;
+  }
+
+  @keyframes blobFloat1 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(60px, 40px) scale(1.08); }
+    66% { transform: translate(-30px, 80px) scale(0.95); }
+  }
+  @keyframes blobFloat2 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(-50px, -60px) scale(1.05); }
+    66% { transform: translate(40px, 30px) scale(0.92); }
+  }
+  @keyframes blobFloat3 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(40px, -50px) scale(1.1); }
+    66% { transform: translate(-60px, -20px) scale(0.9); }
+  }
+  @keyframes blobFloat4 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(-40px, 60px) scale(1.12); }
+  }
+  @keyframes blobFloat5 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(80px, -40px) scale(1.06); }
   }
 
   body::after {
@@ -126,11 +182,6 @@
     background-image: radial-gradient(circle, hsla(var(--accent-h), 25%, 50%, 0.35) 1.5px, transparent 1.5px);
     background-size: 32px 32px;
     animation: dotBreathe 5s ease-in-out infinite;
-  }
-
-  @keyframes diffuseMove {
-    0% { transform: translateX(-2%) translateY(-1%) scale(1); }
-    100% { transform: translateX(2%) translateY(1%) scale(1.05); }
   }
 
   @keyframes dotBreathe {

@@ -119,7 +119,7 @@ export default function ConductorScreen() {
 
           {/* Measure counter */}
           <div className="flex items-center gap-2 bg-neutral-800 rounded-lg px-3 py-1.5">
-            <Music className="w-4 h-4 text-amber-600" />
+            <Music className="w-4 h-4 text-accent" />
             <span className="text-sm">小节 {currentMeasure}/16</span>
           </div>
 
@@ -233,7 +233,7 @@ export default function ConductorScreen() {
         {/* Right: Issues Panel */}
         <div className="w-72 bg-neutral-900 border-l border-neutral-800 p-4">
           <h3 className="font-semibold mb-4 flex items-center gap-2">
-            <AlertTriangle className="w-4 h-4 text-amber-600" />
+            <AlertTriangle className="w-4 h-4 text-accent" />
             问题检测
           </h3>
 
@@ -256,7 +256,7 @@ export default function ConductorScreen() {
                     <span className={`text-[10px] px-1.5 py-0.5 rounded ${
                       issue.type === 'pitch' ? 'bg-red-500/20 text-red-500' :
                       issue.type === 'rhythm' ? 'bg-blue-500/20 text-blue-600' :
-                      'bg-yellow-500/20 text-yellow-600'
+                      'bg-accent/20 text-yellow-600'
                     }`}>
                       {issue.type === 'pitch' ? '音准' : issue.type === 'rhythm' ? '节奏' : '节拍'}
                     </span>
@@ -273,7 +273,7 @@ export default function ConductorScreen() {
             <div className="mt-4 pt-4 border-t border-neutral-800">
               <div className="grid grid-cols-2 gap-2">
                 <div className="bg-neutral-800/50 rounded-lg p-2 text-center">
-                  <p className="text-lg font-bold text-amber-600">{detectedIssues.length}</p>
+                  <p className="text-lg font-bold text-accent">{detectedIssues.length}</p>
                   <p className="text-[10px] text-neutral-500">问题数</p>
                 </div>
                 <div className="bg-neutral-800/50 rounded-lg p-2 text-center">

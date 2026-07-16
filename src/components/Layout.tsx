@@ -42,6 +42,14 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="w-screen h-screen overflow-hidden" style={{ background: 'hsl(var(--bg))' }}>
+      {/* Animated ambient background blobs */}
+      <div className="ambient-bg">
+        <div className="blob blob-1" />
+        <div className="blob blob-2" />
+        <div className="blob blob-3" />
+        <div className="blob blob-4" />
+        <div className="blob blob-5" />
+      </div>
       {/* ========== PAD: Left Vertical Nav - 顶天立地 ========== */}
       {device === 'pad' && isLoggedIn && (
         <div className="fixed left-4 top-4 bottom-4 z-50 flex flex-col" style={{ width: '68px' }}>

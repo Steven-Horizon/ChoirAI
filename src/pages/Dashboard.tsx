@@ -12,9 +12,9 @@ import { getCoachSuggestions, getTodayPlan, getVoicePartName } from '@/lib/ai-co
 // ========== VOICE PART COLORS ==========
 const PART_COLORS: Record<string, { fill: string; bg: string; label: string }> = {
   soprano: { fill: '#f472b6', bg: 'rgba(244,114,182,0.15)', label: '女高音' },
-  alto:    { fill: '#38bdf8', bg: 'rgba(56,189,248,0.15)', label: '女中音' },
+  alto:    { fill: '#22d3ee', bg: 'rgba(34,211,238,0.15)', label: '女中音' },
   tenor:   { fill: '#fbbf24', bg: 'rgba(251,191,36,0.15)', label: '男高音' },
-  bass:    { fill: '#a78bfa', bg: 'rgba(167,139,250,0.15)', label: '男低音' },
+  bass:    { fill: '#d4a574', bg: 'rgba(212,165,116,0.15)', label: '男低音' },
 };
 
 // ========== GET REAL WEEK DATA (7 days with dates) ==========
@@ -241,56 +241,90 @@ function Shortcuts({ navigate }: { navigate: (p: string) => void }) {
   );
 }
 
-// ========== WARMUP COMPACT CARD ==========
-function WarmupCompact() {
+// ========== AI SUGGESTIONS + WARMUP PANEL ==========
+function AISuggestionsPanel({ navigate, voicePart }: { navigate: any; voicePart: string }) {
   const [warmup, setWarmup] = useState<{morning: any[], evening: any[]}>({ morning: [], evening: [] });
+  const [suggestions, setSuggestions] = useState<any[]>([]);
+  const token = localStorage.getItem('choirai_token');
 
   useEffect(() => {
     const data = getTodayWarmupExercises(5);
     setWarmup(data);
-  }, []);
+    fetch('/api/scores', { headers: token ? { 'x-auth-token': token } : {} }).then(r => r.json()).then((data: any) => {
+      const t = (data || []).filter((s: any) => s.title).map((s: any) => s.title).slice(0, 5);
+      setSuggestions(getCoachSuggestions(voicePart, t.length > 0, t));
+    }).catch(() => setSuggestions(getCoachSuggestions(voicePart, false, [])));
+  }, [voicePart, token]);
 
   return (
-    <div className="neu p-4 h-full">
-      <div className="flex items-center gap-2 mb-3">
-        <Sun className="w-4 h-4" style={{ color: 'hsl(30,80%,50%)' }} />
-        <span className="text-sm font-bold" style={{ color: 'hsl(var(--text))' }}>今日开声</span>
-        <span className="text-[10px] font-semibold ml-auto" style={{ color: 'hsl(var(--text-tertiary))' }}>{warmup.morning.length + warmup.evening.length}条</span>
-      </div>
-      <div className="grid grid-cols-2 gap-2">
-        <div>
-          <div className="text-[10px] font-semibold mb-1" style={{ color: 'hsl(var(--text-tertiary))' }}>白天 ({warmup.morning.length})</div>
-          <div className="space-y-1">
-            {warmup.morning.slice(0, 3).map((e, i) => (
-              <div key={i} className="neu-inset px-2 py-1 rounded-lg text-[10px] font-medium truncate" style={{ color: 'hsl(var(--text-secondary))' }}>{e.name}</div>
-            ))}
+    <div className="grid grid-cols-1 lg:grid-cols-5 gap-4 mb-5">
+      {/* Left: Warmup - all 5 entries */}
+      <div className="lg:col-span-2 neu p-4">
+        <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center gap-2">
+            <Sun className="w-4 h-4" style={{ color: 'hsl(30,80%,50%)' }} />
+            <span className="text-sm font-bold" style={{ color: 'hsl(var(--text))' }}>今日开声</span>
+          </div>
+          <span className="text-[10px] font-semibold" style={{ color: 'hsl(var(--text-tertiary))' }}>{warmup.morning.length + warmup.evening.length}条</span>
+        </div>
+        <div className="grid grid-cols-2 gap-3">
+          <div>
+            <div className="text-[10px] font-semibold mb-2" style={{ color: 'hsl(var(--text-tertiary))' }}>白天 ({warmup.morning.length})</div>
+            <div className="space-y-1.5">
+              {warmup.morning.map((e, i) => (
+                <div key={i} className="neu-inset px-2.5 py-1.5 rounded-lg text-[10px] font-medium truncate" style={{ color: 'hsl(var(--text-secondary))' }}>{e.name}</div>
+              ))}
+              {warmup.morning.length === 0 && <div className="text-[10px]" style={{ color: 'hsl(var(--text-tertiary))' }}>—</div>}
+            </div>
+          </div>
+          <div>
+            <div className="text-[10px] font-semibold mb-2" style={{ color: 'hsl(var(--text-tertiary))' }}>晚上 ({warmup.evening.length})</div>
+            <div className="space-y-1.5">
+              {warmup.evening.map((e, i) => (
+                <div key={i} className="neu-inset px-2.5 py-1.5 rounded-lg text-[10px] font-medium truncate" style={{ color: 'hsl(var(--text-secondary))' }}>{e.name}</div>
+              ))}
+              {warmup.evening.length === 0 && <div className="text-[10px]" style={{ color: 'hsl(var(--text-tertiary))' }}>—</div>}
+            </div>
           </div>
         </div>
-        <div>
-          <div className="text-[10px] font-semibold mb-1" style={{ color: 'hsl(var(--text-tertiary))' }}>晚上 ({warmup.evening.length})</div>
-          <div className="space-y-1">
-            {warmup.evening.slice(0, 3).map((e, i) => (
-              <div key={i} className="neu-inset px-2 py-1 rounded-lg text-[10px] font-medium truncate" style={{ color: 'hsl(var(--text-secondary))' }}>{e.name}</div>
-            ))}
-          </div>
-        </div>
       </div>
-    </div>
-  );
-}
 
-// ========== AI CARD ==========
-function AICard() {
-  return (
-    <div className="neu neu-hover p-4 flex items-center gap-3">
-      <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: 'var(--accent-soft)' }}>
-        <Sparkles className="w-5 h-5 text-accent" />
+      {/* Right: AI Suggestions - direct list */}
+      <div className="lg:col-span-3 neu p-4">
+        <div className="flex items-center gap-2 mb-3">
+          <Sparkles className="w-4 h-4 text-accent" />
+          <span className="text-sm font-bold" style={{ color: 'hsl(var(--text))' }}>AI 建议</span>
+        </div>
+        {suggestions.length > 0 ? (
+          <div className="space-y-2">
+            {suggestions.slice(0, 3).map((s, i) => (
+              <button key={i} onClick={() => s.action.route && navigate(s.action.route)} className="w-full text-left neu-sm neu-sm-hover p-3">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style={{ background: s.type === 'warmup' ? 'hsla(25,80%,55%,0.12)' : 'hsla(220,70%,55%,0.12)' }}>
+                    {s.type === 'warmup' ? <Wind className="w-3.5 h-3.5" style={{ color: 'hsl(25,70%,50%)' }} /> : <Zap className="w-3.5 h-3.5" style={{ color: 'hsl(220,65%,50%)' }} />}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="text-xs font-bold truncate" style={{ color: 'hsl(var(--text))' }}>{s.title}</div>
+                    <div className="text-[10px] mt-0.5 truncate" style={{ color: 'hsl(var(--text-tertiary))' }}>{s.message}</div>
+                  </div>
+                  <ArrowRight className="w-3.5 h-3.5 shrink-0" style={{ color: 'hsl(var(--text-tertiary))' }} />
+                </div>
+              </button>
+            ))}
+          </div>
+        ) : (
+          <div className="space-y-2">
+            {['建议女高音增加周三练习量，目前进度偏低', '周六汇报需提前准备，建议周四加强排练', '男低音进度稳定，可安排协助其他声部'].map((text, i) => (
+              <div key={i} className="neu-sm p-3 flex items-center gap-2.5">
+                <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style={{ background: 'var(--accent-soft)' }}>
+                  <Zap className="w-3.5 h-3.5 text-accent" />
+                </div>
+                <span className="text-xs font-medium" style={{ color: 'hsl(var(--text-secondary))' }}>{text}</span>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
-      <div className="flex-1">
-        <div className="text-sm font-bold" style={{ color: 'hsl(var(--text))' }}>AI 建议</div>
-        <div className="text-[10px] font-medium" style={{ color: 'hsl(var(--text-tertiary))' }}>点击查看今日建议</div>
-      </div>
-      <ArrowRight className="w-4 h-4" style={{ color: 'hsl(var(--text-tertiary))' }} />
     </div>
   );
 }
@@ -519,20 +553,17 @@ function AdminDashboard({ userName, voicePart, isAdmin }: { userName: string; vo
         <div className="lg:col-span-1" style={{ minHeight: '300px' }}><TodoPanel /></div>
       </div>
 
-      {/* AI Card */}
-      <div className="mb-4"><AICard /></div>
+      {/* AI Suggestions + Warmup side by side */}
+      <AISuggestionsPanel navigate={navigate} voicePart={voicePart} />
 
-      {/* Warmup + Shortcuts side by side */}
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 mb-5">
-        <div className="lg:col-span-1"><WarmupCompact /></div>
-        <div className="lg:col-span-3"><Shortcuts navigate={navigate} /></div>
-      </div>
+      {/* Shortcuts */}
+      <div className="mb-5"><Shortcuts navigate={navigate} /></div>
 
       {/* Admin Stats */}
       {isAdmin && stats && (
         <div className="mb-5">
           <h2 className="text-sm font-bold mb-3 flex items-center gap-2" style={{ color: 'hsl(var(--text))' }}><Zap className="w-3.5 h-3.5 text-accent" />全团数据</h2>
-          <div className="glass p-5">
+          <div className="neu p-5">
             <div className="grid grid-cols-4 gap-3">
               {[{ label: '注册人数', value: stats.totalUsers }, { label: '乐谱', value: stats.totalScores }, { label: '声部', value: stats.totalVoiceParts }, { label: '排练', value: stats.totalRehearsals }].map(item => (
                 <div key={item.label} className="neu-inset py-3 text-center" style={{ borderRadius: '14px' }}><div className="text-xl font-bold text-accent">{item.value}</div><div className="text-[9px] mt-1 font-semibold" style={{ color: 'hsl(var(--text-tertiary))' }}>{item.label}</div></div>

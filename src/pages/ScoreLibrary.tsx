@@ -139,7 +139,7 @@ export default function ScoreLibrary() {
             <Music className="w-4 h-4" />在线打谱
           </Link>
           <button onClick={() => setShowUpload(true)}
-            className="flex items-center gap-2 bg-amber-500 hover:bg-amber-600 text-black font-medium px-4 py-2.5 rounded-lg">
+            className="flex items-center gap-2 btn-primary text-white font-medium px-4 py-2.5 rounded-lg">
             <Plus className="w-4 h-4" />上传谱子
           </button>
         </div>
@@ -154,7 +154,7 @@ export default function ScoreLibrary() {
             value={searchQuery}
             onChange={e => setSearchQuery(e.target.value)}
             placeholder="搜索曲目或作曲家..."
-            className="w-full bg-[hsl(var(--bg-deep))] border border-[hsl(var(--border))] rounded-lg pl-10 pr-4 py-2.5 text-sm focus:outline-none focus:border-amber-500"
+            className="w-full bg-[hsl(var(--bg-deep))] border border-[hsl(var(--border))] rounded-lg pl-10 pr-4 py-2.5 text-sm focus:outline-none focus:border-accent"
           />
           {searchQuery && (
             <button
@@ -194,8 +194,8 @@ export default function ScoreLibrary() {
           {filteredScores.map(s => (
             <div key={s.id} className="glass rounded-xl p-5 neu-hover transition-all group">
               <div className="flex items-start justify-between mb-3">
-                <div className="w-12 h-12 rounded-xl bg-amber-500/10 flex items-center justify-center">
-                  <Music className="w-6 h-6 text-amber-600" />
+                <div className="w-12 h-12 rounded-xl var(--accent-soft) flex items-center justify-center">
+                  <Music className="w-6 h-6 text-accent" />
                 </div>
                 <div className="flex flex-col items-end gap-1">
                   <span className="text-xs text-[hsl(var(--text-secondary))] bg-[hsl(var(--bg-deep))] px-2 py-1 rounded">{s.time_signature}</span>
@@ -210,7 +210,7 @@ export default function ScoreLibrary() {
                   )}
                 </div>
               </div>
-              <h3 className="font-semibold mb-1 group-hover:text-amber-600 transition-colors">{s.title}</h3>
+              <h3 className="font-semibold mb-1 group-hover:text-accent transition-colors">{s.title}</h3>
               <p className="text-sm text-[hsl(var(--text-tertiary))] mb-2">{s.composer || ''}</p>
               <div className="flex gap-2">
                 {(s.file_path || s.external_url) && (
@@ -242,7 +242,7 @@ export default function ScoreLibrary() {
             <div className="flex gap-2 mb-4">
               <button
                 onClick={() => setUploadMode('file')}
-                className={`flex-1 py-2 rounded-lg text-sm ${uploadMode === 'file' ? 'bg-amber-500/15 text-amber-600' : 'bg-[hsl(var(--bg-deep))] text-[hsl(var(--text-tertiary))]'}`}>
+                className={`flex-1 py-2 rounded-lg text-sm ${uploadMode === 'file' ? 'var(--accent-soft) text-accent' : 'bg-[hsl(var(--bg-deep))] text-[hsl(var(--text-tertiary))]'}`}>
                 <Upload className="w-4 h-4 inline mr-1" />上传文件
               </button>
               <button
@@ -256,24 +256,24 @@ export default function ScoreLibrary() {
               <div>
                 <label className="block text-sm text-[hsl(var(--text-tertiary))] mb-1.5">曲目标题 *</label>
                 <input type="text" value={title} onChange={e => setTitle(e.target.value)} placeholder="例如：送别"
-                  className="w-full bg-[hsl(var(--bg-deep))] border border-[hsl(var(--border))] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-amber-500" required />
+                  className="w-full bg-[hsl(var(--bg-deep))] border border-[hsl(var(--border))] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-accent" required />
               </div>
               <div>
                 <label className="block text-sm text-[hsl(var(--text-tertiary))] mb-1.5">作曲家</label>
                 <input type="text" value={composer} onChange={e => setComposer(e.target.value)} placeholder="例如：约翰·庞德·奥特威"
-                  className="w-full bg-[hsl(var(--bg-deep))] border border-[hsl(var(--border))] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-amber-500" />
+                  className="w-full bg-[hsl(var(--bg-deep))] border border-[hsl(var(--border))] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-accent" />
               </div>
 
               {uploadMode === 'file' ? (
                 <div>
                   <label className="block text-sm text-[hsl(var(--text-tertiary))] mb-1.5">谱子文件（PDF或图片）</label>
-                  <label className="border-2 border-dashed border-[hsl(var(--border))] rounded-lg p-6 text-center cursor-pointer hover:border-amber-500/50 transition-colors block">
+                  <label className="border-2 border-dashed border-[hsl(var(--border))] rounded-lg p-6 text-center cursor-pointer hover:border-accent/50 transition-colors block">
                     <Upload className="w-6 h-6 text-[hsl(var(--text-tertiary))] mx-auto mb-2" />
                     <p className="text-sm text-[hsl(var(--text-tertiary))]">{file ? file.name : '点击上传文件'}</p>
                     <p className="text-xs text-[hsl(var(--text-secondary))] mt-1">支持：PDF、图片、MIDI(.mid)、音频(mp3/wav)</p>
-                    <p className="text-xs text-amber-500/70 mt-1">⚠ 超过35MB的文件需使用网盘链接</p>
+                    <p className="text-xs text-accent/70 mt-1">⚠ 超过35MB的文件需使用网盘链接</p>
                     {file && file.size > MAX_FILE_SIZE && (
-                      <p className="text-xs text-amber-600 mt-1">此文件 { (file.size / 1024 / 1024).toFixed(1) }MB，超过35MB需使用网盘链接</p>
+                      <p className="text-xs text-accent mt-1">此文件 { (file.size / 1024 / 1024).toFixed(1) }MB，超过35MB需使用网盘链接</p>
                     )}
                     <input type="file" accept=".pdf,.png,.jpg,.jpeg,.mp3,.wav,.m4a,.mid,.midi" onChange={e => setFile(e.target.files?.[0] || null)} className="hidden" />
                   </label>
@@ -299,7 +299,7 @@ export default function ScoreLibrary() {
                 <div className="text-xs text-red-500 bg-red-500/10 rounded-lg p-2 text-center">{uploadError}</div>
               )}
               <button type="submit" disabled={uploading || !title || (uploadMode === 'link' && !externalUrl.trim())}
-                className="w-full bg-amber-500 hover:bg-amber-600 disabled:opacity-50 text-black font-medium py-2.5 rounded-lg">
+                className="w-full btn-primary text-white font-medium py-2.5 rounded-lg">
                 {uploading ? '上传中...' : '确认上传'}
               </button>
             </form>
@@ -325,13 +325,13 @@ export default function ScoreLibrary() {
               {/* Watermark overlay */}
               <div className="absolute inset-0 pointer-events-none z-10 overflow-hidden">
                 <div className="absolute inset-0 flex items-center justify-center opacity-[0.06]">
-                  <span className="text-5xl font-bold text-amber-500 rotate-[-30deg] select-none whitespace-nowrap">
+                  <span className="text-5xl font-bold text-accent rotate-[-30deg] select-none whitespace-nowrap">
                     ChoirAI · 仅供内部使用 · 禁止截图外传
                   </span>
                 </div>
                 {Array.from({ length: 15 }).map((_, row) =>
                   Array.from({ length: 4 }).map((_, col) => (
-                    <span key={`${row}-${col}`} className="absolute text-xs text-amber-500/8 font-medium select-none"
+                    <span key={`${row}-${col}`} className="absolute text-xs text-accent/8 font-medium select-none"
                       style={{ top: `${row * 100 + 30}px`, left: `${col * 250 + 60}px`, transform: 'rotate(-15deg)' }}>
                       ChoirAI内部资料
                     </span>
@@ -365,7 +365,7 @@ export default function ScoreLibrary() {
                   <div className="flex flex-col items-center justify-center text-[hsl(var(--text-tertiary))]">
                     <p>此文件类型不支持在线预览</p>
                     <p className="text-sm text-[hsl(var(--text-secondary))] mt-2">{preview.file_path?.split('/').pop()}</p>
-                    <a href={`${API_BASE}${preview.file_path}`} download className="mt-4 px-4 py-2 bg-amber-500/15 text-amber-600 rounded-lg text-sm hover:bg-amber-500/25">下载文件</a>
+                    <a href={`${API_BASE}${preview.file_path}`} download className="mt-4 px-4 py-2 var(--accent-soft) text-accent rounded-lg text-sm hover:var(--accent-soft)">下载文件</a>
                   </div>
                 )}
               </div>

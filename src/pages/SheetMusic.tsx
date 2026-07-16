@@ -291,7 +291,7 @@ export default function SheetMusic() {
           <button
             onClick={playScore}
             className={`flex items-center gap-1.5 px-4 py-1.5 rounded-lg text-sm font-medium ${
-              isPlaying ? 'bg-red-500/15 text-red-500 hover:bg-red-500/25' : 'bg-amber-500 text-black hover:bg-amber-600'
+              isPlaying ? 'bg-red-500/15 text-red-500 hover:bg-red-500/25' : 'bg-accent text-black hover:bg-amber-600'
             }`}
           >
             {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}

@@ -255,7 +255,7 @@ export default function RehearsalRoom() {
                 <SkipBack className="w-4 h-4" />
               </button>
               <button onClick={() => player.isPlaying ? player.pause() : player.play()}
-                className="w-11 h-11 rounded-xl bg-amber-500 flex items-center justify-center hover:bg-amber-600">
+                className="w-11 h-11 rounded-xl bg-accent flex items-center justify-center hover:bg-amber-600">
                 {player.isPlaying ? <Pause className="w-5 h-5 text-black" /> : <Play className="w-5 h-5 text-black ml-0.5" />}
               </button>
               <button onClick={() => { player.stop(); pitch.stopListening(); }}
@@ -265,7 +265,7 @@ export default function RehearsalRoom() {
             </div>
             <div className="flex-1">
               <div className="h-1.5 bg-neutral-800 rounded-full overflow-hidden">
-                <div className="h-full bg-amber-500 rounded-full transition-all"
+                <div className="h-full bg-accent rounded-full transition-all"
                   style={{ width: `${Math.min(100, (player.currentTime / Math.max(player.duration, 1)) * 100)}%` }} />
               </div>
               <div className="flex justify-between mt-1">
@@ -351,7 +351,7 @@ export default function RehearsalRoom() {
           </div>
 
           <button onClick={() => pitch.isListening ? pitch.stopListening() : pitch.startListening()}
-            className={`w-full py-2.5 rounded-lg flex items-center justify-center gap-2 text-sm font-medium transition-colors ${pitch.isListening ? 'bg-red-500/20 text-red-500 hover:bg-red-500/30' : 'bg-amber-500 text-black hover:bg-amber-600'}`}>
+            className={`w-full py-2.5 rounded-lg flex items-center justify-center gap-2 text-sm font-medium transition-colors ${pitch.isListening ? 'bg-red-500/20 text-red-500 hover:bg-red-500/30' : 'bg-accent text-black hover:bg-amber-600'}`}>
             {pitch.isListening ? <><MicOff className="w-4 h-4" />停止检测</> : <><Mic className="w-4 h-4" />开始音高检测</>}
           </button>
 
