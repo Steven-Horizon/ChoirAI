@@ -12,10 +12,10 @@ import { API_BASE } from '@/config';
 
 
 const PARTS = [
-  { key: 'soprano', label: '女高音', short: 'S', color: '#FBCEE0', bg: 'bg-[#FBCEE0]' },
-  { key: 'alto', label: '女低音', short: 'A', color: '#CFF6F6', bg: 'bg-[#CFF6F6]' },
-  { key: 'tenor', label: '男高音', short: 'T', color: '#FBEBB8', bg: 'bg-[#FBEBB8]' },
-  { key: 'bass', label: '男低音', short: 'B', color: '#F1D9D0', bg: 'bg-[#F1D9D0]' },
+  { key: 'soprano', label: '女高音', short: 'S', color: '#FAB2CE', bg: 'bg-[#FAB2CE]' },
+  { key: 'alto', label: '女低音', short: 'A', color: '#95EAE0', bg: 'bg-[#95EAE0]' },
+  { key: 'tenor', label: '男高音', short: 'T', color: '#FED57C', bg: 'bg-[#FED57C]' },
+  { key: 'bass', label: '男低音', short: 'B', color: '#E8A08F', bg: 'bg-[#E8A08F]' },
 ];
 
 // Map note names to jianpu numbers and solfege

@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-  Mic2, Shield, Wind, CalendarCheck,
+  Mic2, Shield, Wind, CalendarCheck, Clock, MapPin, Music,
   Sparkles, Sun, Moon, Zap, Lock, User,
   Plus, X, ChevronLeft, AlertCircle, ChevronRight, ArrowRight,
 } from 'lucide-react';
@@ -11,10 +11,10 @@ import { getCoachSuggestions, getTodayPlan, getVoicePartName } from '@/lib/ai-co
 
 // ========== VOICE PART COLORS ==========
 const PART_COLORS: Record<string, { fill: string; bg: string; label: string }> = {
-  soprano: { fill: '#FBCEE0', bg: 'rgba(251,206,224,0.2)', label: '女高音' },
-  alto:    { fill: '#CFF6F6', bg: 'rgba(207,246,246,0.2)', label: '女中音' },
-  tenor:   { fill: '#FBEBB8', bg: 'rgba(251,235,184,0.2)', label: '男高音' },
-  bass:    { fill: '#F1D9D0', bg: 'rgba(241,217,208,0.2)', label: '男低音' },
+  soprano: { fill: '#FAB2CE', bg: 'rgba(250,178,206,0.2)', label: '女高音' },
+  alto:    { fill: '#95EAE0', bg: 'rgba(149,234,224,0.2)', label: '女中音' },
+  tenor:   { fill: '#FED57C', bg: 'rgba(254,213,124,0.2)', label: '男高音' },
+  bass:    { fill: '#E8A08F', bg: 'rgba(232,160,143,0.2)', label: '男低音' },
 };
 
 interface EnsembleInfo { day: number; time: string; location: string; repertoire: string; enabled: boolean; }
@@ -396,8 +396,9 @@ function AISuggestionsPanel({ navigate, voicePart }: { navigate: any; voicePart:
 }
 
 // ========== EXPANDED PROGRESS ==========
-function ExpandedProgress({ onClose }: { onClose: () => void }) {
+function ExpandedProgress({ onClose, isAdmin }: { onClose: () => void; isAdmin?: boolean }) {
   const data = useMemo(() => getWeekData(), []);
+  const [ensemble, setEnsemble] = useState(getEnsembleData());
   const [todos, setTodos] = useState<TodoItem[]>([
     { id: '1', text: '周六通选课大课汇报进度', priority: 'high' },
     { id: '2', text: '女高音声部周末加练', priority: 'normal' },
@@ -408,9 +409,16 @@ function ExpandedProgress({ onClose }: { onClose: () => void }) {
 
   const addTodo = () => { if (!newTodo.trim()) return; setTodos([...todos, { id: Date.now().toString(), text: newTodo.trim(), priority: 'normal' }]); setNewTodo(''); };
   const removeTodo = (id: string) => setTodos(todos.filter(t => t.id !== id));
+  const updateEnsemble = (idx: number, field: keyof EnsembleInfo, value: string | boolean) => {
+    const next = ensemble.map((e, i) => i === idx ? { ...e, [field]: value } : e);
+    setEnsemble(next);
+    saveEnsembleData(next);
+  };
+
+  const satEnsemble = ensemble.find(e => e.day === 5);
 
   return (
-    <div className="page relative z-10 anim-slide-in">
+    <div className="page relative z-10 anim-slide-in" style={{ maxWidth: '100%' }}>
       <div className="flex items-center gap-3 mb-5">
         <button onClick={onClose} className="neu flex items-center justify-center" style={{ width: '36px', height: '36px', borderRadius: '12px' }}>
           <ChevronLeft className="w-4 h-4" style={{ color: 'hsl(var(--text-secondary))' }} />
@@ -421,36 +429,70 @@ function ExpandedProgress({ onClose }: { onClose: () => void }) {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         {/* Left: Large Chart */}
         <div className="lg:col-span-2 space-y-4">
-          <div className="glass p-6">
+          {/* Chart */}
+          <div className="neu p-6" style={{ borderRadius: '20px' }}>
             <h2 className="text-lg font-bold mb-4" style={{ color: 'hsl(var(--text))' }}>本周各声部练习进度</h2>
             <div className="flex items-center gap-4 mb-5">
-              {Object.entries(PART_COLORS).map(([k, c]) => (<div key={k} className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-sm" style={{ background: c.fill }} /><span className="text-xs font-semibold" style={{ color: 'hsl(var(--text-secondary))' }}>{c.label}</span></div>))}
+              {Object.entries(PART_COLORS).map(([k, c]) => (<div key={k} className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-sm" style={{ background: c.fill, border: '1px solid rgba(0,0,0,0.08)' }} /><span className="text-xs font-bold" style={{ color: 'hsl(var(--text))' }}>{c.label}</span></div>))}
             </div>
-            {/* Large 7-day slot chart */}
-            <div className="flex items-end gap-3" style={{ height: '380px' }}>
+            {/* 7-day chart - Mon-Fri bars, Sat ensemble card, Sun empty */}
+            <div className="flex items-end gap-2 md:gap-3" style={{ height: '380px' }}>
               {data.map((d, di) => (
                 <div key={di} className="flex-1 flex flex-col items-center gap-1.5">
-                  <span className={`text-[11px] font-bold ${d.isToday ? 'text-accent' : 'text-[hsl(var(--text-tertiary))]'}`}>{d.date}</span>
-                  <div className="flex items-end gap-[3px] w-full justify-center" style={{ height: '310px' }}>
-                    {parts.map(p => {
-                      const val = (d as any)[p];
-                      const isFuture = d.isFuture;
-                      return (
-                        <div key={p} className="w-6 flex flex-col justify-end rounded-lg overflow-hidden"
-                          style={{
-                            height: '100%',
-                            background: isFuture ? 'hsla(240,7%,90%,0.3)' : 'hsl(240 7% 90%)',
-                            boxShadow: isFuture ? 'inset 1px 1px 2px rgba(0,0,0,0.03)' : 'inset 2px 2px 4px var(--nd), inset -2px -2px 4px var(--nl)',
-                          }}>
-                          {!isFuture && (
-                            <div className="w-full transition-all duration-500" style={{ height: `${val}%`, background: PART_COLORS[p].fill, borderRadius: '4px 4px 0 0' }} />
-                          )}
-                        </div>
-                      );
-                    })}
-                  </div>
-                  <span className={`text-xs font-semibold ${d.isToday ? 'text-accent' : 'text-[hsl(var(--text-secondary))]'}`}>{d.day}</span>
-                  {d.isReport && <span className="text-[8px] font-bold px-1.5 py-0.5 rounded" style={{ background: 'var(--accent-soft)', color: 'var(--accent)' }}>汇报日</span>}
+                  {/* Date - today uses dark theme color */}
+                  <span className={`text-[10px] md:text-[11px] font-bold ${d.isToday ? '' : 'text-[hsl(var(--text-tertiary))]'}`} style={d.isToday ? { color: 'hsl(var(--accent-h), var(--accent-s), calc(var(--accent-l) * 0.4))' } : {}}>{d.date}</span>
+
+                  {/* SATURDAY = Ensemble Card */}
+                  {di === 5 && satEnsemble?.enabled ? (
+                    <div className="w-full flex flex-col items-center" style={{ height: '310px' }}>
+                      <div className="neu p-3 w-full h-full flex flex-col items-center justify-center text-center gap-2" style={{ borderRadius: '14px' }}>
+                        <span className="text-[10px] font-bold px-2 py-0.5 rounded-md" style={{ background: 'var(--accent-soft)', color: 'var(--accent)' }}>合排</span>
+                        {isAdmin ? (
+                          <>
+                            <input value={satEnsemble.time} onChange={e => updateEnsemble(0, 'time', e.target.value)} className="w-full text-center text-[10px] font-bold bg-transparent focus:outline-none neu-inset p-1 rounded" style={{ color: 'hsl(var(--text))' }} placeholder="时间" />
+                            <input value={satEnsemble.location} onChange={e => updateEnsemble(0, 'location', e.target.value)} className="w-full text-center text-[9px] bg-transparent focus:outline-none neu-inset p-1 rounded" style={{ color: 'hsl(var(--text-secondary))' }} placeholder="地点" />
+                            <input value={satEnsemble.repertoire} onChange={e => updateEnsemble(0, 'repertoire', e.target.value)} className="w-full text-center text-[9px] bg-transparent focus:outline-none neu-inset p-1 rounded" style={{ color: 'hsl(var(--text-secondary))' }} placeholder="曲目" />
+                          </>
+                        ) : (
+                          <>
+                            <span className="text-xs font-bold" style={{ color: 'hsl(var(--text))' }}>{satEnsemble.time || '待定'}</span>
+                            <span className="text-[10px]" style={{ color: 'hsl(var(--text-secondary))' }}>{satEnsemble.location || '待定'}</span>
+                            <span className="text-[10px]" style={{ color: 'hsl(var(--text-secondary))' }}>{satEnsemble.repertoire || '待定'}</span>
+                          </>
+                        )}
+                      </div>
+                    </div>
+                  ) : di === 6 ? (
+                    /* SUNDAY = Empty slot */
+                    <div className="flex items-end gap-[2px] md:gap-[3px] w-full justify-center" style={{ height: '310px' }}>
+                      {parts.map(p => (
+                        <div key={p} className="w-4 md:w-6 flex flex-col justify-end rounded-md md:rounded-lg overflow-hidden"
+                          style={{ height: '100%', background: 'hsla(240,7%,90%,0.3)', boxShadow: 'inset 1px 1px 2px rgba(0,0,0,0.03)' }} />
+                      ))}
+                    </div>
+                  ) : (
+                    /* Mon-Fri = Regular bars */
+                    <div className="flex items-end gap-[2px] md:gap-[3px] w-full justify-center" style={{ height: '310px' }}>
+                      {parts.map(p => {
+                        const val = (d as any)[p];
+                        const isFuture = d.isFuture;
+                        return (
+                          <div key={p} className="w-4 md:w-6 flex flex-col justify-end rounded-md md:rounded-lg overflow-hidden"
+                            style={{
+                              height: '100%',
+                              background: isFuture ? 'hsla(240,7%,90%,0.3)' : 'hsl(240 7% 90%)',
+                              boxShadow: isFuture ? 'inset 1px 1px 2px rgba(0,0,0,0.03)' : 'inset 2px 2px 4px var(--nd), inset -2px -2px 4px var(--nl)',
+                            }}>
+                            {!isFuture && (
+                              <div className="w-full transition-all duration-500" style={{ height: `${val}%`, background: PART_COLORS[p].fill, borderRadius: '3px 3px 0 0' }} />
+                            )}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
+
+                  <span className={`text-[10px] md:text-xs font-bold ${d.isToday ? '' : 'text-[hsl(var(--text-tertiary))]'}`} style={d.isToday ? { color: 'hsl(var(--accent-h), var(--accent-s), calc(var(--accent-l) * 0.4))' } : {}}>{d.day}</span>
                 </div>
               ))}
             </div>
@@ -458,31 +500,57 @@ function ExpandedProgress({ onClose }: { onClose: () => void }) {
 
           {/* Part cards */}
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-            {Object.entries(PART_COLORS).map(([k, c]) => (
-              <div key={k} className="glass p-4" style={{ borderTop: `3px solid ${c.fill}` }}>
-                <div className="flex items-center gap-2 mb-2"><span className="w-7 h-7 rounded-lg flex items-center justify-center text-[10px] font-bold text-white" style={{ background: c.fill }}>{c.label[0]}</span><span className="text-sm font-bold" style={{ color: 'hsl(var(--text))' }}>{c.label}</span></div>
-                <div className="text-3xl font-bold" style={{ color: 'hsl(var(--text))' }}>10%</div>
-                <div className="text-[10px] font-medium mt-1" style={{ color: 'hsl(var(--text-tertiary))' }}>日定量</div>
-              </div>
-            ))}
+            {Object.entries(PART_COLORS).map(([k, c]) => {
+              const avg = Math.round([85,78,92,80][Object.keys(PART_COLORS).indexOf(k)]);
+              return (
+                <div key={k} className="neu p-4 neu-hover" style={{ borderRadius: '16px', borderTop: `3px solid ${c.fill}` }}>
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="w-7 h-7 rounded-lg flex items-center justify-center text-[10px] font-bold" style={{ background: c.fill, color: '#333' }}>{c.label[0]}</span>
+                    <span className="text-sm font-bold" style={{ color: 'hsl(var(--text))' }}>{c.label}</span>
+                  </div>
+                  <div className="text-3xl font-bold" style={{ color: 'hsl(var(--text))' }}>{avg}%</div>
+                  <div className="text-[10px] font-bold mt-1" style={{ color: 'hsl(var(--text-tertiary))' }}>本周平均</div>
+                </div>
+              );
+            })}
           </div>
         </div>
 
-        {/* Right: Todos */}
-        <div className="glass p-4 flex flex-col" style={{ maxHeight: '500px' }}>
-          <h3 className="text-base font-bold mb-3 flex items-center gap-2" style={{ color: 'hsl(var(--text))' }}><AlertCircle className="w-4 h-4 text-accent" />重要事项</h3>
-          <div className="space-y-2 flex-1 overflow-y-auto">
-            {todos.map(todo => (
-              <div key={todo.id} className="flex items-start gap-2 p-3 neu-inset" style={{ borderRadius: '12px' }}>
-                <span className="w-2 h-2 rounded-full mt-1 shrink-0" style={{ background: todo.priority === 'high' ? '#ef4444' : '#a3a3a3' }} />
-                <span className="text-xs flex-1 font-medium" style={{ color: 'hsl(var(--text-secondary))' }}>{todo.text}</span>
-                <button onClick={() => removeTodo(todo.id)} className="w-5 h-5 flex items-center justify-center shrink-0" style={{ color: 'hsl(var(--text-tertiary))' }}><X className="w-3 h-3" /></button>
+        {/* Right: Weekend + Todos */}
+        <div className="space-y-4">
+          {/* Saturday ensemble info card */}
+          <div className="neu p-5" style={{ borderRadius: '20px' }}>
+            <h3 className="text-sm font-bold mb-3 flex items-center gap-2" style={{ color: 'var(--accent)' }}>
+              <span className="w-6 h-6 rounded-lg flex items-center justify-center text-[10px] font-bold" style={{ background: 'var(--accent-soft)' }}>六</span>
+              周六合排
+            </h3>
+            {satEnsemble?.enabled ? (
+              <div className="space-y-2">
+                <div className="flex items-center gap-2"><Clock className="w-3.5 h-3.5" style={{ color: 'hsl(var(--text-tertiary))' }} /><span className="text-xs font-bold" style={{ color: 'hsl(var(--text))' }}>{satEnsemble.time || '待定'}</span></div>
+                <div className="flex items-center gap-2"><MapPin className="w-3.5 h-3.5" style={{ color: 'hsl(var(--text-tertiary))' }} /><span className="text-xs" style={{ color: 'hsl(var(--text-secondary))' }}>{satEnsemble.location || '待定'}</span></div>
+                <div className="flex items-center gap-2"><Music className="w-3.5 h-3.5" style={{ color: 'hsl(var(--text-tertiary))' }} /><span className="text-xs" style={{ color: 'hsl(var(--text-secondary))' }}>{satEnsemble.repertoire || '待定'}</span></div>
               </div>
-            ))}
+            ) : (
+              <p className="text-xs" style={{ color: 'hsl(var(--text-tertiary))' }}>本周无合排安排</p>
+            )}
           </div>
-          <div className="flex gap-2 mt-3">
-            <input value={newTodo} onChange={e => setNewTodo(e.target.value)} onKeyDown={e => e.key === 'Enter' && addTodo()} placeholder="添加事项..." className="flex-1 bg-transparent text-xs px-3 py-2.5 neu-inset focus:outline-none" style={{ borderRadius: '10px', color: 'hsl(var(--text))' }} />
-            <button onClick={addTodo} className="w-9 h-9 flex items-center justify-center neu-sm-hover neu-sm" style={{ borderRadius: '10px', color: 'var(--accent)' }}><Plus className="w-4 h-4" /></button>
+
+          {/* Todos */}
+          <div className="neu p-4 flex flex-col" style={{ borderRadius: '20px', maxHeight: '500px' }}>
+            <h3 className="text-sm font-bold mb-3 flex items-center gap-2" style={{ color: 'hsl(var(--text))' }}><AlertCircle className="w-4 h-4 text-accent" />重要事项</h3>
+            <div className="space-y-2 flex-1 overflow-y-auto">
+              {todos.map(todo => (
+                <div key={todo.id} className="flex items-start gap-2 p-3 neu-inset" style={{ borderRadius: '12px' }}>
+                  <span className="w-2 h-2 rounded-full mt-1 shrink-0" style={{ background: todo.priority === 'high' ? 'hsl(0,65%,55%)' : 'hsl(var(--text-tertiary))' }} />
+                  <span className="text-xs flex-1 font-medium" style={{ color: 'hsl(var(--text-secondary))' }}>{todo.text}</span>
+                  <button onClick={() => removeTodo(todo.id)} className="w-5 h-5 flex items-center justify-center shrink-0" style={{ color: 'hsl(var(--text-tertiary))' }}><X className="w-3 h-3" /></button>
+                </div>
+              ))}
+            </div>
+            <div className="flex gap-2 mt-3">
+              <input value={newTodo} onChange={e => setNewTodo(e.target.value)} onKeyDown={e => e.key === 'Enter' && addTodo()} placeholder="添加事项..." className="flex-1 bg-transparent text-xs px-3 py-2.5 neu-inset focus:outline-none" style={{ borderRadius: '10px', color: 'hsl(var(--text))' }} />
+              <button onClick={addTodo} className="w-9 h-9 flex items-center justify-center neu-sm-hover neu-sm" style={{ borderRadius: '10px', color: 'var(--accent)' }}><Plus className="w-4 h-4" /></button>
+            </div>
           </div>
         </div>
       </div>
@@ -597,7 +665,7 @@ function AdminDashboard({ userName, voicePart, isAdmin }: { userName: string; vo
     if (isAdmin) fetch('/api/admin/stats', { headers: token ? { 'x-auth-token': token } : {} }).then(r => r.ok ? r.json() : null).then(setStats).catch(() => {});
   }, [isAdmin, token]);
 
-  if (expanded) return <ExpandedProgress onClose={() => setExpanded(false)} />;
+  if (expanded) return <ExpandedProgress onClose={() => setExpanded(false)} isAdmin={isAdmin} />;
 
   return (
     <div className="page relative z-10">

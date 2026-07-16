@@ -12,10 +12,10 @@ import {
 import { useAuth } from '@/contexts/AuthContext';
 
 const PART_TABS = [
-  { key: 'soprano', label: 'S', color: '#FBCEE0' },
-  { key: 'alto', label: 'A', color: '#CFF6F6' },
-  { key: 'tenor', label: 'T', color: '#FBEBB8' },
-  { key: 'bass', label: 'B', color: '#F1D9D0' },
+  { key: 'soprano', label: 'S', color: '#FAB2CE' },
+  { key: 'alto', label: 'A', color: '#95EAE0' },
+  { key: 'tenor', label: 'T', color: '#FED57C' },
+  { key: 'bass', label: 'B', color: '#E8A08F' },
 ];
 
 export default function WarmUpRoom() {
