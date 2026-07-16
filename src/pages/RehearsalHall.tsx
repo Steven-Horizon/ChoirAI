@@ -352,7 +352,7 @@ export default function RehearsalHall() {
         <div className="grid grid-cols-3 gap-4">
           {scores.map(s => (
             <button key={s.id} onClick={() => selectScore(s)}
-              className="text-left neu neu-hover rounded-xl p-5 transition-all">
+              className="text-left neu neu-hover rounded-xl p-5 transition-all" style={{ border: "1px solid rgba(0,0,0,0.06)" }}>
               <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-3 neu-sm" style={{ background: "var(--accent-soft)" }}>
                 <Music className="w-6 h-6" style={{ color: "var(--accent)" }} />
               </div>
@@ -370,7 +370,7 @@ export default function RehearsalHall() {
               <p className="text-xs mt-1" style={{ color: "hsl(var(--text-secondary))" }}>请先上传谱子</p>
             </div>
             <div className="neu-inset py-12 rounded-2xl text-center"><div className="w-14 h-14 mx-auto mb-3 rounded-2xl flex items-center justify-center" style={{ background: 'var(--accent-soft)' }}><Monitor className="w-7 h-7 text-accent" /></div><p className="text-sm font-bold mb-1" style={{ color: 'hsl(var(--text))' }}>谱子库为空</p><p className="text-xs" style={{ color: 'hsl(var(--text-secondary))' }}>先上传谱子才能创建排练</p></div>
-            <Link to="/scores" className="text-accent-600 hover:text-accent-300 text-sm">去上传谱子</Link>
+            <Link to="/scores" className="text-sm font-bold" style={{ color: "var(--accent)" }}>去上传谱子</Link>
           </div>
         )}
       </div>

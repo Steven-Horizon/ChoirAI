@@ -373,7 +373,7 @@ function PitchExerciseSingle() {
     <div className="max-w-xl mx-auto">
       <ScoreBar score={score} total={total} />
       <div className="neu rounded-2xl p-6 text-center" style={{ minHeight: "300px", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
-        {phase === 'idle' && <button onClick={generate} className="px-6 py-3 glass rounded-xl font-bold hover:opacity-90">开始练习</button>}
+        {phase === 'idle' && <button onClick={generate} className="px-6 py-3 glass rounded-xl font-bold hover:opacity-90" style={{ color: "var(--accent)" }}>开始练习</button>}
         {phase === 'listen' && (
           <div>
             <p className="text-sm font-medium mb-3" style={{ color: "hsl(var(--text-secondary))" }}>听标准音，然后模唱出相同的音</p>
@@ -463,7 +463,7 @@ function PitchExerciseInterval() {
     <div className="max-w-xl mx-auto">
       <ScoreBar score={score} total={total} />
       <div className="neu rounded-2xl p-6 text-center" style={{ minHeight: "300px", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
-        {phase === 'idle' && <button onClick={generate} className="px-6 py-3 glass rounded-xl font-bold hover:opacity-90">开始练习</button>}
+        {phase === 'idle' && <button onClick={generate} className="px-6 py-3 glass rounded-xl font-bold hover:opacity-90" style={{ color: "var(--accent)" }}>开始练习</button>}
         {phase === 'listen' && (
           <div>
             <p className="text-sm font-medium mb-3" style={{ color: "hsl(var(--text-secondary))" }}>听{intervalName}，模唱第二个音</p>
@@ -539,7 +539,7 @@ function IntervalHighLow() {
       <ScoreBar score={score} total={total} />
       <div className="neu rounded-2xl p-6 text-center" style={{ minHeight: "300px", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
         {!note1 ? (
-          <button onClick={generate} className="px-6 py-3 glass rounded-xl font-bold hover:opacity-90">开始练习</button>
+          <button onClick={generate} className="px-6 py-3 glass rounded-xl font-bold hover:opacity-90" style={{ color: "var(--accent)" }}>开始练习</button>
         ) : (
           <>
             <p className="text-sm text-[hsl(var(--text-tertiary))] mb-4">听两个音，判断哪个更高</p>
@@ -615,7 +615,7 @@ function ScaleExercise() {
     <div className="max-w-xl mx-auto">
       <ScoreBar score={score} total={total} />
       <div className="neu rounded-2xl p-6 text-center" style={{ minHeight: "300px", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
-        {phase === 'idle' && <button onClick={generate} className="px-6 py-3 glass rounded-xl font-bold hover:opacity-90">开始练习</button>}
+        {phase === 'idle' && <button onClick={generate} className="px-6 py-3 glass rounded-xl font-bold hover:opacity-90" style={{ color: "var(--accent)" }}>开始练习</button>}
         {phase === 'listen' && (
           <div>
             <p className="text-sm font-medium mb-3" style={{ color: "hsl(var(--text-secondary))" }}>听音阶，模唱{direction === 'up' ? '上行' : '下行'}的最后一个音</p>
@@ -872,7 +872,7 @@ function RhythmImitate() {
     <div className="max-w-xl mx-auto">
       <ScoreBar score={score} total={total} />
       <div className="neu rounded-2xl p-6 text-center" style={{ minHeight: "300px", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
-        {phase === 'idle' && <button onClick={generate} className="px-6 py-3 glass rounded-xl font-bold hover:opacity-90">开始练习</button>}
+        {phase === 'idle' && <button onClick={generate} className="px-6 py-3 glass rounded-xl font-bold hover:opacity-90" style={{ color: "var(--accent)" }}>开始练习</button>}
         {phase === 'listen' && (
           <div>
             <p className="text-sm text-[hsl(var(--text-tertiary))] mb-4">听节奏，然后用"哒"模仿出来</p>
@@ -889,7 +889,7 @@ function RhythmImitate() {
             </button>
             <p className="text-sm text-[hsl(var(--text-tertiary))] mb-2">点击次数: {taps.length}</p>
             <div className="flex gap-2 justify-center">
-              <button onClick={checkTap} className="px-4 py-2 bg-green-500/15 text-green-600 rounded-lg text-sm">提交</button>
+              <button onClick={checkTap} className="px-5 py-2.5 glass rounded-xl text-sm font-bold" style={{ color: "var(--accent)" }}>提交</button>
               <button onClick={startTap} className="px-4 py-2 bg-[hsl(var(--bg-deep))] rounded-lg text-sm text-[hsl(var(--text-secondary))]">重录</button>
             </div>
           </div>
@@ -935,7 +935,7 @@ function TempoExercise() {
       <ScoreBar score={score} total={total} />
       <div className="neu rounded-2xl p-6 text-center" style={{ minHeight: "300px", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
         {!actualBpm ? (
-          <button onClick={generate} className="px-6 py-3 glass rounded-xl font-bold hover:opacity-90">开始练习</button>
+          <button onClick={generate} className="px-6 py-3 glass rounded-xl font-bold hover:opacity-90" style={{ color: "var(--accent)" }}>开始练习</button>
         ) : (
           <>
             <p className="text-sm text-[hsl(var(--text-tertiary))] mb-4">听节拍器，判断BPM（每分钟拍数）</p>
@@ -1001,7 +1001,7 @@ function SightSingExercise() {
     <div className="max-w-xl mx-auto">
       <ScoreBar score={score} total={total} />
       <div className="neu rounded-2xl p-6 text-center" style={{ minHeight: "300px", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
-        {phase === 'idle' && <button onClick={generate} className="px-6 py-3 glass rounded-xl font-bold hover:opacity-90">开始练习</button>}
+        {phase === 'idle' && <button onClick={generate} className="px-6 py-3 glass rounded-xl font-bold hover:opacity-90" style={{ color: "var(--accent)" }}>开始练习</button>}
         {phase === 'show' && (
           <div>
             <p className="text-sm font-medium mb-3" style={{ color: "hsl(var(--text-secondary))" }}>看简谱，唱出第一个音（先听标准音）</p>

@@ -183,13 +183,13 @@ export default function ScoreLibrary() {
             {/* Mode toggle */}
             <div className="neu p-1 flex gap-1 mb-5" style={{ borderRadius: '14px' }}>
               <button onClick={() => setUploadMode('file')}
-                className={`flex-1 py-2.5 rounded-xl text-xs font-bold transition-all ${uploadMode === 'file' ? 'neu-inset text-accent' : 'neu-hover'}`}
-                style={uploadMode !== 'file' ? { color: 'hsl(var(--text-tertiary))' } : {}}>
+                className={`flex-1 py-2.5 rounded-xl text-xs font-bold transition-all ${uploadMode === 'file' ? 'neu-inset' : 'neu-hover'}`}
+                style={uploadMode === 'file' ? { color: 'var(--accent)' } : { color: 'hsl(var(--text-secondary))' }}>
                 <Upload className="w-3.5 h-3.5 inline mr-1" />上传文件
               </button>
               <button onClick={() => setUploadMode('link')}
-                className={`flex-1 py-2.5 rounded-xl text-xs font-bold transition-all ${uploadMode === 'link' ? 'neu-inset text-accent' : 'neu-hover'}`}
-                style={uploadMode !== 'link' ? { color: 'hsl(var(--text-tertiary))' } : {}}>
+                className={`flex-1 py-2.5 rounded-xl text-xs font-bold transition-all ${uploadMode === 'link' ? 'neu-inset' : 'neu-hover'}`}
+                style={uploadMode === 'link' ? { color: 'var(--accent)' } : { color: 'hsl(var(--text-secondary))' }}>
                 <LinkIcon className="w-3.5 h-3.5 inline mr-1" />网盘链接
               </button>
             </div>
@@ -245,9 +245,10 @@ export default function ScoreLibrary() {
                 </div>
               )}
 
-              {/* Submit */}
+              {/* Submit - solid accent bg + white text */}
               <button type="submit" disabled={uploading || !title || (uploadMode === 'link' && !externalUrl.trim())}
-                className="w-full py-3 rounded-xl text-sm font-bold disabled:opacity-40 glass neu-hover" style={{ color: "var(--accent)", background: "linear-gradient(135deg, rgba(255,255,255,0.7), rgba(255,255,255,0.5))", backdropFilter: "blur(20px)" }}>
+                className="w-full py-3 rounded-xl text-sm font-bold disabled:opacity-40 transition-all hover:opacity-90 active:scale-[0.98]"
+                style={{ color: '#fff', background: 'linear-gradient(135deg, var(--accent), hsla(var(--accent-h),var(--accent-s),calc(var(--accent-l) - 8%),1))', boxShadow: '0 4px 16px var(--accent-glow)' }}>
                 {uploading ? '上传中...' : '确认上传'}
               </button>
             </form>

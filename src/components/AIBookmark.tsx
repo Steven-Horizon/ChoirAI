@@ -254,7 +254,7 @@ export default function AIBookmark() {
           </div>
 
           {/* Input - pb-20 on mobile to avoid bottom tab bar */}
-          <div className="p-3 pb-16 md:pb-3" style={{ borderTop: '1px solid rgba(0,0,0,0.06)' }}>
+          <div className="p-3 pb-28 md:pb-4" style={{ borderTop: '1px solid rgba(0,0,0,0.06)' }}>
             <div className="flex items-center gap-1.5 rounded-2xl px-3 py-2 neu-inset">
               <input type="file" id="ai-file-input" className="hidden" onChange={e => {
                 const f = e.target.files?.[0];

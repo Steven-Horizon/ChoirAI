@@ -191,7 +191,7 @@ function WeeklyChart({ onExpand, isAdmin }: { onExpand: () => void; isAdmin?: bo
                 <span className="text-[7px] md:text-[8px] font-bold px-1.5 py-0.5 rounded-md mb-1" style={{ background: 'var(--accent-soft)', color: 'var(--accent)' }}>当日排练</span>
               )}
               {/* Date label - 当日用主题深色 */}
-              <span className={`text-[8px] md:text-[10px] font-bold ${d.isToday ? '' : 'text-[hsl(var(--text-tertiary))]'}`} style={d.isToday ? { color: 'hsl(var(--accent-h), calc(var(--accent-s) * 0.85), calc(var(--accent-l) * 0.35))' } : {}}>{d.date}</span>
+              <span className={`text-[8px] md:text-[10px] font-bold ${d.isToday ? '' : 'text-[hsl(var(--text-tertiary))]'}`} style={d.isToday ? { color: 'hsl(var(--accent-h), var(--accent-s), calc(var(--accent-l) * 0.25))' } : {}}>{d.date}</span>
 
               {/* ENSEMBLE CARD for Sat/Sun */}
               {d.isEnsemble ? (
@@ -203,7 +203,7 @@ function WeeklyChart({ onExpand, isAdmin }: { onExpand: () => void; isAdmin?: bo
                   const val = (d as any)[p];
                   const isFuture = d.isFuture;
                   return (
-                    <div key={p} className="w-1.5 md:w-4 flex flex-col justify-end rounded-sm md:rounded-lg overflow-hidden"
+                    <div key={p} className="w-1 md:w-4 flex flex-col justify-end rounded-sm md:rounded-lg overflow-hidden"
                       style={{
                         height: '100%',
                         background: isFuture ? 'hsla(240,7%,90%,0.3)' : 'hsl(240 7% 90%)',
@@ -236,7 +236,7 @@ function EnsembleCard({ day, ensemble, isAdmin, onUpdate }: { day: number; ensem
     return (
       <div className="flex items-end gap-[1px] md:gap-[2px] w-full justify-center" style={{ height: '170px' }}>
         {['soprano', 'alto', 'tenor', 'bass'].map(p => (
-          <div key={p} className="w-1.5 md:w-4 flex flex-col justify-end rounded-sm md:rounded-lg overflow-hidden"
+          <div key={p} className="w-1 md:w-4 flex flex-col justify-end rounded-sm md:rounded-lg overflow-hidden"
             style={{ height: '100%', background: 'hsla(240,7%,90%,0.3)', boxShadow: 'inset 1px 1px 2px rgba(0,0,0,0.03)' }} />
         ))}
       </div>
@@ -440,7 +440,7 @@ function ExpandedProgress({ onClose, isAdmin }: { onClose: () => void; isAdmin?:
               {data.map((d, di) => (
                 <div key={di} className="flex-1 flex flex-col items-center gap-1.5">
                   {/* Date - today uses dark theme color */}
-                  <span className={`text-[10px] md:text-[11px] font-bold ${d.isToday ? '' : 'text-[hsl(var(--text-tertiary))]'}`} style={d.isToday ? { color: 'hsl(var(--accent-h), calc(var(--accent-s) * 0.85), calc(var(--accent-l) * 0.35))' } : {}}>{d.date}</span>
+                  <span className={`text-[10px] md:text-[11px] font-bold ${d.isToday ? '' : 'text-[hsl(var(--text-tertiary))]'}`} style={d.isToday ? { color: 'hsl(var(--accent-h), var(--accent-s), calc(var(--accent-l) * 0.25))' } : {}}>{d.date}</span>
 
                   {/* SATURDAY = Ensemble Card */}
                   {di === 5 && satEnsemble?.enabled ? (
@@ -492,7 +492,7 @@ function ExpandedProgress({ onClose, isAdmin }: { onClose: () => void; isAdmin?:
                     </div>
                   )}
 
-                  <span className={`text-[10px] md:text-xs font-bold ${d.isToday ? '' : 'text-[hsl(var(--text-tertiary))]'}`} style={d.isToday ? { color: 'hsl(var(--accent-h), calc(var(--accent-s) * 0.85), calc(var(--accent-l) * 0.35))' } : {}}>{d.day}</span>
+                  <span className={`text-[10px] md:text-xs font-bold ${d.isToday ? '' : 'text-[hsl(var(--text-tertiary))]'}`} style={d.isToday ? { color: 'hsl(var(--accent-h), var(--accent-s), calc(var(--accent-l) * 0.25))' } : {}}>{d.day}</span>
                 </div>
               ))}
             </div>
