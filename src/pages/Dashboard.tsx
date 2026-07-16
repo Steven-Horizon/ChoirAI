@@ -106,11 +106,11 @@ function AuthScreen({ onLogin, onRegister }: { onLogin: (n: string, p: string) =
       </div>
       <form onSubmit={handleSubmit} className="w-full max-w-xs space-y-3.5">
         {error && <div className="p-3 rounded-2xl text-sm font-medium" style={{ background: 'hsla(0,70%,55%,0.1)', color: 'hsl(0,65%,45%)' }}>{error}</div>}
-        <div className="neu-inset glass p-1" style={{ borderRadius: '16px', backdropFilter: 'blur(16px) saturate(150%)' }}>
-          <div className="flex items-center px-4"><User className="w-4 h-4 shrink-0" style={{ color: 'hsl(var(--accent-h), var(--accent-s), calc(var(--accent-l) * 0.6))' }} /><input type="text" value={name} onChange={e => setName(e.target.value)} placeholder="姓名" className="flex-1 bg-transparent text-sm py-3.5 ml-3 focus:outline-none placeholder:text-neutral-400" style={{ color: 'hsl(var(--text))' }} /></div>
+        <div className="neu-inset glass transition-all duration-200 hover:shadow-md focus-within:shadow-lg" style={{ borderRadius: '16px', backdropFilter: 'blur(16px) saturate(150%)' }}>
+          <div className="flex items-center px-4 py-1"><User className="w-4 h-4 shrink-0 transition-colors" style={{ color: 'hsl(var(--accent-h), var(--accent-s), calc(var(--accent-l) * 0.6))' }} /><input type="text" value={name} onChange={e => setName(e.target.value)} placeholder="姓名" className="flex-1 bg-transparent text-sm py-3 ml-3 focus:outline-none placeholder:text-neutral-400 transition-all" style={{ color: 'hsl(var(--text))' }} /></div>
         </div>
-        <div className="neu-inset glass p-1" style={{ borderRadius: '16px', backdropFilter: 'blur(16px) saturate(150%)' }}>
-          <div className="flex items-center px-4"><Lock className="w-4 h-4 shrink-0" style={{ color: 'hsl(var(--accent-h), var(--accent-s), calc(var(--accent-l) * 0.6))' }} /><input type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder={mode === 'register' ? '密码（至少4位）' : '密码'} className="flex-1 bg-transparent text-sm py-3.5 ml-3 focus:outline-none placeholder:text-neutral-400" style={{ color: 'hsl(var(--text))' }} /></div>
+        <div className="neu-inset glass transition-all duration-200 hover:shadow-md focus-within:shadow-lg" style={{ borderRadius: '16px', backdropFilter: 'blur(16px) saturate(150%)' }}>
+          <div className="flex items-center px-4 py-1"><Lock className="w-4 h-4 shrink-0 transition-colors" style={{ color: 'hsl(var(--accent-h), var(--accent-s), calc(var(--accent-l) * 0.6))' }} /><input type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder={mode === 'register' ? '密码（至少4位）' : '密码'} className="flex-1 bg-transparent text-sm py-3 ml-3 focus:outline-none placeholder:text-neutral-400 transition-all" style={{ color: 'hsl(var(--text))' }} /></div>
         </div>
         {mode === 'register' && (<>
           {/* SATB - neu凸起底，未选中变灰，选中彩色 */}
@@ -134,14 +134,14 @@ function AuthScreen({ onLogin, onRegister }: { onLogin: (n: string, p: string) =
             ))}
           </div>
         </>)}
-        {/* Main action button - SOLID accent color */}
-        <button type="submit" disabled={loading} className="w-full py-3.5 rounded-2xl text-sm font-bold transition-all duration-200 disabled:opacity-50 glass neu-inset" style={{ backdropFilter: 'blur(16px) saturate(150%)', color: 'var(--accent)', borderRadius: '16px' }}>
+        {/* Main action button - glass accent with hover animation */}
+        <button type="submit" disabled={loading} className="w-full py-3.5 rounded-2xl text-sm font-bold transition-all duration-200 disabled:opacity-50 glass hover:scale-[1.02] hover:shadow-lg active:scale-95" style={{ backdropFilter: 'blur(16px) saturate(150%)', color: 'var(--accent)', borderRadius: '16px', boxShadow: '0 4px 16px var(--accent-glow), inset 0 1px 2px rgba(255,255,255,0.5)' }}>
           {loading ? '请稍候...' : mode === 'login' ? '登录' : '注册'}
         </button>
-        {/* Toggle button - same accent color */}
+        {/* Toggle button - neu accent with hover inset animation */}
         <p className="text-center text-xs mt-2.5 font-medium" style={{ color: 'hsl(var(--text-tertiary))' }}>
           <span style={{ color: 'hsl(var(--text-secondary))' }}>{mode === 'login' ? '还没有账号？' : '已有账号？'}</span>
-          <button type="button" onClick={() => { setMode(mode === 'login' ? 'register' : 'login'); setError(''); }} className="ml-1.5 font-bold text-xs px-3 py-1.5 rounded-full transition-all duration-200 neu neu-hover hover:neu-inset active:scale-90" style={{ color: 'var(--accent)' }}>{mode === 'login' ? '注册' : '登录'}</button>
+          <button type="button" onClick={() => { setMode(mode === 'login' ? 'register' : 'login'); setError(''); }} className="ml-1.5 font-bold text-xs px-3 py-1.5 rounded-full transition-all duration-200 neu hover:neu-inset active:scale-90" style={{ color: 'var(--accent)' }}>{mode === 'login' ? '注册' : '登录'}</button>
         </p>
       </form>
     </div>
