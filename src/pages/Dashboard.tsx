@@ -96,14 +96,24 @@ function AuthScreen({ onLogin, onRegister }: { onLogin: (n: string, p: string) =
           <div className="flex items-center px-4"><Lock className="w-4 h-4 shrink-0" style={{ color: 'hsl(var(--text-tertiary))' }} /><input type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder={mode === 'register' ? '密码（至少4位）' : '密码'} className="flex-1 bg-transparent text-sm py-3.5 ml-3 focus:outline-none placeholder:text-neutral-400" style={{ color: 'hsl(var(--text))' }} /></div>
         </div>
         {mode === 'register' && (<>
+          {/* SATB - neu凸起底，未选中变灰，选中彩色 */}
           <div className="grid grid-cols-4 gap-2">
-            {[{ k: 'soprano', l: 'S', c: 'hsla(330,80%,70%,0.2)', t: '#db2777' }, { k: 'alto', l: 'A', c: 'hsla(200,80%,60%,0.2)', t: '#0ea5e9' }, { k: 'tenor', l: 'T', c: 'hsla(45,90%,60%,0.2)', t: '#ca8a04' }, { k: 'bass', l: 'B', c: 'hsla(260,60%,65%,0.2)', t: '#8b5cf6' }].map(p => (
-              <button key={p.k} type="button" onClick={() => setPart(p.k)} className="py-2.5 rounded-xl text-sm font-bold transition-all" style={part === p.k ? { background: p.c, color: p.t, boxShadow: '2px 2px 6px var(--nd), -2px -2px 6px var(--nl)' } : { background: 'transparent', color: 'hsl(var(--text-tertiary))' }}>{p.l}</button>
+            {[{ k: 'soprano', l: 'S', c: 'hsla(330,80%,70%,0.25)', t: '#db2777' }, { k: 'alto', l: 'A', c: 'hsla(200,80%,65%,0.25)', t: '#0ea5e9' }, { k: 'tenor', l: 'T', c: 'hsla(45,90%,65%,0.25)', t: '#ca8a04' }, { k: 'bass', l: 'B', c: 'hsla(260,60%,70%,0.25)', t: '#8b5cf6' }].map(p => (
+              <button key={p.k} type="button" onClick={() => setPart(p.k)}
+                className={`py-2.5 rounded-xl text-sm font-bold transition-all ${part === p.k ? '' : 'neu-hover'}`}
+                style={part === p.k ? { background: p.c, color: p.t, boxShadow: 'inset 2px 2px 5px var(--nd), inset -2px -2px 5px var(--nl)' } : { color: 'hsl(var(--text-tertiary))', background: 'transparent' }}>
+                {p.l}
+              </button>
             ))}
           </div>
+          {/* Role - same logic */}
           <div className="grid grid-cols-3 gap-2">
             {[{ k: 'member', l: '团员' }, { k: 'captain', l: '声部长' }, { k: 'admin', l: '团干' }].map(r => (
-              <button key={r.k} type="button" onClick={() => setRole(r.k)} className="py-2 rounded-xl text-center text-xs font-bold transition-all" style={role === r.k ? { background: 'var(--accent-soft)', color: 'var(--accent)', boxShadow: '2px 2px 6px var(--nd), -2px -2px 6px var(--nl)' } : { background: 'transparent', color: 'hsl(var(--text-tertiary))' }}>{r.l}</button>
+              <button key={r.k} type="button" onClick={() => setRole(r.k)}
+                className={`py-2 rounded-xl text-center text-xs font-bold transition-all ${role === r.k ? '' : 'neu-hover'}`}
+                style={role === r.k ? { background: 'var(--accent-soft)', color: 'var(--accent)', boxShadow: 'inset 2px 2px 5px var(--nd), inset -2px -2px 5px var(--nl)' } : { color: 'hsl(var(--text-tertiary))', background: 'transparent' }}>
+                {r.l}
+              </button>
             ))}
           </div>
         </>)}
@@ -113,7 +123,7 @@ function AuthScreen({ onLogin, onRegister }: { onLogin: (n: string, p: string) =
         </button>
         <p className="text-center text-xs mt-2 font-medium" style={{ color: 'hsl(var(--text-tertiary))' }}>
           {mode === 'login' ? '还没有账号？' : '已有账号？'}
-          <button type="button" onClick={() => { setMode(mode === 'login' ? 'register' : 'login'); setError(''); }} className="ml-1.5 font-bold text-xs px-3 py-1 rounded-full transition-all hover:scale-105 active:scale-95" style={{ color: 'var(--accent)', background: 'var(--accent-soft)', boxShadow: '2px 2px 5px var(--nd), -2px -2px 5px var(--nl)' }}>{mode === 'login' ? '注册' : '登录'}</button>
+          <button type="button" onClick={() => { setMode(mode === 'login' ? 'register' : 'login'); setError(''); }} className="ml-1.5 font-bold text-xs px-3 py-1 rounded-full transition-all hover:scale-105 active:scale-95" style={{ color: '#fff', background: 'var(--accent)', boxShadow: '2px 2px 5px var(--accent-glow)' }}>{mode === 'login' ? '注册' : '登录'}</button>
         </p>
       </form>
     </div>
