@@ -154,7 +154,7 @@ export default function AIBookmark() {
 
       {/* Backdrop */}
       {isOpen && (
-        <div className="fixed inset-0 z-50 anim-fade" onClick={() => setIsOpen(false)}
+        <div className="fixed inset-0 z-50 anim-fade" onClick={() => { setIsOpen(false); setTimeout(() => setIsExpanded(false), 1000); }}
           style={{ background: 'hsla(0,0%,0%,0.2)', backdropFilter: 'blur(3px)', WebkitBackdropFilter: 'blur(3px)' }} />
       )}
 
@@ -182,7 +182,7 @@ export default function AIBookmark() {
                 </p>
               </div>
             </div>
-            <button onClick={() => setIsOpen(false)} className="neu w-8 h-8 rounded-lg flex items-center justify-center neu-hover">
+            <button onClick={() => { setIsOpen(false); setTimeout(() => setIsExpanded(false), 1000); }} className="neu w-8 h-8 rounded-lg flex items-center justify-center neu-hover">
               <X className="w-4 h-4" style={{ color: 'hsl(var(--text-tertiary))' }} />
             </button>
           </div>

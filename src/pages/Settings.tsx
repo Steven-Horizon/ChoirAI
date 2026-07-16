@@ -128,7 +128,7 @@ export default function Settings() {
         <div className="neu p-5" style={{ borderRadius: '20px' }}>
           <div className="flex items-center gap-3 mb-5">
             <div className="w-9 h-9 rounded-xl flex items-center justify-center neu-sm" style={{ background: 'var(--accent-soft)' }}>
-              <Palette className="w-4 h-4 text-accent" />
+              <Palette className="w-4 h-4" style={{ color: "hsl(var(--accent-h), var(--accent-s), calc(var(--accent-l) * 0.6))" }} />
             </div>
             <h3 className="text-sm font-bold" style={{ color: 'hsl(var(--text))' }}>主题颜色</h3>
           </div>
@@ -166,7 +166,7 @@ export default function Settings() {
         <div className="neu p-5" style={{ borderRadius: '20px' }}>
           <div className="flex items-center gap-3 mb-5">
             <div className="w-9 h-9 rounded-xl flex items-center justify-center neu-sm" style={{ background: 'hsla(210,60%,50%,0.12)' }}>
-              <User className="w-4 h-4 text-blue-500" />
+              <User className="w-4 h-4" style={{ color: "hsl(var(--accent-h), var(--accent-s), calc(var(--accent-l) * 0.6))" }} />
             </div>
             <h3 className="text-sm font-bold" style={{ color: 'hsl(var(--text))' }}>我的信息</h3>
           </div>
@@ -200,7 +200,7 @@ export default function Settings() {
         <div className="neu p-5" style={{ borderRadius: '20px' }}>
           <div className="flex items-center gap-3 mb-5">
             <div className="w-9 h-9 rounded-xl flex items-center justify-center neu-sm" style={{ background: 'hsla(35,80%,50%,0.12)' }}>
-              <Volume2 className="w-4 h-4 text-accent" />
+              <Volume2 className="w-4 h-4" style={{ color: "hsl(var(--accent-h), var(--accent-s), calc(var(--accent-l) * 0.6))" }} />
             </div>
             <h3 className="text-sm font-bold" style={{ color: 'hsl(var(--text))' }}>音频设置</h3>
           </div>
@@ -208,7 +208,7 @@ export default function Settings() {
           <div className="neu p-4 mb-4" style={{ borderRadius: '14px' }}>
             <div className="flex items-center justify-between mb-3">
               <div className="flex items-center gap-2">
-                <Mic className="w-4 h-4" style={{ color: 'hsl(var(--text-tertiary))' }} />
+                <Mic className="w-4 h-4" style={{ color: "hsl(var(--accent-h), var(--accent-s), calc(var(--accent-l) * 0.6))" }} />
                 <span className="text-sm font-bold" style={{ color: 'hsl(var(--text))' }}>麦克风权限</span>
               </div>
               <span className={`neu-inset text-[10px] font-bold px-2.5 py-1 rounded-lg ${
@@ -266,7 +266,7 @@ export default function Settings() {
           <div className="neu p-5 lg:col-span-2" style={{ borderRadius: '20px' }}>
             <div className="flex items-center gap-3 mb-5">
               <div className="w-9 h-9 rounded-xl flex items-center justify-center neu-sm" style={{ background: 'var(--accent-soft)' }}>
-                <Shield className="w-4 h-4 text-accent" />
+                <Shield className="w-4 h-4" style={{ color: "hsl(var(--accent-h), var(--accent-s), calc(var(--accent-l) * 0.6))" }} />
               </div>
               <h3 className="text-sm font-bold" style={{ color: 'var(--accent)' }}>团干管理</h3>
             </div>
