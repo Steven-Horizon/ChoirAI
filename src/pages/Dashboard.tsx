@@ -211,7 +211,7 @@ function WeeklyChart({ onExpand, isAdmin }: { onExpand: () => void; isAdmin?: bo
                         boxShadow: isFuture ? 'inset 1px 1px 2px rgba(0,0,0,0.03)' : 'inset 2px 2px 4px var(--nd), inset -2px -2px 4px var(--nl)',
                       }}>
                       {!isFuture && (
-                        <div className="w-full transition-all duration-500" style={{ height: `${val}%`, background: PART_COLORS[p].fill, borderRadius: '3px 3px 0 0', boxShadow: '0 -1px 2px rgba(255,255,255,0.3)' }} />
+                        <div className="w-full transition-all duration-500" style={{ height: `${Math.min(100, val * 1.15)}%`, background: PART_COLORS[p].fill, borderRadius: '3px 3px 0 0', boxShadow: '0 -1px 2px rgba(255,255,255,0.3)' }} />
                       )}
                     </div>
                   );
@@ -465,27 +465,27 @@ function ExpandedProgress({ onClose, isAdmin }: { onClose: () => void; isAdmin?:
                     </div>
                   ) : di === 6 ? (
                     /* SUNDAY = Empty slot */
-                    <div className="flex items-end gap-[2px] md:gap-[3px] w-full justify-center" style={{ height: '310px' }}>
+                    <div className="flex items-end gap-[1px] md:gap-[3px] w-full justify-center" style={{ height: '310px' }}>
                       {parts.map(p => (
-                        <div key={p} className="w-4 md:w-6 flex flex-col justify-end rounded-md md:rounded-lg overflow-hidden"
+                        <div key={p} className="w-1.5 md:w-6 flex flex-col justify-end rounded-sm md:rounded-lg overflow-hidden"
                           style={{ height: '100%', background: 'hsla(240,7%,90%,0.3)', boxShadow: 'inset 1px 1px 2px rgba(0,0,0,0.03)' }} />
                       ))}
                     </div>
                   ) : (
                     /* Mon-Fri = Regular bars */
-                    <div className="flex items-end gap-[2px] md:gap-[3px] w-full justify-center" style={{ height: '310px' }}>
+                    <div className="flex items-end gap-[1px] md:gap-[3px] w-full justify-center" style={{ height: '310px' }}>
                       {parts.map(p => {
                         const val = (d as any)[p];
                         const isFuture = d.isFuture;
                         return (
-                          <div key={p} className="w-4 md:w-6 flex flex-col justify-end rounded-md md:rounded-lg overflow-hidden"
+                          <div key={p} className="w-1.5 md:w-6 flex flex-col justify-end rounded-sm md:rounded-lg overflow-hidden"
                             style={{
                               height: '100%',
                               background: isFuture ? 'hsla(240,7%,90%,0.3)' : 'hsl(240 7% 90%)',
                               boxShadow: isFuture ? 'inset 1px 1px 2px rgba(0,0,0,0.03)' : 'inset 2px 2px 4px var(--nd), inset -2px -2px 4px var(--nl)',
                             }}>
                             {!isFuture && (
-                              <div className="w-full transition-all duration-500" style={{ height: `${val}%`, background: PART_COLORS[p].fill, borderRadius: '3px 3px 0 0' }} />
+                              <div className="w-full transition-all duration-500" style={{ height: `${Math.min(100, val * 1.15)}%`, background: PART_COLORS[p].fill, borderRadius: '3px 3px 0 0' }} />
                             )}
                           </div>
                         );
@@ -705,7 +705,7 @@ function AdminDashboard({ userName, voicePart, isAdmin }: { userName: string; vo
           <div className="neu p-5">
             <div className="grid grid-cols-4 gap-3">
               {[{ label: '注册人数', value: stats.totalUsers }, { label: '乐谱', value: stats.totalScores }, { label: '声部', value: stats.totalVoiceParts }, { label: '排练', value: stats.totalRehearsals }].map(item => (
-                <div key={item.label} className="neu-inset py-3 text-center" style={{ borderRadius: '14px' }}><div className="text-xl font-bold text-accent">{item.value}</div><div className="text-[9px] mt-1 font-semibold" style={{ color: 'hsl(var(--text-tertiary))' }}>{item.label}</div></div>
+                <div key={item.label} className="neu-inset py-3 text-center" style={{ borderRadius: '14px' }}><div className="text-xl font-bold" style={{ color: 'hsl(var(--accent-h), var(--accent-s), calc(var(--accent-l) * 0.35))' }}>{item.value}</div><div className="text-[9px] mt-1 font-bold" style={{ color: 'hsl(var(--text-secondary))' }}>{item.label}</div></div>
               ))}
             </div>
           </div>
