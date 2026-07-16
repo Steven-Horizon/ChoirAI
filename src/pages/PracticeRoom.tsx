@@ -373,7 +373,7 @@ function PitchExerciseSingle() {
     <div className="max-w-xl mx-auto">
       <ScoreBar score={score} total={total} />
       <div className="neu rounded-2xl p-6 text-center" style={{ minHeight: "300px", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
-        {phase === 'idle' && <button onClick={generate} className="px-6 py-3 glass rounded-xl font-bold hover:opacity-90" style={{ color: "var(--accent)" }}>开始练习</button>}
+        {phase === 'idle' && <button onClick={generate} className="px-6 py-3 btn-confirm rounded-xl font-bold">开始练习</button>}
         {phase === 'listen' && (
           <div>
             <p className="text-sm font-medium mb-3" style={{ color: "hsl(var(--text-secondary))" }}>听标准音，然后模唱出相同的音</p>
@@ -381,8 +381,8 @@ function PitchExerciseSingle() {
               <div className="text-center"><span className="text-3xl font-bold text-accent">{nn(targetNote)}</span><p className="text-xs text-[hsl(var(--text-tertiary))]">{solf(targetNote)}</p></div>
             </div>
             <div className="flex gap-2 justify-center">
-              <button onClick={() => playNote(targetNote)} className="flex items-center gap-2 px-4 py-2 bg-[hsl(var(--bg-deep))] rounded-lg text-sm text-[hsl(var(--text-secondary))] hover:bg-[hsl(var(--bg))]"><Volume2 className="w-4 h-4" />播放</button>
-              <button onClick={startSinging} className="flex items-center gap-2 px-6 py-2 glass rounded-xl font-bold hover:opacity-90"><Mic className="w-4 h-4" />开始模唱</button>
+              <button onClick={() => playNote(targetNote)} className="flex items-center gap-2 px-4 py-2 neu-sm neu-sm-hover rounded-xl text-sm font-medium" style={{ color: "hsl(var(--text-secondary))" }}><Volume2 className="w-4 h-4" />播放</button>
+              <button onClick={startSinging} className="flex items-center gap-2 px-6 py-2 btn-confirm rounded-xl font-bold"><Mic className="w-4 h-4" />开始模唱</button>
             </div>
           </div>
         )}
@@ -409,7 +409,7 @@ function PitchExerciseSingle() {
             {check.result === 'correct' ? <CheckCircle className="w-14 h-14 text-green-600 mx-auto mb-2" /> : <XCircle className="w-14 h-14 text-red-500 mx-auto mb-2" />}
             <p className={`text-lg font-bold ${check.result === 'correct' ? 'text-green-600' : 'text-red-500'}`}>{check.result === 'correct' ? '正确!' : '音准有偏差'}</p>
             <p className="text-sm text-[hsl(var(--text-tertiary))] mt-1">目标: {targetNote} ({solf(targetNote)}) {check.detectedNote && `· 检测: ${check.detectedNote}`}</p>
-            <button onClick={next} className="mt-4 px-6 py-2 glass rounded-xl font-bold hover:opacity-90">下一题</button>
+            <button onClick={next} className="mt-4 px-6 py-2 btn-confirm rounded-xl font-bold">下一题</button>
           </div>
         )}
       </div>
@@ -463,7 +463,7 @@ function PitchExerciseInterval() {
     <div className="max-w-xl mx-auto">
       <ScoreBar score={score} total={total} />
       <div className="neu rounded-2xl p-6 text-center" style={{ minHeight: "300px", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
-        {phase === 'idle' && <button onClick={generate} className="px-6 py-3 glass rounded-xl font-bold hover:opacity-90" style={{ color: "var(--accent)" }}>开始练习</button>}
+        {phase === 'idle' && <button onClick={generate} className="px-6 py-3 btn-confirm rounded-xl font-bold">开始练习</button>}
         {phase === 'listen' && (
           <div>
             <p className="text-sm font-medium mb-3" style={{ color: "hsl(var(--text-secondary))" }}>听{intervalName}，模唱第二个音</p>
@@ -473,8 +473,8 @@ function PitchExerciseInterval() {
               <div className="w-24 h-24 rounded-full neu-inset border-2 border-accent/30 flex items-center justify-center"><span className="text-2xl font-bold text-accent">?</span></div>
             </div>
             <div className="flex gap-2 justify-center">
-              <button onClick={() => { playNote(targetNote); setTimeout(() => playNote(target2), 600); }} className="flex items-center gap-2 px-4 py-2 bg-[hsl(var(--bg-deep))] rounded-lg text-sm text-[hsl(var(--text-secondary))] hover:bg-[hsl(var(--bg))]"><Volume2 className="w-4 h-4" />播放</button>
-              <button onClick={startSinging} className="flex items-center gap-2 px-6 py-2 glass rounded-xl font-bold hover:opacity-90"><Mic className="w-4 h-4" />开始模唱</button>
+              <button onClick={() => { playNote(targetNote); setTimeout(() => playNote(target2), 600); }} className="flex items-center gap-2 px-4 py-2 neu-sm neu-sm-hover rounded-xl text-sm font-medium" style={{ color: "hsl(var(--text-secondary))" }}><Volume2 className="w-4 h-4" />播放</button>
+              <button onClick={startSinging} className="flex items-center gap-2 px-6 py-2 btn-confirm rounded-xl font-bold"><Mic className="w-4 h-4" />开始模唱</button>
             </div>
           </div>
         )}
@@ -501,7 +501,7 @@ function PitchExerciseInterval() {
             {check.result === 'correct' ? <CheckCircle className="w-14 h-14 text-green-600 mx-auto mb-2" /> : <XCircle className="w-14 h-14 text-red-500 mx-auto mb-2" />}
             <p className={`text-lg font-bold ${check.result === 'correct' ? 'text-green-600' : 'text-red-500'}`}>{check.result === 'correct' ? '正确!' : '音准有偏差'}</p>
             <p className="text-sm text-[hsl(var(--text-tertiary))] mt-1">目标: {target2} ({solf(target2)}) {check.detectedNote && `· 检测: ${check.detectedNote}`}</p>
-            <button onClick={next} className="mt-4 px-6 py-2 glass rounded-xl font-bold hover:opacity-90">下一题</button>
+            <button onClick={next} className="mt-4 px-6 py-2 btn-confirm rounded-xl font-bold">下一题</button>
           </div>
         )}
       </div>
@@ -539,7 +539,7 @@ function IntervalHighLow() {
       <ScoreBar score={score} total={total} />
       <div className="neu rounded-2xl p-6 text-center" style={{ minHeight: "300px", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
         {!note1 ? (
-          <button onClick={generate} className="px-6 py-3 glass rounded-xl font-bold hover:opacity-90" style={{ color: "var(--accent)" }}>开始练习</button>
+          <button onClick={generate} className="px-6 py-3 btn-confirm rounded-xl font-bold">开始练习</button>
         ) : (
           <>
             <p className="text-sm text-[hsl(var(--text-tertiary))] mb-4">听两个音，判断哪个更高</p>
@@ -549,7 +549,7 @@ function IntervalHighLow() {
                 <button key={opt} onClick={() => guess(opt)} className={`px-6 py-3 rounded-lg text-sm font-medium transition-colors ${result && ((Tone.Frequency(note2).toFrequency() > Tone.Frequency(note1).toFrequency() && opt === '第二个') || (Tone.Frequency(note1).toFrequency() > Tone.Frequency(note2).toFrequency() && opt === '第一个') || (Math.abs(Tone.Frequency(note1).toFrequency() - Tone.Frequency(note2).toFrequency()) < 1 && opt === '一样高')) ? 'bg-[hsla(150,60%,45%,0.12)] text-[hsl(150,55%,40%)] border border-green-500/30' : result ? 'bg-[hsla(0,70%,55%,0.12)] text-[hsl(0,65%,50%)] border border-red-500/30' : 'bg-[hsl(var(--bg-deep))] text-[hsl(var(--text-secondary))] hover:bg-[hsl(var(--bg))]'}`}>{opt}</button>
               ))}
             </div>
-            {result && <div className="mt-4"><p className={`text-sm font-medium ${result === 'correct' ? 'text-green-600' : 'text-red-500'}`}>{result === 'correct' ? '正确!' : `错误，${Tone.Frequency(note2).toFrequency() > Tone.Frequency(note1).toFrequency() ? '第二个更高' : Tone.Frequency(note1).toFrequency() > Tone.Frequency(note2).toFrequency() ? '第一个更高' : '两个音一样高'}`}</p><button onClick={generate} className="mt-3 px-6 py-2 glass rounded-xl font-bold hover:opacity-90">下一题</button></div>}
+            {result && <div className="mt-4"><p className={`text-sm font-medium ${result === 'correct' ? 'text-green-600' : 'text-red-500'}`}>{result === 'correct' ? '正确!' : `错误，${Tone.Frequency(note2).toFrequency() > Tone.Frequency(note1).toFrequency() ? '第二个更高' : Tone.Frequency(note1).toFrequency() > Tone.Frequency(note2).toFrequency() ? '第一个更高' : '两个音一样高'}`}</p><button onClick={generate} className="mt-3 px-6 py-2 btn-confirm rounded-xl font-bold">下一题</button></div>}
           </>
         )}
       </div>
@@ -615,7 +615,7 @@ function ScaleExercise() {
     <div className="max-w-xl mx-auto">
       <ScoreBar score={score} total={total} />
       <div className="neu rounded-2xl p-6 text-center" style={{ minHeight: "300px", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
-        {phase === 'idle' && <button onClick={generate} className="px-6 py-3 glass rounded-xl font-bold hover:opacity-90" style={{ color: "var(--accent)" }}>开始练习</button>}
+        {phase === 'idle' && <button onClick={generate} className="px-6 py-3 btn-confirm rounded-xl font-bold">开始练习</button>}
         {phase === 'listen' && (
           <div>
             <p className="text-sm font-medium mb-3" style={{ color: "hsl(var(--text-secondary))" }}>听音阶，模唱{direction === 'up' ? '上行' : '下行'}的最后一个音</p>
@@ -623,8 +623,8 @@ function ScaleExercise() {
               <span className="text-2xl font-bold text-accent">{direction === 'up' ? '↑' : '↓'}</span>
             </div>
             <div className="flex gap-2 justify-center">
-              <button onClick={playScale} className="flex items-center gap-2 px-4 py-2 bg-[hsl(var(--bg-deep))] rounded-lg text-sm text-[hsl(var(--text-secondary))] hover:bg-[hsl(var(--bg))]"><Volume2 className="w-4 h-4" />播放音阶</button>
-              <button onClick={startSinging} className="flex items-center gap-2 px-6 py-2 glass rounded-xl font-bold hover:opacity-90"><Mic className="w-4 h-4" />模唱</button>
+              <button onClick={playScale} className="flex items-center gap-2 px-4 py-2 neu-sm neu-sm-hover rounded-xl text-sm font-medium" style={{ color: "hsl(var(--text-secondary))" }}><Volume2 className="w-4 h-4" />播放音阶</button>
+              <button onClick={startSinging} className="flex items-center gap-2 px-6 py-2 btn-confirm rounded-xl font-bold"><Mic className="w-4 h-4" />模唱</button>
             </div>
           </div>
         )}
@@ -639,7 +639,7 @@ function ScaleExercise() {
             <button onClick={() => { check.cancelSinging(); setPhase('listen'); }} className="mt-3 text-xs text-[hsl(var(--text-tertiary))] hover:text-[hsl(var(--text-secondary))]">取消</button>
           </div>
         )}
-        {phase === 'result' && <div>{check.result === 'correct' ? <CheckCircle className="w-14 h-14 text-green-600 mx-auto mb-2" /> : <XCircle className="w-14 h-14 text-red-500 mx-auto mb-2" />}<p className={`text-lg font-bold ${check.result === 'correct' ? 'text-green-600' : 'text-red-500'}`}>{check.result === 'correct' ? '正确!' : '偏差较大'}</p><p className="text-sm text-[hsl(var(--text-tertiary))] mt-1">目标: {targetNote} ({solf(targetNote)}) {check.detectedNote && `· 检测: ${check.detectedNote}`}</p><button onClick={next} className="mt-4 px-6 py-2 glass rounded-xl font-bold hover:opacity-90">下一题</button></div>}
+        {phase === 'result' && <div>{check.result === 'correct' ? <CheckCircle className="w-14 h-14 text-green-600 mx-auto mb-2" /> : <XCircle className="w-14 h-14 text-red-500 mx-auto mb-2" />}<p className={`text-lg font-bold ${check.result === 'correct' ? 'text-green-600' : 'text-red-500'}`}>{check.result === 'correct' ? '正确!' : '偏差较大'}</p><p className="text-sm text-[hsl(var(--text-tertiary))] mt-1">目标: {targetNote} ({solf(targetNote)}) {check.detectedNote && `· 检测: ${check.detectedNote}`}</p><button onClick={next} className="mt-4 px-6 py-2 btn-confirm rounded-xl font-bold">下一题</button></div>}
       </div>
       {check.pitch.error && <div className="text-xs text-red-500 bg-red-500/10 rounded-lg p-2 mt-3 text-center">{check.pitch.error}</div>}
     </div>
@@ -686,11 +686,11 @@ function ChordExercise() {
               <div className="mt-4">
                 <p className={`text-sm font-medium ${result === 'correct' ? 'text-green-600' : 'text-red-500'}`}>{result === 'correct' ? '正确!' : `这是${item.type}`}</p>
                 {result === 'correct' && (
-                  <button onClick={() => setSingPhase(true)} className="mt-3 px-6 py-2 glass rounded-xl font-bold hover:opacity-90">
+                  <button onClick={() => setSingPhase(true)} className="mt-3 px-6 py-2 btn-confirm rounded-xl font-bold">
                     <Mic className="w-4 h-4 inline mr-1" />唱出根音
                   </button>
                 )}
-                {result === 'wrong' && <button onClick={handleNext} className="mt-3 px-6 py-2 glass rounded-xl font-bold hover:opacity-90">下一题</button>}
+                {result === 'wrong' && <button onClick={handleNext} className="mt-3 px-6 py-2 btn-confirm rounded-xl font-bold">下一题</button>}
               </div>
             )}
           </>
@@ -720,7 +720,7 @@ function ChordExercise() {
             {check.phase === 'result' && check.result === 'correct' && (
               <div className="mt-3">
                 <p className="text-green-600 text-sm font-medium">根音正确!</p>
-                <button onClick={handleNext} className="mt-2 px-6 py-2 glass rounded-xl font-bold hover:opacity-90">下一题</button>
+                <button onClick={handleNext} className="mt-2 px-6 py-2 btn-confirm rounded-xl font-bold">下一题</button>
               </div>
             )}
           </>
@@ -766,8 +766,8 @@ function KeyExercise() {
             {result && (
               <div className="mt-4">
                 <p className={`text-sm font-medium ${result === 'correct' ? 'text-green-600' : 'text-red-500'}`}>{result === 'correct' ? '正确!' : `错误，这是${item.type}`}</p>
-                {result === 'correct' && <button onClick={() => setSingPhase(true)} className="mt-3 px-6 py-2 glass rounded-xl font-bold hover:opacity-90"><Mic className="w-4 h-4 inline mr-1" />唱出主音</button>}
-                {result === 'wrong' && <button onClick={handleNext} className="mt-3 px-6 py-2 glass rounded-xl font-bold hover:opacity-90">下一题</button>}
+                {result === 'correct' && <button onClick={() => setSingPhase(true)} className="mt-3 px-6 py-2 btn-confirm rounded-xl font-bold"><Mic className="w-4 h-4 inline mr-1" />唱出主音</button>}
+                {result === 'wrong' && <button onClick={handleNext} className="mt-3 px-6 py-2 btn-confirm rounded-xl font-bold">下一题</button>}
                 <p className="text-xs text-[hsl(var(--text-tertiary))] mt-2">{item.hint}</p>
               </div>
             )}
@@ -796,7 +796,7 @@ function KeyExercise() {
             {check.phase === 'result' && check.result === 'correct' && (
               <div className="mt-3">
                 <p className="text-green-600 text-sm font-medium">主音正确!</p>
-                <button onClick={handleNext} className="mt-2 px-6 py-2 glass rounded-xl font-bold hover:opacity-90">下一题</button>
+                <button onClick={handleNext} className="mt-2 px-6 py-2 btn-confirm rounded-xl font-bold">下一题</button>
               </div>
             )}
           </>
@@ -822,7 +822,7 @@ function RhythmExercise() {
             return <button key={opt} onClick={() => guess(opt)} className={`w-full flex items-center gap-3 p-3 rounded-lg border transition-colors ${result && opt === item.name ? 'bg-green-500/10 border-green-500/30' : result && opt !== item.name ? 'bg-red-500/10 border-red-500/30' : 'bg-[hsl(var(--bg-deep))] border-transparent hover:bg-[hsl(var(--bg))]'}`}><div className="flex-1 text-left"><span className={`text-sm ${result && opt === item.name ? 'text-green-600' : result && opt !== item.name ? 'text-red-500' : 'text-[hsl(var(--text-secondary))]'}`}>{opt}</span></div><div className="w-32"><RhythmVisual pattern={optPattern} /></div></button>;
           })}
         </div>
-        {result && <div className="mt-4"><p className={`text-sm font-medium ${result === 'correct' ? 'text-green-600' : 'text-red-500'}`}>{result === 'correct' ? '正确!' : `这是${item.name}`}</p><button onClick={next} className="mt-3 px-6 py-2 glass rounded-xl font-bold hover:opacity-90">下一题</button></div>}
+        {result && <div className="mt-4"><p className={`text-sm font-medium ${result === 'correct' ? 'text-green-600' : 'text-red-500'}`}>{result === 'correct' ? '正确!' : `这是${item.name}`}</p><button onClick={next} className="mt-3 px-6 py-2 btn-confirm rounded-xl font-bold">下一题</button></div>}
       </div>
     </div>
   );
@@ -872,7 +872,7 @@ function RhythmImitate() {
     <div className="max-w-xl mx-auto">
       <ScoreBar score={score} total={total} />
       <div className="neu rounded-2xl p-6 text-center" style={{ minHeight: "300px", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
-        {phase === 'idle' && <button onClick={generate} className="px-6 py-3 glass rounded-xl font-bold hover:opacity-90" style={{ color: "var(--accent)" }}>开始练习</button>}
+        {phase === 'idle' && <button onClick={generate} className="px-6 py-3 btn-confirm rounded-xl font-bold">开始练习</button>}
         {phase === 'listen' && (
           <div>
             <p className="text-sm text-[hsl(var(--text-tertiary))] mb-4">听节奏，然后用"哒"模仿出来</p>
@@ -899,7 +899,7 @@ function RhythmImitate() {
             {result === 'correct' ? <CheckCircle className="w-14 h-14 text-green-600 mx-auto mb-2" /> : <XCircle className="w-14 h-14 text-red-500 mx-auto mb-2" />}
             <p className={`text-lg font-bold ${result === 'correct' ? 'text-green-600' : 'text-red-500'}`}>{result === 'correct' ? '节奏准确!' : '节奏有偏差'}</p>
             <p className="text-sm text-[hsl(var(--text-tertiary))]">目标: {ex.name} · 你的点击: {taps.length}次</p>
-            <button onClick={next} className="mt-4 px-6 py-2 glass rounded-xl font-bold hover:opacity-90">下一题</button>
+            <button onClick={next} className="mt-4 px-6 py-2 btn-confirm rounded-xl font-bold">下一题</button>
           </div>
         )}
       </div>
@@ -935,7 +935,7 @@ function TempoExercise() {
       <ScoreBar score={score} total={total} />
       <div className="neu rounded-2xl p-6 text-center" style={{ minHeight: "300px", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
         {!actualBpm ? (
-          <button onClick={generate} className="px-6 py-3 glass rounded-xl font-bold hover:opacity-90" style={{ color: "var(--accent)" }}>开始练习</button>
+          <button onClick={generate} className="px-6 py-3 btn-confirm rounded-xl font-bold">开始练习</button>
         ) : (
           <>
             <p className="text-sm text-[hsl(var(--text-tertiary))] mb-4">听节拍器，判断BPM（每分钟拍数）</p>
@@ -946,7 +946,7 @@ function TempoExercise() {
               ))}
             </div>
             <p className="text-xs text-[hsl(var(--text-secondary))] mt-2">单位: 拍/分钟(BPM)</p>
-            {result && <div className="mt-4"><p className={`text-sm font-medium ${result === 'correct' ? 'text-green-600' : 'text-red-500'}`}>{result === 'correct' ? '正确!' : `实际是${actualBpm}BPM`}</p><button onClick={() => { setResult(null); setActualBpm(0); }} className="mt-3 px-6 py-2 glass rounded-xl font-bold hover:opacity-90">下一题</button></div>}
+            {result && <div className="mt-4"><p className={`text-sm font-medium ${result === 'correct' ? 'text-green-600' : 'text-red-500'}`}>{result === 'correct' ? '正确!' : `实际是${actualBpm}BPM`}</p><button onClick={() => { setResult(null); setActualBpm(0); }} className="mt-3 px-6 py-2 btn-confirm rounded-xl font-bold">下一题</button></div>}
           </>
         )}
       </div>
@@ -1001,7 +1001,7 @@ function SightSingExercise() {
     <div className="max-w-xl mx-auto">
       <ScoreBar score={score} total={total} />
       <div className="neu rounded-2xl p-6 text-center" style={{ minHeight: "300px", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
-        {phase === 'idle' && <button onClick={generate} className="px-6 py-3 glass rounded-xl font-bold hover:opacity-90" style={{ color: "var(--accent)" }}>开始练习</button>}
+        {phase === 'idle' && <button onClick={generate} className="px-6 py-3 btn-confirm rounded-xl font-bold">开始练习</button>}
         {phase === 'show' && (
           <div>
             <p className="text-sm font-medium mb-3" style={{ color: "hsl(var(--text-secondary))" }}>看简谱，唱出第一个音（先听标准音）</p>
@@ -1017,8 +1017,8 @@ function SightSingExercise() {
               <p className="text-xs text-[hsl(var(--text-tertiary))]">{ex.name} · C大调</p>
             </div>
             <div className="flex gap-2 justify-center">
-              <button onClick={play} className="flex items-center gap-2 px-4 py-2 bg-[hsl(var(--bg-deep))] rounded-lg text-sm text-[hsl(var(--text-secondary))] hover:bg-[hsl(var(--bg))]"><Volume2 className="w-4 h-4" />播放参考</button>
-              <button onClick={startSinging} className="flex items-center gap-2 px-6 py-2 glass rounded-xl font-bold hover:opacity-90"><Mic className="w-4 h-4" />开始视唱</button>
+              <button onClick={play} className="flex items-center gap-2 px-4 py-2 neu-sm neu-sm-hover rounded-xl text-sm font-medium" style={{ color: "hsl(var(--text-secondary))" }}><Volume2 className="w-4 h-4" />播放参考</button>
+              <button onClick={startSinging} className="flex items-center gap-2 px-6 py-2 btn-confirm rounded-xl font-bold"><Mic className="w-4 h-4" />开始视唱</button>
             </div>
           </div>
         )}
@@ -1043,7 +1043,7 @@ function SightSingExercise() {
             <button onClick={() => { check.cancelSinging(); setPhase('show'); }} className="mt-3 text-xs text-[hsl(var(--text-tertiary))] hover:text-[hsl(var(--text-secondary))]">取消</button>
           </div>
         )}
-        {phase === 'result' && <div>{result === 'correct' ? <CheckCircle className="w-14 h-14 text-green-600 mx-auto mb-2" /> : <XCircle className="w-14 h-14 text-red-500 mx-auto mb-2" />}<p className={`text-lg font-bold ${result === 'correct' ? 'text-green-600' : 'text-yellow-600'}`}>{result === 'correct' ? '很好!' : '继续努力'}</p><p className="text-sm text-[hsl(var(--text-tertiary))] mt-1">简谱: {ex.jianpu.join('-')}</p><button onClick={next} className="mt-4 px-6 py-2 glass rounded-xl font-bold hover:opacity-90">下一题</button></div>}
+        {phase === 'result' && <div>{result === 'correct' ? <CheckCircle className="w-14 h-14 text-green-600 mx-auto mb-2" /> : <XCircle className="w-14 h-14 text-red-500 mx-auto mb-2" />}<p className={`text-lg font-bold ${result === 'correct' ? 'text-green-600' : 'text-yellow-600'}`}>{result === 'correct' ? '很好!' : '继续努力'}</p><p className="text-sm text-[hsl(var(--text-tertiary))] mt-1">简谱: {ex.jianpu.join('-')}</p><button onClick={next} className="mt-4 px-6 py-2 btn-confirm rounded-xl font-bold">下一题</button></div>}
       </div>
       {check.pitch.error && <div className="text-xs text-red-500 bg-red-500/10 rounded-lg p-2 mt-3 text-center">{check.pitch.error}</div>}
     </div>
@@ -1070,7 +1070,7 @@ function TimeSignatureExercise() {
             <button key={opt} onClick={() => guess(opt)} className={`py-3 rounded-lg text-sm font-medium transition-colors ${result && opt === item.type ? 'bg-[hsla(150,60%,45%,0.12)] text-[hsl(150,55%,40%)] border border-green-500/30' : result && opt !== item.type ? 'bg-[hsla(0,70%,55%,0.12)] text-[hsl(0,65%,50%)] border border-red-500/30' : 'bg-[hsl(var(--bg-deep))] text-[hsl(var(--text-secondary))] border-transparent hover:bg-[hsl(var(--bg))]'}`}>{opt}</button>
           ))}
         </div>
-        {result && <div className="mt-4"><p className={`text-sm font-medium ${result === 'correct' ? 'text-green-600' : 'text-red-500'}`}>{result === 'correct' ? '正确!' : `这是${item.type}`}</p><button onClick={next} className="mt-3 px-6 py-2 glass rounded-xl font-bold hover:opacity-90">下一题</button></div>}
+        {result && <div className="mt-4"><p className={`text-sm font-medium ${result === 'correct' ? 'text-green-600' : 'text-red-500'}`}>{result === 'correct' ? '正确!' : `这是${item.type}`}</p><button onClick={next} className="mt-3 px-6 py-2 btn-confirm rounded-xl font-bold">下一题</button></div>}
       </div>
     </div>
   );
