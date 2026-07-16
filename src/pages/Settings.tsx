@@ -111,7 +111,7 @@ export default function Settings() {
 
   const ROLE_LABELS: Record<string, string> = { admin: '团干', captain: '声部长', member: '部员' };
   const PART_LABELS: Record<string, string> = { soprano: '女高音', alto: '女中音', tenor: '男高音', bass: '男低音' };
-  const PART_COLORS: Record<string, string> = { soprano: '#f472b6', alto: '#22d3ee', tenor: '#fbbf24', bass: '#d4a574' };
+  const PART_COLORS: Record<string, string> = { soprano: '#FBCEE0', alto: '#CFF6F6', tenor: '#FBEBB8', bass: '#F1D9D0' };
 
   return (
     <div className="page relative z-10" style={{ maxWidth: '100%' }}>

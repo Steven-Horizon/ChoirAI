@@ -11,24 +11,39 @@ import { getCoachSuggestions, getTodayPlan, getVoicePartName } from '@/lib/ai-co
 
 // ========== VOICE PART COLORS ==========
 const PART_COLORS: Record<string, { fill: string; bg: string; label: string }> = {
-  soprano: { fill: '#ec4899', bg: 'rgba(236,72,153,0.12)', label: '女高音' },
-  alto:    { fill: '#0ea5e9', bg: 'rgba(14,165,233,0.12)', label: '女中音' },
-  tenor:   { fill: '#f59e0b', bg: 'rgba(245,158,11,0.12)', label: '男高音' },
-  bass:    { fill: '#8b5cf6', bg: 'rgba(139,92,246,0.12)', label: '男低音' },
+  soprano: { fill: '#FBCEE0', bg: 'rgba(251,206,224,0.2)', label: '女高音' },
+  alto:    { fill: '#CFF6F6', bg: 'rgba(207,246,246,0.2)', label: '女中音' },
+  tenor:   { fill: '#FBEBB8', bg: 'rgba(251,235,184,0.2)', label: '男高音' },
+  bass:    { fill: '#F1D9D0', bg: 'rgba(241,217,208,0.2)', label: '男低音' },
 };
+
+interface EnsembleInfo { day: number; time: string; location: string; repertoire: string; enabled: boolean; }
+
+function getEnsembleData(): EnsembleInfo[] {
+  const saved = localStorage.getItem('choirai_ensemble');
+  if (saved) return JSON.parse(saved);
+  return [
+    { day: 5, time: '14:00-17:00', location: '排练厅A', repertoire: '越人歌、送别', enabled: true },
+    { day: 6, time: '', location: '', repertoire: '', enabled: false },
+  ];
+}
+
+function saveEnsembleData(data: EnsembleInfo[]) {
+  localStorage.setItem('choirai_ensemble', JSON.stringify(data));
+}
 
 // ========== GET REAL WEEK DATA (7 days with dates) ==========
 function getWeekData() {
   const now = new Date();
-  const today = now.getDay(); // 0=Sun, 1=Mon, ..., 6=Sat
-  const mondayBased = today === 0 ? 6 : today - 1; // Mon=0, Tue=1, ..., Sat=5, Sun=6
+  const today = now.getDay();
+  const mondayBased = today === 0 ? 6 : today - 1;
   const dayNames = ['周一', '周二', '周三', '周四', '周五', '周六', '周日'];
 
-  // Get Monday of this week
   const monday = new Date(now);
   monday.setDate(now.getDate() - mondayBased);
 
-  // Generate all 7 days with dates
+  const ensembleDays = new Set(getEnsembleData().filter(e => e.enabled).map(e => e.day));
+
   const allDays = [];
   for (let i = 0; i < 7; i++) {
     const d = new Date(monday);
@@ -36,7 +51,8 @@ function getWeekData() {
     const dateStr = `${d.getMonth() + 1}/${d.getDate()}`;
     const isPastOrToday = i <= mondayBased;
     const isToday = i === mondayBased;
-    const isReport = i === 5; // Saturday = report day
+    const isReport = i === 5;
+    const isEnsemble = ensembleDays.has(i);
 
     allDays.push({
       day: dayNames[i],
@@ -44,10 +60,11 @@ function getWeekData() {
       isToday,
       isReport,
       isFuture: !isPastOrToday,
-      soprano: isPastOrToday ? [85, 72, 90, 78, 88, 0, 0][i] : 0,
-      alto: isPastOrToday ? [78, 88, 82, 91, 75, 0, 0][i] : 0,
-      tenor: isPastOrToday ? [92, 75, 85, 80, 94, 0, 0][i] : 0,
-      bass: isPastOrToday ? [80, 91, 76, 86, 82, 0, 0][i] : 0,
+      isEnsemble,
+      soprano: isPastOrToday && !isEnsemble ? [85, 72, 90, 78, 88, 0, 0][i] : 0,
+      alto: isPastOrToday && !isEnsemble ? [78, 88, 82, 91, 75, 0, 0][i] : 0,
+      tenor: isPastOrToday && !isEnsemble ? [92, 75, 85, 80, 94, 0, 0][i] : 0,
+      bass: isPastOrToday && !isEnsemble ? [80, 91, 76, 86, 82, 0, 0][i] : 0,
     });
   }
   return allDays;
@@ -98,7 +115,7 @@ function AuthScreen({ onLogin, onRegister }: { onLogin: (n: string, p: string) =
         {mode === 'register' && (<>
           {/* SATB - neu凸起底，未选中变灰，选中彩色 */}
           <div className="grid grid-cols-4 gap-2">
-            {[{ k: 'soprano', l: 'S', c: 'hsla(330,80%,70%,0.25)', t: '#db2777' }, { k: 'alto', l: 'A', c: 'hsla(200,80%,65%,0.25)', t: '#0ea5e9' }, { k: 'tenor', l: 'T', c: 'hsla(45,90%,65%,0.25)', t: '#ca8a04' }, { k: 'bass', l: 'B', c: 'hsla(260,60%,70%,0.25)', t: '#8b5cf6' }].map(p => (
+            {[{ k: 'soprano', l: 'S', c: 'hsla(330,65%,82%,0.35)', t: '#c2187a' }, { k: 'alto', l: 'A', c: 'hsla(180,60%,82%,0.35)', t: '#0891b2' }, { k: 'tenor', l: 'T', c: 'hsla(45,70%,78%,0.35)', t: '#a16207' }, { k: 'bass', l: 'B', c: 'hsla(15,45%,80%,0.35)', t: '#92400e' }].map(p => (
               <button key={p.k} type="button" onClick={() => setPart(p.k)}
                 className={`py-2.5 rounded-xl text-sm font-bold transition-all ${part === p.k ? '' : 'neu-hover'}`}
                 style={part === p.k ? { background: p.c, color: p.t, boxShadow: 'inset 2px 2px 5px var(--nd), inset -2px -2px 5px var(--nl)' } : { color: 'hsl(var(--text-tertiary))', background: 'transparent' }}>
@@ -131,9 +148,16 @@ function AuthScreen({ onLogin, onRegister }: { onLogin: (n: string, p: string) =
 }
 
 // ========== WEEKLY PROGRESS CHART (Large, slot-style) ==========
-function WeeklyChart({ onExpand }: { onExpand: () => void }) {
+function WeeklyChart({ onExpand, isAdmin }: { onExpand: () => void; isAdmin?: boolean }) {
   const data = useMemo(() => getWeekData(), []);
   const parts = ['soprano', 'alto', 'tenor', 'bass'] as const;
+  const [ensemble, setEnsemble] = useState(getEnsembleData());
+
+  const updateEnsemble = (idx: number, field: keyof EnsembleInfo, value: string | boolean) => {
+    const next = ensemble.map((e, i) => i === idx ? { ...e, [field]: value } : e);
+    setEnsemble(next);
+    saveEnsembleData(next);
+  };
 
   return (
     <div className="neu-hover glass p-5 h-full" onClick={onExpand}>
@@ -145,8 +169,8 @@ function WeeklyChart({ onExpand }: { onExpand: () => void }) {
       <div className="flex items-center gap-2 md:gap-4 mb-3 md:mb-5">
         {Object.entries(PART_COLORS).map(([key, c]) => (
           <div key={key} className="flex items-center gap-1">
-            <span className="w-2 h-2 md:w-2.5 md:h-2.5 rounded-sm" style={{ background: c.fill }} />
-            <span className="text-[9px] md:text-[11px] font-semibold" style={{ color: 'hsl(var(--text-secondary))' }}>{c.label}</span>
+            <span className="w-2 h-2 md:w-2.5 md:h-2.5 rounded-sm" style={{ background: c.fill, border: '1px solid rgba(0,0,0,0.08)' }} />
+            <span className="text-[9px] md:text-[11px] font-semibold" style={{ color: 'hsl(var(--text))' }}>{c.label}</span>
           </div>
         ))}
       </div>
@@ -159,7 +183,7 @@ function WeeklyChart({ onExpand }: { onExpand: () => void }) {
           ))}
         </div>
         {/* Bars */}
-        <div className="flex-1 flex items-end gap-1 md:gap-2">
+        <div className="flex-1 flex items-end gap-0.5 md:gap-2">
           {data.map((d, di) => (
             <div key={di} className="flex-1 flex flex-col items-center gap-1">
               {/* 合拍标注 - 主题色圆角矩形 */}
@@ -167,32 +191,80 @@ function WeeklyChart({ onExpand }: { onExpand: () => void }) {
                 <span className="text-[7px] md:text-[8px] font-bold px-1.5 py-0.5 rounded-md mb-1" style={{ background: 'var(--accent-soft)', color: 'var(--accent)' }}>当日排练</span>
               )}
               {/* Date label - 当日用主题深色 */}
-              <span className={`text-[8px] md:text-[10px] font-bold ${d.isToday ? '' : 'text-[hsl(var(--text-tertiary))]'}`} style={d.isToday ? { color: 'hsl(var(--accent-h), calc(var(--accent-s) * 0.7), calc(var(--accent-l) * 0.55))' } : {}}>{d.date}</span>
-              {/* Bars */}
-              <div className="flex items-end gap-[1px] md:gap-[2px] w-full justify-center" style={{ height: '170px' }}>
-              {parts.map(p => {
-                const val = (d as any)[p];
-                const isFuture = d.isFuture;
-                return (
-                  <div key={p} className="w-2.5 md:w-4 flex flex-col justify-end rounded-md md:rounded-lg overflow-hidden"
-                    style={{
-                      height: '100%',
-                      background: isFuture ? 'hsla(240,7%,90%,0.3)' : 'hsl(240 7% 90%)',
-                      boxShadow: isFuture ? 'inset 1px 1px 2px rgba(0,0,0,0.03)' : 'inset 2px 2px 4px var(--nd), inset -2px -2px 4px var(--nl)',
-                    }}>
-                    {!isFuture && (
-                      <div className="w-full transition-all duration-500" style={{ height: `${val}%`, background: PART_COLORS[p].fill, borderRadius: '3px 3px 0 0', boxShadow: '0 -1px 2px rgba(255,255,255,0.3)' }} />
-                    )}
-                  </div>
-                );
-              })}
-            </div>
+              <span className={`text-[8px] md:text-[10px] font-bold ${d.isToday ? '' : 'text-[hsl(var(--text-tertiary))]'}`} style={d.isToday ? { color: 'hsl(var(--accent-h), var(--accent-s), calc(var(--accent-l) * 0.4))' } : {}}>{d.date}</span>
+
+              {/* ENSEMBLE CARD for Sat/Sun */}
+              {d.isEnsemble ? (
+                <EnsembleCard day={di} ensemble={ensemble} isAdmin={isAdmin} onUpdate={updateEnsemble} />
+              ) : (
+                /* Regular bars */
+                <div className="flex items-end gap-[1px] md:gap-[2px] w-full justify-center" style={{ height: '170px' }}>
+                {parts.map(p => {
+                  const val = (d as any)[p];
+                  const isFuture = d.isFuture;
+                  return (
+                    <div key={p} className="w-1.5 md:w-4 flex flex-col justify-end rounded-sm md:rounded-lg overflow-hidden"
+                      style={{
+                        height: '100%',
+                        background: isFuture ? 'hsla(240,7%,90%,0.3)' : 'hsl(240 7% 90%)',
+                        boxShadow: isFuture ? 'inset 1px 1px 2px rgba(0,0,0,0.03)' : 'inset 2px 2px 4px var(--nd), inset -2px -2px 4px var(--nl)',
+                      }}>
+                      {!isFuture && (
+                        <div className="w-full transition-all duration-500" style={{ height: `${val}%`, background: PART_COLORS[p].fill, borderRadius: '3px 3px 0 0', boxShadow: '0 -1px 2px rgba(255,255,255,0.3)' }} />
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+              )}
+
               {/* Day label */}
               <span className={`text-[8px] md:text-[10px] font-semibold ${d.isToday ? 'text-accent' : 'text-[hsl(var(--text-secondary))]'}`}>{d.day}</span>
-              {d.isReport && <span className="text-[6px] md:text-[7px] font-bold px-1 rounded text-accent bg-[var(--accent-soft)]">汇报</span>}
+              {d.isReport && !d.isEnsemble && <span className="text-[6px] md:text-[7px] font-bold px-1 rounded text-accent bg-[var(--accent-soft)]">汇报</span>}
             </div>
           ))}
         </div>
+      </div>
+    </div>
+  );
+}
+
+// ========== ENSEMBLE CARD (Sat/Sun) ==========
+function EnsembleCard({ day, ensemble, isAdmin, onUpdate }: { day: number; ensemble: EnsembleInfo[]; isAdmin?: boolean; onUpdate: (idx: number, field: keyof EnsembleInfo, value: string | boolean) => void }) {
+  const info = ensemble.find(e => e.day === day);
+  if (!info || !info.enabled) {
+    return (
+      <div className="flex items-end gap-[1px] md:gap-[2px] w-full justify-center" style={{ height: '170px' }}>
+        {['soprano', 'alto', 'tenor', 'bass'].map(p => (
+          <div key={p} className="w-1.5 md:w-4 flex flex-col justify-end rounded-sm md:rounded-lg overflow-hidden"
+            style={{ height: '100%', background: 'hsla(240,7%,90%,0.3)', boxShadow: 'inset 1px 1px 2px rgba(0,0,0,0.03)' }} />
+        ))}
+      </div>
+    );
+  }
+
+  const idx = ensemble.findIndex(e => e.day === day);
+
+  return (
+    <div className="w-full flex flex-col items-center" style={{ height: '170px' }}>
+      <div className="neu p-2 w-full h-full flex flex-col items-center justify-center text-center" style={{ borderRadius: '12px' }}>
+        <span className="text-[8px] md:text-[9px] font-bold mb-1" style={{ color: 'var(--accent)' }}>合排</span>
+        {isAdmin ? (
+          <>
+            <input value={info.time} onChange={e => onUpdate(idx, 'time', e.target.value)}
+              className="w-full text-center text-[7px] md:text-[9px] font-bold bg-transparent focus:outline-none mb-0.5" style={{ color: 'hsl(var(--text))' }} placeholder="时间" />
+            <input value={info.location} onChange={e => onUpdate(idx, 'location', e.target.value)}
+              className="w-full text-center text-[7px] md:text-[9px] bg-transparent focus:outline-none mb-0.5" style={{ color: 'hsl(var(--text-secondary))' }} placeholder="地点" />
+            <input value={info.repertoire} onChange={e => onUpdate(idx, 'repertoire', e.target.value)}
+              className="w-full text-center text-[7px] md:text-[9px] bg-transparent focus:outline-none" style={{ color: 'hsl(var(--text-secondary))' }} placeholder="曲目" />
+          </>
+        ) : (
+          <>
+            <span className="text-[7px] md:text-[9px] font-bold" style={{ color: 'hsl(var(--text))' }}>{info.time || '待定'}</span>
+            <span className="text-[7px] md:text-[9px]" style={{ color: 'hsl(var(--text-secondary))' }}>{info.location || '待定'}</span>
+            <span className="text-[7px] md:text-[9px]" style={{ color: 'hsl(var(--text-secondary))' }}>{info.repertoire || '待定'}</span>
+          </>
+        )}
       </div>
     </div>
   );
@@ -544,7 +616,7 @@ function AdminDashboard({ userName, voicePart, isAdmin }: { userName: string; vo
       {/* Main: Todos on top on mobile, Chart left on desktop */}
       <div className="flex flex-col lg:grid lg:grid-cols-4 gap-4 mb-5">
         <div className="lg:col-span-1 order-first lg:order-last" style={{ minHeight: '300px' }}><TodoPanel /></div>
-        <div className="lg:col-span-3 order-last lg:order-first"><WeeklyChart onExpand={() => setExpanded(true)} /></div>
+        <div className="lg:col-span-3 order-last lg:order-first"><WeeklyChart onExpand={() => setExpanded(true)} isAdmin={isAdmin} /></div>
       </div>
 
       {/* AI Suggestions + Warmup side by side */}

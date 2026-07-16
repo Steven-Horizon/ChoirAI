@@ -2,63 +2,70 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import {
   ArrowLeft, CheckCircle, Sun, Moon,
-  Clock, RefreshCw, Wind, ChevronDown, ChevronUp, Shield, Eye, Music
+  RefreshCw, Wind, ChevronDown, ChevronUp, Shield, Eye, Music
 } from 'lucide-react';
 import {
   WARMUP_EXERCISES, WARMUP_SONGS, VOICE_PART_TIPS,
   getTodayWarmupExercises,
 } from '@/lib/warmup-exercises';
-import { recordPractice } from '@/lib/ai-coach';
+// recordPractice removed - timer deleted
 import { useAuth } from '@/contexts/AuthContext';
 
 const PART_TABS = [
-  { key: 'soprano', label: 'S', color: '#f472b6' },
-  { key: 'alto', label: 'A', color: '#22d3ee' },
-  { key: 'tenor', label: 'T', color: '#fbbf24' },
-  { key: 'bass', label: 'B', color: '#d4a574' },
+  { key: 'soprano', label: 'S', color: '#FBCEE0' },
+  { key: 'alto', label: 'A', color: '#CFF6F6' },
+  { key: 'tenor', label: 'T', color: '#FBEBB8' },
+  { key: 'bass', label: 'B', color: '#F1D9D0' },
 ];
 
 export default function WarmUpRoom() {
   const { isLoggedIn, isAdmin, isCaptain } = useAuth();
   const canCheck = isAdmin || isCaptain;
   const [voicePart, setVoicePart] = useState('soprano');
-  const [completed, setCompleted] = useState<Set<string>>(new Set());
   const [tod, setTod] = useState<'morning'|'evening'>(() => { const h = new Date().getHours(); return h >= 6 && h < 18 ? 'morning' : 'evening'; });
   const [showAll, setShowAll] = useState(false);
-  const [elapsed, setElapsed] = useState(0);
-  const [timerOn, setTimerOn] = useState(false);
   const [expandedEx, setExpandedEx] = useState<string | null>(null);
+  const [morningCompleted, setMorningCompleted] = useState<Set<string>>(new Set());
+  const [eveningCompleted, setEveningCompleted] = useState<Set<string>>(new Set());
 
   const todayEx = getTodayWarmupExercises(5);
   const list = tod === 'morning' ? todayEx.morning : todayEx.evening;
   const tips = VOICE_PART_TIPS[voicePart] || VOICE_PART_TIPS.soprano;
-  const pct = list.length ? Math.round(completed.size / list.length * 100) : 0;
-  const allDone = list.length > 0 && list.every(e => completed.has(e.id));
-  const fmt = (s: number) => `${String(Math.floor(s/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`;
+  const morningPct = todayEx.morning.length ? Math.round(morningCompleted.size / todayEx.morning.length * 100) : 0;
+  const eveningPct = todayEx.evening.length ? Math.round(eveningCompleted.size / todayEx.evening.length * 100) : 0;
+  const currentCompleted = tod === 'morning' ? morningCompleted : eveningCompleted;
+  const allDone = list.length > 0 && list.every(e => currentCompleted.has(e.id));
   const cats = [...new Set(WARMUP_EXERCISES.map(e => e.category))];
 
   useEffect(() => {
     const saved = localStorage.getItem('choirai_voice_part');
     if (saved) setVoicePart(saved);
     const d = new Date().toISOString().split('T')[0];
-    const c = localStorage.getItem(`choirai_warmup_${d}`);
-    if (c) setCompleted(new Set(JSON.parse(c)));
+    const mc = localStorage.getItem(`choirai_warmup_m_${d}`);
+    const ec = localStorage.getItem(`choirai_warmup_e_${d}`);
+    if (mc) setMorningCompleted(new Set(JSON.parse(mc)));
+    if (ec) setEveningCompleted(new Set(JSON.parse(ec)));
   }, []);
 
-  useEffect(() => {
-    let i: ReturnType<typeof setInterval>;
-    if (timerOn) i = setInterval(() => setElapsed(p => p + 1), 1000);
-    return () => clearInterval(i);
-  }, [timerOn]);
+
 
   const toggle = (id: string) => {
     if (!canCheck) return;
-    setCompleted(prev => {
-      const n = new Set(prev);
-      n.has(id) ? n.delete(id) : n.add(id);
-      localStorage.setItem(`choirai_warmup_${new Date().toISOString().split('T')[0]}`, JSON.stringify([...n]));
-      return n;
-    });
+    if (tod === 'morning') {
+      setMorningCompleted(prev => {
+        const n = new Set(prev);
+        n.has(id) ? n.delete(id) : n.add(id);
+        localStorage.setItem(`choirai_warmup_m_${new Date().toISOString().split('T')[0]}`, JSON.stringify([...n]));
+        return n;
+      });
+    } else {
+      setEveningCompleted(prev => {
+        const n = new Set(prev);
+        n.has(id) ? n.delete(id) : n.add(id);
+        localStorage.setItem(`choirai_warmup_e_${new Date().toISOString().split('T')[0]}`, JSON.stringify([...n]));
+        return n;
+      });
+    }
   };
 
   const partName = voicePart === 'soprano' ? '女高音' : voicePart === 'alto' ? '女中音' : voicePart === 'tenor' ? '男高音' : '男低音';
@@ -73,14 +80,7 @@ export default function WarmUpRoom() {
           </Link>
           <h1 className="text-xl font-bold" style={{ color: 'hsl(var(--text))' }}>开声练习</h1>
         </div>
-        <div className="flex items-center gap-2">
-          <Clock className="w-4 h-4" style={{ color: 'hsl(var(--text-tertiary))' }} />
-          <span className="text-sm font-mono font-bold" style={{ color: 'hsl(var(--text-tertiary))' }}>{fmt(elapsed)}</span>
-          <button onClick={() => { if (timerOn) { setTimerOn(false); recordPractice(Math.ceil(elapsed/60)); } else setTimerOn(true); }}
-            className={`neu text-xs font-bold px-3 py-1.5 rounded-lg ${timerOn ? 'text-red-500' : 'text-accent'}`}>
-            {timerOn ? '结束' : '计时'}
-          </button>
-        </div>
+
       </div>
 
       {/* Part selector -凸起 pills */}
@@ -113,12 +113,24 @@ export default function WarmUpRoom() {
         <RefreshCw className="w-3 h-3" />{todayEx.date} · 每日随机5条 · 勾选计入今日进度
       </div>
 
-      {/* Progress bar */}
-      <div className="neu-inset p-1 mb-1" style={{ borderRadius: '10px' }}>
-        <div className="h-2 transition-all" style={{ width: `${pct}%`, background: 'linear-gradient(90deg, var(--accent), hsla(var(--accent-h), var(--accent-s), calc(var(--accent-l) + 12%), 1))', borderRadius: '8px' }} />
-      </div>
-      <div className="flex justify-between text-xs font-bold mb-4" style={{ color: 'hsl(var(--text-tertiary))' }}>
-        <span>{completed.size}/{list.length} 已完成</span><span>{pct}%</span>
+      {/* Progress bars - morning/evening separate */}
+      <div className="space-y-2 mb-4">
+        <div>
+          <div className="flex justify-between text-xs font-bold mb-1" style={{ color: 'hsl(var(--text-tertiary))' }}>
+            <span className="flex items-center gap-1"><Sun className="w-3 h-3" style={{ color: '#f59e0b' }} />白天 {morningCompleted.size}/{todayEx.morning.length}</span><span>{morningPct}%</span>
+          </div>
+          <div className="neu-inset p-1" style={{ borderRadius: '10px' }}>
+            <div className="h-2 transition-all" style={{ width: `${Math.min(morningPct, 100)}%`, background: 'linear-gradient(90deg, #f59e0b, #fcd34d)', borderRadius: '8px' }} />
+          </div>
+        </div>
+        <div>
+          <div className="flex justify-between text-xs font-bold mb-1" style={{ color: 'hsl(var(--text-tertiary))' }}>
+            <span className="flex items-center gap-1"><Moon className="w-3 h-3" style={{ color: '#4f46e5' }} />晚上 {eveningCompleted.size}/{todayEx.evening.length}</span><span>{eveningPct}%</span>
+          </div>
+          <div className="neu-inset p-1" style={{ borderRadius: '10px' }}>
+            <div className="h-2 transition-all" style={{ width: `${Math.min(eveningPct, 100)}%`, background: 'linear-gradient(90deg, #4f46e5, #818cf8)', borderRadius: '8px' }} />
+          </div>
+        </div>
       </div>
 
       {/* Voice part tip - 凸起卡片 */}
@@ -152,7 +164,7 @@ export default function WarmUpRoom() {
 
       <div className="space-y-3 mb-6">
         {list.map((ex, i) => {
-          const done = completed.has(ex.id);
+          const done = currentCompleted.has(ex.id);
           const isExpanded = expandedEx === ex.id;
           return (
             <div key={ex.id} className="neu p-4" style={{ borderRadius: '16px' }}>
@@ -222,7 +234,7 @@ export default function WarmUpRoom() {
               <div className="text-xs font-bold mb-3" style={{ color: 'hsl(var(--text-tertiary))' }}>{cat}</div>
               <div className="space-y-2">
                 {WARMUP_EXERCISES.filter(e => e.category === cat).map(ex => {
-                  const done = completed.has(ex.id);
+                  const done = currentCompleted.has(ex.id);
                   return (
                     <button key={ex.id} onClick={() => toggle(ex.id)}
                       className={`w-full flex items-center gap-3 p-2.5 rounded-xl text-left neu-sm ${canCheck ? 'neu-sm-hover' : ''} ${done ? 'opacity-60' : ''}`}>
