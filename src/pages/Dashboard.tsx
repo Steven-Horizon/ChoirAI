@@ -141,7 +141,7 @@ function AuthScreen({ onLogin, onRegister }: { onLogin: (n: string, p: string) =
         {/* Toggle button - SMALL shadow neu */}
         <p className="text-center text-xs mt-2.5 font-medium" style={{ color: 'hsl(var(--text-tertiary))' }}>
           <span style={{ color: 'hsl(var(--text-secondary))' }}>{mode === 'login' ? '还没有账号？' : '已有账号？'}</span>
-          <button type="button" onClick={() => { setMode(mode === 'login' ? 'register' : 'login'); setError(''); }} className="ml-1.5 font-bold text-xs px-3 py-1.5 rounded-full transition-all duration-200 neu-sm hover:neu-inset active:scale-90" style={{ color: 'var(--accent)' }}>{mode === 'login' ? '注册' : '登录'}</button>
+          <button type="button" onClick={() => { setMode(mode === 'login' ? 'register' : 'login'); setError(''); }} className="ml-1.5 font-bold text-xs px-3 py-1.5 rounded-full transition-all duration-200 hover:neu-inset active:scale-90" style={{ color: 'var(--accent)', background: 'linear-gradient(145deg, hsla(240 7% 98% / 0.72), hsla(240 7% 94% / 0.65))', boxShadow: '1px 1px 3px var(--nd), -1px -1px 3px var(--nl)' }}>{mode === 'login' ? '注册' : '登录'}</button>
         </p>
       </form>
     </div>
@@ -416,6 +416,7 @@ function ExpandedProgress({ onClose, isAdmin }: { onClose: () => void; isAdmin?:
     saveEnsembleData(next);
   };
 
+  const activeEnsemble = ensemble.find(e => e.enabled);
   const satEnsemble = ensemble.find(e => e.day === 5);
 
   return (
@@ -443,24 +444,14 @@ function ExpandedProgress({ onClose, isAdmin }: { onClose: () => void; isAdmin?:
                   {/* Date - today uses dark theme color */}
                   <span className={`text-[10px] md:text-[11px] font-bold ${d.isToday ? '' : 'text-[hsl(var(--text-tertiary))]'}`} style={d.isToday ? { color: 'hsl(var(--accent-h), var(--accent-s), calc(var(--accent-l) * 0.25))' } : {}}>{d.date}</span>
 
-                  {/* SATURDAY = Ensemble Card */}
-                  {di === 5 && satEnsemble?.enabled ? (
+                  {/* SATURDAY or SUNDAY = Ensemble display (READ ONLY) */}
+                  {activeEnsemble && di === activeEnsemble.day ? (
                     <div className="w-full flex flex-col items-center" style={{ height: '310px' }}>
                       <div className="neu p-3 w-full h-full flex flex-col items-center justify-center text-center gap-2" style={{ borderRadius: '14px' }}>
                         <span className="text-[10px] font-bold px-2 py-0.5 rounded-md" style={{ background: 'var(--accent-soft)', color: 'var(--accent)' }}>合排</span>
-                        {isAdmin ? (
-                          <>
-                            <input value={satEnsemble.time} onChange={e => updateEnsemble(0, 'time', e.target.value)} className="w-full text-center text-[10px] font-bold bg-transparent focus:outline-none neu-inset p-1 rounded" style={{ color: 'hsl(var(--text))' }} placeholder="时间" />
-                            <input value={satEnsemble.location} onChange={e => updateEnsemble(0, 'location', e.target.value)} className="w-full text-center text-[9px] bg-transparent focus:outline-none neu-inset p-1 rounded" style={{ color: 'hsl(var(--text-secondary))' }} placeholder="地点" />
-                            <input value={satEnsemble.repertoire} onChange={e => updateEnsemble(0, 'repertoire', e.target.value)} className="w-full text-center text-[9px] bg-transparent focus:outline-none neu-inset p-1 rounded" style={{ color: 'hsl(var(--text-secondary))' }} placeholder="曲目" />
-                          </>
-                        ) : (
-                          <>
-                            <span className="text-xs font-bold" style={{ color: 'hsl(var(--text))' }}>{satEnsemble.time || '待定'}</span>
-                            <span className="text-[10px]" style={{ color: 'hsl(var(--text-secondary))' }}>{satEnsemble.location || '待定'}</span>
-                            <span className="text-[10px]" style={{ color: 'hsl(var(--text-secondary))' }}>{satEnsemble.repertoire || '待定'}</span>
-                          </>
-                        )}
+                        <span className="text-xs font-bold" style={{ color: 'hsl(var(--text))' }}>{activeEnsemble.time || '待定'}</span>
+                        <span className="text-[10px]" style={{ color: 'hsl(var(--text-secondary))' }}>{activeEnsemble.location || '待定'}</span>
+                        <span className="text-[10px]" style={{ color: 'hsl(var(--text-secondary))' }}>{activeEnsemble.repertoire || '待定'}</span>
                       </div>
                     </div>
                   ) : di === 6 ? (
@@ -519,17 +510,44 @@ function ExpandedProgress({ onClose, isAdmin }: { onClose: () => void; isAdmin?:
 
         {/* Right: Weekend + Todos */}
         <div className="space-y-4">
-          {/* Saturday ensemble info card */}
+          {/* Ensemble info card - EDITABLE */}
           <div className="neu p-5" style={{ borderRadius: '20px' }}>
             <h3 className="text-sm font-bold mb-3 flex items-center gap-2" style={{ color: 'var(--accent)' }}>
-              <span className="w-6 h-6 rounded-lg flex items-center justify-center text-[10px] font-bold" style={{ background: 'var(--accent-soft)' }}>六</span>
-              周六合排
+              <span className="w-6 h-6 rounded-lg flex items-center justify-center text-[10px] font-bold" style={{ background: 'var(--accent-soft)' }}>{activeEnsemble?.day === 6 ? '日' : '六'}</span>
+              {activeEnsemble?.day === 6 ? '周日合排' : '周六合排'}
             </h3>
-            {satEnsemble?.enabled ? (
-              <div className="space-y-2">
-                <div className="flex items-center gap-2"><Clock className="w-3.5 h-3.5" style={{ color: 'hsl(var(--text-tertiary))' }} /><span className="text-xs font-bold" style={{ color: 'hsl(var(--text))' }}>{satEnsemble.time || '待定'}</span></div>
-                <div className="flex items-center gap-2"><MapPin className="w-3.5 h-3.5" style={{ color: 'hsl(var(--text-tertiary))' }} /><span className="text-xs" style={{ color: 'hsl(var(--text-secondary))' }}>{satEnsemble.location || '待定'}</span></div>
-                <div className="flex items-center gap-2"><Music className="w-3.5 h-3.5" style={{ color: 'hsl(var(--text-tertiary))' }} /><span className="text-xs" style={{ color: 'hsl(var(--text-secondary))' }}>{satEnsemble.repertoire || '待定'}</span></div>
+            {activeEnsemble?.enabled ? (
+              <div className="space-y-3">
+                {/* Day selector */}
+                {isAdmin && (
+                  <div className="flex gap-1 p-1 neu-inset" style={{ borderRadius: '10px' }}>
+                    <button onClick={() => { updateEnsemble(ensemble.indexOf(activeEnsemble), 'day', 5); }} className={`flex-1 text-center py-1.5 rounded-lg text-[11px] font-bold transition-all ${activeEnsemble.day === 5 ? 'text-white' : 'text-[hsl(var(--text-tertiary))]'}`} style={activeEnsemble.day === 5 ? { background: 'var(--accent)', boxShadow: '0 2px 8px var(--accent-glow)' } : {}}>周六</button>
+                    <button onClick={() => { updateEnsemble(ensemble.indexOf(activeEnsemble), 'day', 6); }} className={`flex-1 text-center py-1.5 rounded-lg text-[11px] font-bold transition-all ${activeEnsemble.day === 6 ? 'text-white' : 'text-[hsl(var(--text-tertiary))]'}`} style={activeEnsemble.day === 6 ? { background: 'var(--accent)', boxShadow: '0 2px 8px var(--accent-glow)' } : {}}>周日</button>
+                  </div>
+                )}
+                {/* Editable fields */}
+                {isAdmin ? (
+                  <>
+                    <div className="flex items-center gap-2">
+                      <Clock className="w-3.5 h-3.5 shrink-0" style={{ color: 'hsl(var(--accent-h), var(--accent-s), calc(var(--accent-l) * 0.6))' }} />
+                      <input value={activeEnsemble.time} onChange={e => updateEnsemble(ensemble.indexOf(activeEnsemble), 'time', e.target.value)} className="flex-1 text-xs font-bold bg-transparent focus:outline-none neu-inset px-2 py-1.5" style={{ borderRadius: '8px', color: 'hsl(var(--text))' }} placeholder="时间" />
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <MapPin className="w-3.5 h-3.5 shrink-0" style={{ color: 'hsl(var(--accent-h), var(--accent-s), calc(var(--accent-l) * 0.6))' }} />
+                      <input value={activeEnsemble.location} onChange={e => updateEnsemble(ensemble.indexOf(activeEnsemble), 'location', e.target.value)} className="flex-1 text-xs bg-transparent focus:outline-none neu-inset px-2 py-1.5" style={{ borderRadius: '8px', color: 'hsl(var(--text-secondary))' }} placeholder="地点" />
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Music className="w-3.5 h-3.5 shrink-0" style={{ color: 'hsl(var(--accent-h), var(--accent-s), calc(var(--accent-l) * 0.6))' }} />
+                      <input value={activeEnsemble.repertoire} onChange={e => updateEnsemble(ensemble.indexOf(activeEnsemble), 'repertoire', e.target.value)} className="flex-1 text-xs bg-transparent focus:outline-none neu-inset px-2 py-1.5" style={{ borderRadius: '8px', color: 'hsl(var(--text-secondary))' }} placeholder="曲目" />
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div className="flex items-center gap-2"><Clock className="w-3.5 h-3.5" style={{ color: 'hsl(var(--text-tertiary))' }} /><span className="text-xs font-bold" style={{ color: 'hsl(var(--text))' }}>{activeEnsemble.time || '待定'}</span></div>
+                    <div className="flex items-center gap-2"><MapPin className="w-3.5 h-3.5" style={{ color: 'hsl(var(--text-tertiary))' }} /><span className="text-xs" style={{ color: 'hsl(var(--text-secondary))' }}>{activeEnsemble.location || '待定'}</span></div>
+                    <div className="flex items-center gap-2"><Music className="w-3.5 h-3.5" style={{ color: 'hsl(var(--text-tertiary))' }} /><span className="text-xs" style={{ color: 'hsl(var(--text-secondary))' }}>{activeEnsemble.repertoire || '待定'}</span></div>
+                  </>
+                )}
               </div>
             ) : (
               <p className="text-xs" style={{ color: 'hsl(var(--text-tertiary))' }}>本周无合排安排</p>
