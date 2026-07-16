@@ -171,7 +171,7 @@ export default function RehearsalRoom() {
   };
 
   return (
-    <div className="flex h-full page relative z-10">
+    <div className="flex flex-col md:flex-row h-full page relative z-10">
       {/* Main area */}
       <div className="flex-1 flex flex-col min-w-0">
         {/* Header */}
@@ -283,7 +283,7 @@ export default function RehearsalRoom() {
       </div>
 
       {/* Right panel */}
-      <div className="w-80 neu flex flex-col overflow-auto ml-4" style={{ borderRadius: "20px", borderLeft: "none" }}>
+      <div className="w-full md:w-80 neu flex flex-col overflow-auto mt-3 md:mt-0 md:ml-3" style={{ borderRadius: "20px", borderLeft: "none" }}>
         {/* My Part */}
         <div className="p-4 border-b border-[hsl(var(--border))]">
           <label className="text-xs font-bold mb-2 block" style={{ color: "hsl(var(--text-tertiary))" }}>我的声部</label>

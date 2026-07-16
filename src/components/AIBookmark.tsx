@@ -16,6 +16,7 @@ export default function AIBookmark() {
   const [input, setInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const [model, setModel] = useState<'deepseek' | 'kimi'>('kimi');
+  const [attachments, setAttachments] = useState<{ name: string; type: string }[]>([]);
   const [error, setError] = useState('');
 
   // Drag state
@@ -101,6 +102,7 @@ export default function AIBookmark() {
         model: data.model || model,
       };
       setMessages(prev => [...prev, assistantMsg]);
+      setAttachments([]);
     } catch (err: any) {
       setError(err.message || '请求失败，请检查网络');
     } finally {
@@ -209,7 +211,7 @@ export default function AIBookmark() {
               <div key={msg.id} className={`flex gap-2.5 ${msg.role === 'user' ? 'flex-row-reverse' : ''}`}>
                 <div className="w-7 h-7 rounded-lg flex-shrink-0 flex items-center justify-center neu-sm"
                   style={{ background: msg.role === 'assistant' ? 'var(--accent-soft)' : 'hsl(var(--border))' }}>
-                  {msg.role === 'assistant' ? <Bot className="w-3.5 h-3.5 text-accent" /> : <User className="w-3.5 h-3.5" style={{ color: 'hsl(var(--text-tertiary))' }} />}
+                  {msg.role === 'assistant' ? <Bot className="w-3.5 h-3.5" style={{ color: 'hsl(var(--accent-h), var(--accent-s), calc(var(--accent-l) * 0.45))' }} /> : <User className="w-3.5 h-3.5" style={{ color: 'hsl(var(--text-tertiary))' }} />}
                 </div>
                 <div className={`max-w-[80%] px-3 py-2.5 rounded-2xl text-[13px] leading-relaxed ${msg.role === 'assistant' ? 'rounded-tl-sm' : 'rounded-tr-sm'}`}
                   style={{ background: msg.role === 'assistant' ? 'hsl(var(--bg-deep))' : 'var(--accent-soft)', color: 'hsl(var(--text))' }}>
@@ -254,9 +256,18 @@ export default function AIBookmark() {
           {/* Input - pb-20 on mobile to avoid bottom tab bar */}
           <div className="p-3 pb-16 md:pb-3" style={{ borderTop: '1px solid rgba(0,0,0,0.06)' }}>
             <div className="flex items-center gap-1.5 rounded-2xl px-3 py-2 neu-inset">
-              <button title="附件" className="w-7 h-7 rounded-lg flex items-center justify-center neu-sm-hover shrink-0" style={{ color: 'hsl(var(--text-tertiary))' }}>
+              <input type="file" id="ai-file-input" className="hidden" onChange={e => {
+                const f = e.target.files?.[0];
+                if (f) { setAttachments([{ name: f.name, type: f.type }]); setInput(prev => prev + (prev ? ' ' : '') + `[附件: ${f.name}]`); }
+              }} />
+              <button title="附件" onClick={() => document.getElementById('ai-file-input')?.click()} className="w-7 h-7 rounded-lg flex items-center justify-center neu-sm-hover shrink-0" style={{ color: 'hsl(var(--text-tertiary))' }}>
                 <Paperclip className="w-3.5 h-3.5" />
               </button>
+              {attachments.length > 0 && (
+                <button onClick={() => setAttachments([])} className="text-[9px] font-bold px-1.5 py-0.5 rounded neu-sm" style={{ color: 'var(--accent)' }}>
+                  {attachments[0].name.slice(0, 8)}... <X className="w-2.5 h-2.5 inline" />
+                </button>
+              )}
               <input ref={inputRef} type="text" value={input} onChange={e => setInput(e.target.value)} onKeyDown={handleKeyDown}
                 placeholder={`问 ${model === 'deepseek' ? 'DeepSeek' : 'Kimi'}...`}
                 className="flex-1 bg-transparent text-sm md:text-sm focus:outline-none placeholder:text-neutral-400 py-1" style={{ color: 'hsl(var(--text))', fontSize: '16px' }} />
