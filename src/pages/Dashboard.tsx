@@ -612,7 +612,7 @@ function MemberHome({ userName, voicePart }: { userName: string; voicePart: stri
       )}
 
       {/* Warmup */}
-      <div className="glass p-4 mb-4">
+      <div className="neu p-4 mb-4" style={{ borderRadius: '16px' }}>
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center gap-2"><Sun className="w-3.5 h-3.5" style={{ color: 'hsl(30,80%,50%)' }} /><h2 className="text-sm font-bold" style={{ color: 'hsl(var(--text))' }}>今日开声</h2></div>
           <button onClick={() => navigate('/warmup')} className="text-[10px] font-bold flex items-center gap-0.5 text-accent">去练习 <ArrowRight className="w-3 h-3" /></button>
@@ -646,7 +646,14 @@ function MemberHome({ userName, voicePart }: { userName: string; voicePart: stri
         </div>
       )}
 
-      <div className="h-4" />
+      {/* Weekly Progress Chart - also for members */}
+      <div className="mb-4">
+        <div className="flex items-center justify-between mb-3">
+          <h2 className="text-sm font-bold" style={{ color: 'hsl(var(--text))' }}>各声部进度</h2>
+          <span className="text-[10px] font-semibold" style={{ color: 'hsl(var(--text-tertiary))' }}>本周</span>
+        </div>
+        <WeeklyChart onExpand={() => {}} isAdmin={false} />
+      </div>
     </div>
   );
 }

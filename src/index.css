@@ -80,13 +80,13 @@
 
   /* ========== CTA BUTTONS ========== */
   .btn-primary {
-    background: linear-gradient(135deg, var(--accent), hsla(var(--accent-h), var(--accent-s), calc(var(--accent-l) - 5%), 0.95));
+    background-color: hsl(var(--accent-h), var(--accent-s), var(--accent-l));
     color: #fff;
     font-weight: 700;
-    box-shadow: 4px 4px 12px var(--accent-glow), 0 2px 8px rgba(0,0,0,0.08);
+    box-shadow: 0 4px 16px hsla(var(--accent-h), var(--accent-s), var(--accent-l), 0.3), 0 2px 8px rgba(0,0,0,0.08);
   }
-  .btn-primary:hover { box-shadow: 3px 3px 8px var(--accent-glow), 0 1px 4px rgba(0,0,0,0.06); transform: translateY(-1px); }
-  .btn-primary:active { transform: translateY(0); box-shadow: inset 2px 2px 4px rgba(0,0,0,0.15); }
+  .btn-primary:hover { background-color: hsl(var(--accent-h), var(--accent-s), calc(var(--accent-l) - 5%)); box-shadow: 0 6px 20px hsla(var(--accent-h), var(--accent-s), var(--accent-l), 0.4); }
+  .btn-primary:active { transform: translateY(0); box-shadow: inset 2px 2px 6px rgba(0,0,0,0.2); }
   .btn-secondary {
     background: transparent;
     color: hsl(var(--text-secondary));

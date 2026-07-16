@@ -54,15 +54,14 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       {device === 'pad' && isLoggedIn && (
         <div className="fixed left-4 top-4 bottom-4 z-50 flex flex-col" style={{ width: '68px' }}>
           <div className="vnav flex flex-col items-center gap-1.5 p-1.5 h-full">
-            {/* Logo */}
+            {/* Logo - NO text, just icon */}
             <Link to="/" className="vnav-item active shrink-0" style={{ background: 'var(--accent-soft)', color: 'var(--accent)' }}>
-              <Mic2 className="w-[18px] h-[18px]" />
-              <span className="nav-label">首页</span>
+              <Mic2 className="w-[20px] h-[20px]" />
             </Link>
 
-            {/* Main Nav - scrollable area */}
-            <nav className="flex flex-col items-center gap-1 flex-1 overflow-y-auto py-1 scroller">
-              {navItems.map(item => {
+            {/* Main Nav - scrollable area (filter out home since we have logo) */}
+            <nav className="flex flex-col items-center gap-1.5 flex-1 overflow-y-auto py-1 scroller">
+              {navItems.filter(n => n.path !== '/').map(item => {
                 const Icon = item.icon;
                 const isActive = item.path === '/' ? location.pathname === '/' : location.pathname.startsWith(item.path);
                 return (
