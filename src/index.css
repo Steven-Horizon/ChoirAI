@@ -372,11 +372,17 @@
     color: hsl(var(--text-tertiary));
     font-size: 9px;
     font-weight: 500;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .pill-item:active {
+    transform: scale(0.92);
   }
   .pill-item.active {
     color: var(--accent);
     background: var(--accent-soft);
     box-shadow: inset 1px 1px 3px rgba(0,0,0,0.04);
+    cursor: default;
   }
 
   /* ========== PAGE ========== */

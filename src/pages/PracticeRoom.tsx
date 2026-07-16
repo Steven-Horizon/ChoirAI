@@ -109,7 +109,7 @@ function ScoreBar({ score, total }: { score: number; total: number }) {
 
 function GreenProgressBar({ percent }: { percent: number }) {
   return (
-    <div className="w-48 h-2 bg-[hsl(var(--bg-deep))] rounded-full overflow-hidden mx-auto mb-3">
+    <div className="w-48 h-2 neu-inset rounded-full overflow-hidden mx-auto mb-3">
       <div
         className="h-full bg-green-400 transition-all duration-100"
         style={{ width: `${Math.min(percent, 100)}%` }}
@@ -462,7 +462,7 @@ function PitchExerciseInterval() {
           <div>
             <p className="text-sm font-medium mb-3" style={{ color: "hsl(var(--text-secondary))" }}>听{intervalName}，模唱第二个音</p>
             <div className="flex items-center justify-center gap-4 mb-4">
-              <div className="w-20 h-20 rounded-full bg-[hsl(var(--bg-deep))] flex items-center justify-center"><span className="text-xl text-[hsl(var(--text-tertiary))]">{nn(targetNote)}</span></div>
+              <div className="w-20 h-20 rounded-full neu-inset flex items-center justify-center"><span className="text-xl text-[hsl(var(--text-tertiary))]">{nn(targetNote)}</span></div>
               <span className="text-[hsl(var(--text-secondary))]">→</span>
               <div className="w-24 h-24 rounded-full neu-inset border-2 border-accent/30 flex items-center justify-center"><span className="text-2xl font-bold text-accent">?</span></div>
             </div>
@@ -755,7 +755,7 @@ function KeyExercise() {
           <>
             <p className="text-sm text-[hsl(var(--text-tertiary))] mb-4">听旋律，判断是大调还是小调</p>
             <button onClick={() => playMelody(item.notes)} className="flex items-center gap-2 mx-auto px-6 py-3 glass rounded-xl font-bold mb-6" style={{ color: "var(--accent)" }}><Volume2 className="w-5 h-5" style={{ color: "hsl(var(--accent-h), var(--accent-s), calc(var(--accent-l) * 0.6))" }} />播放旋律</button>
-            {!result && <div className="bg-[hsl(var(--bg-deep))] rounded-lg p-3 mb-4"><p className="text-xs text-[hsl(var(--text-tertiary))]">仔细听旋律的色彩，选择你的判断</p></div>}
+            {!result && <div className="neu-inset rounded-xl p-3 mb-4"><p className="text-xs text-[hsl(var(--text-tertiary))]">仔细听旋律的色彩，选择你的判断</p></div>}
             <div className="flex gap-3 justify-center">{item.opts.map((opt: string) => <button key={opt} onClick={() => guess(opt)} className={`px-10 py-3 rounded-xl text-sm font-medium border transition-all ${result && opt === item.type ? 'text-green-600' : result && opt !== item.type ? 'text-red-500' : ''}`} style={result && opt === item.type ? { background: 'hsla(150,60%,45%,0.08)', backdropFilter: 'blur(12px)', borderColor: 'rgba(34,197,94,0.2)' } : result && opt !== item.type ? { background: 'hsla(0,70%,55%,0.08)', backdropFilter: 'blur(12px)', borderColor: 'rgba(239,68,68,0.2)' } : { background: 'hsla(var(--bg-deep), 0.6)', backdropFilter: 'blur(12px)', borderColor: 'transparent' }}>{opt}</button>)}</div>
             {result && (
               <div className="mt-4">
@@ -870,7 +870,7 @@ function RhythmImitate() {
         {phase === 'listen' && (
           <div>
             <p className="text-sm text-[hsl(var(--text-tertiary))] mb-4">听节奏，然后用"哒"模仿出来</p>
-            <button onClick={play} className="flex items-center gap-2 mx-auto px-6 py-3 bg-accent/15 text-accent rounded-lg hover:bg-accent/25 mb-4"><Volume2 className="w-5 h-5" />播放节奏</button>
+            <button onClick={play} className="flex items-center gap-2 mx-auto px-6 py-3 bg-accent/15 text-accent rounded-lg hover:bg-accent/25 mb-4"><Volume2 className="w-5 h-5" style={{ color: "hsl(var(--accent-h), var(--accent-s), calc(var(--accent-l) * 0.6))" }} />播放节奏</button>
             <button onClick={startTap} className="px-6 py-3 glass rounded-xl font-bold hover:opacity-90">开始模仿</button>
           </div>
         )}
@@ -999,7 +999,7 @@ function SightSingExercise() {
         {phase === 'show' && (
           <div>
             <p className="text-sm font-medium mb-3" style={{ color: "hsl(var(--text-secondary))" }}>看简谱，唱出第一个音（先听标准音）</p>
-            <div className="bg-[hsl(var(--bg-deep))] rounded-lg p-4 mb-4 inline-block">
+            <div className="neu-inset rounded-xl p-4 mb-4 inline-block">
               <div className="flex items-center gap-3 mb-2">
                 {ex.jianpu.map((jp: string, i: number) => (
                   <div key={i} className="text-center">
@@ -1019,7 +1019,7 @@ function SightSingExercise() {
         {phase === 'sing' && (
           <div>
             <p className="text-sm font-medium mb-3" style={{ color: "hsl(var(--text-secondary))" }}>看着简谱唱出第一个音 ({nn(ex.notes[0])})...</p>
-            <div className="bg-[hsl(var(--bg-deep))] rounded-lg p-3 mb-3 inline-block">
+            <div className="neu-inset rounded-xl p-3 mb-3 inline-block">
               <div className="flex items-center gap-2">
                 {ex.jianpu.map((jp: string, i: number) => (
                   <div key={i} className="text-center">
