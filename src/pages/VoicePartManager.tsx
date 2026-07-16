@@ -204,12 +204,17 @@ export default function VoicePartManager() {
           </div>
         </div>
 
-        {parts.length === 0 ? (
-          <div className="text-center py-20 bg-transparent rounded-xl border-[hsl(var(--border))] border-dashed">
-            <Users className="w-12 h-12 text-neutral-500 mx-auto mb-4" />
-            <div className="neu-inset py-12 rounded-2xl text-center"><div className="w-14 h-14 mx-auto mb-3 rounded-2xl flex items-center justify-center" style={{ background: 'var(--accent-soft)' }}><Users className="w-7 h-7 text-accent" /></div><p className="text-sm font-bold mb-1" style={{ color: 'hsl(var(--text))' }}>还没有声部</p><p className="text-xs" style={{ color: 'hsl(var(--text-secondary))' }}>创建声部来管理团员的声部分配</p></div>
-            <p className="text-sm text-[hsl(var(--text-secondary))] mt-1">创建一个声部来管理成员和任务</p>
+        {parts.length === 0 && (
+          <div className="neu-inset py-12 rounded-2xl text-center mb-6">
+            <div className="w-14 h-14 mx-auto mb-3 rounded-2xl flex items-center justify-center" style={{ background: 'var(--accent-soft)' }}>
+              <Users className="w-7 h-7 text-accent" />
+            </div>
+            <p className="text-sm font-bold mb-1" style={{ color: 'hsl(var(--text))' }}>还没有声部</p>
+            <p className="text-xs" style={{ color: 'hsl(var(--text-secondary))' }}>创建声部来管理团员的声部分配</p>
           </div>
+        )}
+        {parts.length === 0 ? (
+          <div></div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {parts.map(part => {

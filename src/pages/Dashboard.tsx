@@ -285,7 +285,7 @@ function TodoPanel() {
 
   return (
     <div className="glass p-4 h-full flex flex-col">
-      <h3 className="text-base font-bold mb-3 flex items-center gap-2" style={{ color: 'hsl(var(--text))' }}><AlertCircle className="w-4 h-4 text-accent" />重要事项</h3>
+      <h3 className="text-base font-bold mb-3 flex items-center gap-2" style={{ color: 'hsl(var(--text))' }}><AlertCircle className="w-4 h-4" style={{ color: "hsl(var(--accent-h), var(--accent-s), calc(var(--accent-l) * 0.6))" }} />重要事项</h3>
       <div className="space-y-2 flex-1 overflow-y-auto">
         {todos.map(todo => (
           <div key={todo.id} className="flex items-start gap-2 p-3 neu-inset" style={{ borderRadius: '12px' }}>
@@ -538,7 +538,7 @@ function ExpandedProgress({ onClose, isAdmin }: { onClose: () => void; isAdmin?:
 
           {/* Todos */}
           <div className="neu p-4 flex flex-col" style={{ borderRadius: '20px', maxHeight: '500px' }}>
-            <h3 className="text-sm font-bold mb-3 flex items-center gap-2" style={{ color: 'hsl(var(--text))' }}><AlertCircle className="w-4 h-4 text-accent" />重要事项</h3>
+            <h3 className="text-sm font-bold mb-3 flex items-center gap-2" style={{ color: 'hsl(var(--text))' }}><AlertCircle className="w-4 h-4" style={{ color: "hsl(var(--accent-h), var(--accent-s), calc(var(--accent-l) * 0.6))" }} />重要事项</h3>
             <div className="space-y-2 flex-1 overflow-y-auto">
               {todos.map(todo => (
                 <div key={todo.id} className="flex items-start gap-2 p-3 neu-inset" style={{ borderRadius: '12px' }}>

@@ -126,7 +126,7 @@ export default function ScoreLibrary() {
       {filteredScores.length === 0 ? (
         <div className="neu-inset py-16 rounded-2xl text-center">
           <div className="w-16 h-16 mx-auto mb-4 rounded-2xl flex items-center justify-center" style={{ background: 'var(--accent-soft)' }}>
-            <FileMusic className="w-8 h-8 text-accent" />
+            <FileMusic className="w-8 h-8" style={{ color: "hsl(var(--accent-h), var(--accent-s), calc(var(--accent-l) * 0.6))" }} />
           </div>
           {searchQuery ? (
             <><p className="text-base font-bold mb-1" style={{ color: 'hsl(var(--text))' }}>未找到相关谱子</p><p className="text-sm" style={{ color: 'hsl(var(--text-secondary))' }}>试试其他关键词</p></>
@@ -140,7 +140,7 @@ export default function ScoreLibrary() {
             <div key={s.id} className="neu p-5 neu-hover transition-all group" style={{ borderRadius: '20px' }}>
               <div className="flex items-start justify-between mb-3">
                 <div className="w-12 h-12 rounded-2xl flex items-center justify-center neu-sm" style={{ background: 'var(--accent-soft)' }}>
-                  <Music className="w-6 h-6 text-accent" />
+                  <Music className="w-6 h-6" style={{ color: "hsl(var(--accent-h), var(--accent-s), calc(var(--accent-l) * 0.6))" }} />
                 </div>
                 <div className="flex flex-col items-end gap-1">
                   <span className="neu-sm text-[10px] font-bold px-2 py-1 rounded-lg" style={{ color: 'hsl(var(--text-secondary))' }}>{s.time_signature}</span>

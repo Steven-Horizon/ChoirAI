@@ -232,7 +232,7 @@ export default function AIBookmark() {
             {isTyping && (
               <div className="flex gap-2.5">
                 <div className="w-7 h-7 rounded-lg flex-shrink-0 flex items-center justify-center neu-sm" style={{ background: 'var(--accent-soft)' }}>
-                  <Bot className="w-3.5 h-3.5 text-accent" />
+                  <Bot className="w-3.5 h-3.5" style={{ color: "hsl(var(--accent-h), var(--accent-s), calc(var(--accent-l) * 0.5))" }} />
                 </div>
                 <div className="rounded-2xl rounded-tl-sm px-4 py-3" style={{ background: 'hsl(var(--bg-deep))' }}>
                   <div className="flex gap-1">
