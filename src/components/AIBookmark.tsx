@@ -122,28 +122,27 @@ export default function AIBookmark() {
 
   return (
     <>
-      {/* Draggable Bookmark */}
+      {/* Bookmark - narrow, no pulse, hover/click scale */}
       {!isOpen && (
         <button
           onClick={() => setIsOpen(true)}
           onPointerDown={onPointerDown}
           onPointerMove={onPointerMove}
           onPointerUp={onPointerUp}
-          className={`ai-bookmark fixed right-0 z-50 flex flex-col items-center justify-center gap-2 rounded-l-2xl rounded-r-none ${dragging ? 'cursor-grabbing' : 'cursor-grab'}`}
+          className={`ai-bookmark fixed right-0 z-50 flex flex-col items-center justify-center gap-1.5 rounded-l-xl rounded-r-none transition-all duration-200 hover:scale-125 active:scale-110 ${dragging ? 'cursor-grabbing' : 'cursor-pointer'}`}
           style={{
             top: `${pos.y}%`, transform: 'translateY(-50%)',
-            width: '48px', height: '70px',
+            width: '32px', height: '48px',
             background: 'linear-gradient(180deg, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0.75) 100%)',
             backdropFilter: 'blur(16px) saturate(150%)',
             WebkitBackdropFilter: 'blur(16px) saturate(150%)',
             border: '1px solid rgba(255,255,255,0.7)',
             borderRight: 'none',
-            boxShadow: '-6px 0 28px var(--accent-glow), inset 2px 0 8px rgba(255,255,255,0.5)',
+            boxShadow: '-4px 0 16px var(--accent-glow), inset 1px 0 4px rgba(255,255,255,0.5)',
             touchAction: 'none',
           }}
         >
-          <span className="w-2.5 h-2.5 rounded-full animate-pulse" style={{ background: 'var(--accent)', boxShadow: '0 0 10px var(--accent-glow), 0 0 20px var(--accent-soft)' }} />
-          <Wand2 className="w-5 h-5" style={{ color: 'var(--accent)', filter: 'drop-shadow(0 0 6px var(--accent-glow))' }} />
+          <Wand2 className="w-4 h-4" style={{ color: 'var(--accent)', filter: 'drop-shadow(0 0 4px var(--accent-glow))' }} />
         </button>
       )}
 
