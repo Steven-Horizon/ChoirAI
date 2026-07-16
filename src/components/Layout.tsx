@@ -53,14 +53,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       {/* ========== PAD: Left Vertical Nav - 顶天立地 ========== */}
       {device === 'pad' && isLoggedIn && (
         <div className="fixed left-4 top-4 bottom-4 z-50 flex flex-col" style={{ width: '68px' }}>
-          <div className="vnav flex flex-col items-center gap-1 p-1.5 h-full">
+          <div className="vnav flex flex-col items-center gap-1.5 p-1.5 h-full">
             {/* Logo */}
             <Link to="/" className="vnav-item active shrink-0" style={{ background: 'var(--accent-soft)', color: 'var(--accent)' }}>
               <Mic2 className="w-[18px] h-[18px]" />
               <span className="nav-label">首页</span>
             </Link>
-
-            <div className="w-8 h-px bg-gradient-to-r from-transparent via-neutral-300 to-transparent my-1 shrink-0" />
 
             {/* Main Nav - scrollable area */}
             <nav className="flex flex-col items-center gap-1 flex-1 overflow-y-auto py-1 scroller">
@@ -75,9 +73,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 );
               })}
             </nav>
-
-            {/* Divider */}
-            <div className="w-8 h-px bg-gradient-to-r from-transparent via-neutral-300 to-transparent my-1 shrink-0" />
 
             {/* Settings at bottom */}
             <Link to="/settings" className={`vnav-item shrink-0 ${location.pathname === '/settings' ? 'active' : ''}`} title="设置">

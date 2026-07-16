@@ -94,15 +94,17 @@ export default function WarmUpRoom() {
         ))}
       </div>
 
-      {/* Morning/Evening toggle - 凸起 */}
+      {/* Morning/Evening toggle - 凸起，浅黄浅紫暗示 */}
       <div className="neu p-1.5 flex gap-1.5 mb-4" style={{ borderRadius: '16px' }}>
         <button onClick={() => setTod('morning')}
-          className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-bold transition-all ${tod === 'morning' ? 'neu-inset text-accent' : 'neu-hover text-[hsl(var(--text-tertiary))]'}`}>
-          <Sun className="w-4 h-4" />早间
+          className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-bold transition-all ${tod === 'morning' ? 'neu-inset text-amber-600' : 'neu-hover'}`}
+          style={tod === 'morning' ? { background: 'hsla(38,92%,85%,0.7)' } : { color: 'hsl(var(--text-secondary))', background: 'hsla(38,80%,95%,0.4)' }}>
+          <Sun className="w-4 h-4" style={{ color: tod === 'morning' ? '#d97706' : '#f59e0b' }} />早间
         </button>
         <button onClick={() => setTod('evening')}
-          className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-bold transition-all ${tod === 'evening' ? 'neu-inset text-indigo-500' : 'neu-hover text-[hsl(var(--text-tertiary))]'}`}>
-          <Moon className="w-4 h-4" />晚间
+          className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-bold transition-all ${tod === 'evening' ? 'neu-inset text-indigo-600' : 'neu-hover'}`}
+          style={tod === 'evening' ? { background: 'hsla(245,60%,88%,0.7)' } : { color: 'hsl(var(--text-secondary))', background: 'hsla(245,50%,95%,0.4)' }}>
+          <Moon className="w-4 h-4" style={{ color: tod === 'evening' ? '#4f46e5' : '#818cf8' }} />晚间
         </button>
       </div>
 
@@ -153,11 +155,12 @@ export default function WarmUpRoom() {
           const done = completed.has(ex.id);
           const isExpanded = expandedEx === ex.id;
           return (
-            <div key={ex.id} className="neu p-0 overflow-hidden" style={{ borderRadius: '16px' }}>
+            <div key={ex.id} className="neu p-4" style={{ borderRadius: '16px' }}>
               {/* Main row - clickable */}
               <button onClick={() => canCheck ? toggle(ex.id) : setExpandedEx(isExpanded ? null : ex.id)}
-                className={`w-full flex items-center gap-3 p-4 text-left transition-all neu-hover ${done ? 'opacity-70' : ''}`}>
-                <div className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0 neu-sm"
+                className={`w-full flex items-center gap-3 text-left transition-all ${done ? 'opacity-70' : ''}`}>
+                {/* Round circle number */}
+                <div className="w-9 h-9 rounded-full flex items-center justify-center shrink-0 neu-sm"
                   style={{ background: done ? 'hsla(150,60%,45%,0.15)' : 'var(--accent-soft)' }}>
                   {done ? <CheckCircle className="w-5 h-5" style={{ color: 'hsl(150,60%,40%)' }} /> :
                    canCheck ? <span className="text-sm font-bold" style={{ color: 'var(--accent)' }}>{i+1}</span> :
@@ -167,13 +170,14 @@ export default function WarmUpRoom() {
                   <div className={`text-sm font-bold ${done ? 'line-through' : ''}`} style={{ color: done ? 'hsl(var(--text-tertiary))' : 'hsl(var(--text))' }}>{ex.name}</div>
                   <div className="text-xs font-mono mt-0.5" style={{ color: 'hsl(var(--text-tertiary))' }}>{ex.notation.slice(0, 40)}{ex.notation.length > 40 ? '...' : ''}</div>
                 </div>
-                <div className="neu-inset px-2 py-1 rounded-lg text-[10px] font-bold shrink-0" style={{ color: 'hsl(var(--text-secondary))' }}>
+                {/* Tag - convex pill with rounded-full */}
+                <div className="neu-sm px-3 py-1.5 rounded-full text-[10px] font-bold shrink-0 neu-sm-hover" style={{ color: 'hsl(var(--text-secondary))' }}>
                   {ex.category}
                 </div>
               </button>
               {/* Expanded detail */}
               {isExpanded && (
-                <div className="px-4 pb-4">
+                <div className="mt-3 pt-3" style={{ borderTop: '1px solid rgba(0,0,0,0.06)' }}>
                   <div className="neu-inset p-3 rounded-xl">
                     <div className="text-xs font-bold mb-1" style={{ color: 'hsl(var(--text-secondary))' }}>完整唱法</div>
                     <div className="text-sm font-mono" style={{ color: 'hsl(var(--text))' }}>{ex.notation}</div>
