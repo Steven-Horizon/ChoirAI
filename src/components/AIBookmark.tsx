@@ -123,27 +123,32 @@ export default function AIBookmark() {
 
   return (
     <>
-      {/* Bookmark - narrow, no pulse, hover/click scale */}
+      {/* Bookmark - narrow, expand on hover/click */}
       {!isOpen && (
         <button
-          onClick={() => setIsOpen(true)}
+          onClick={() => { if (isExpanded) setIsOpen(true); else setIsExpanded(true); }}
+          onMouseEnter={() => setIsExpanded(true)}
+          onMouseLeave={() => setIsExpanded(false)}
           onPointerDown={onPointerDown}
           onPointerMove={onPointerMove}
           onPointerUp={onPointerUp}
-          className={`ai-bookmark fixed right-0 z-50 flex flex-col items-center justify-center gap-1.5 rounded-l-xl rounded-r-none transition-all duration-200 hover:scale-125 active:scale-110 ${dragging ? 'cursor-grabbing' : 'cursor-pointer'}`}
+          className={`ai-bookmark fixed right-0 z-50 flex flex-col items-center justify-center gap-1.5 rounded-l-xl rounded-r-none transition-all duration-200 ${dragging ? 'cursor-grabbing' : 'cursor-pointer'}`}
           style={{
-            top: `${pos.y}%`, transform: 'translateY(-50%)',
-            width: '32px', height: '48px',
+            top: `${pos.y}%`,
+            transform: `translateY(-50%) scale(${isExpanded ? 1.25 : 1})`,
+            width: isExpanded ? '40px' : '28px',
+            height: isExpanded ? '60px' : '44px',
             background: 'linear-gradient(180deg, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0.75) 100%)',
             backdropFilter: 'blur(16px) saturate(150%)',
             WebkitBackdropFilter: 'blur(16px) saturate(150%)',
             border: '1px solid rgba(255,255,255,0.7)',
             borderRight: 'none',
-            boxShadow: '-4px 0 16px var(--accent-glow), inset 1px 0 4px rgba(255,255,255,0.5)',
+            boxShadow: isExpanded ? '-6px 0 24px var(--accent-glow), inset 2px 0 6px rgba(255,255,255,0.5)' : '-3px 0 10px var(--accent-glow), inset 1px 0 3px rgba(255,255,255,0.4)',
             touchAction: 'none',
           }}
         >
-          <Wand2 className="w-4 h-4" style={{ color: 'var(--accent)', filter: 'drop-shadow(0 0 4px var(--accent-glow))' }} />
+          <Wand2 className={isExpanded ? "w-5 h-5" : "w-3.5 h-3.5"} style={{ color: 'var(--accent)', filter: 'drop-shadow(0 0 4px var(--accent-glow))', transition: 'all 0.2s' }} />
+          {isExpanded && <span className="text-[7px] font-black tracking-widest" style={{ color: 'var(--accent)', writingMode: 'vertical-rl' }}>AI</span>}
         </button>
       )}
 
