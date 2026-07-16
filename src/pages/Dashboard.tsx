@@ -134,13 +134,14 @@ function AuthScreen({ onLogin, onRegister }: { onLogin: (n: string, p: string) =
             ))}
           </div>
         </>)}
-        <button type="submit" disabled={loading} className="w-full py-3.5 rounded-2xl font-bold text-sm transition-all duration-200 disabled:opacity-50 neu-hover"
-          style={{ background: 'linear-gradient(135deg, hsla(var(--accent-h), var(--accent-s), calc(var(--accent-l) + 22%), 0.95), hsla(var(--accent-h), var(--accent-s), calc(var(--accent-l) + 12%), 1))', color: '#fff', boxShadow: '4px 4px 12px var(--accent-glow), 0 2px 8px rgba(0,0,0,0.08)' }}>
+        {/* Main action button - SOLID accent color */}
+        <button type="submit" disabled={loading} className="w-full btn-primary py-3.5 rounded-2xl text-sm transition-all duration-200 disabled:opacity-50">
           {loading ? '请稍候...' : mode === 'login' ? '登录' : '注册'}
         </button>
-        <p className="text-center text-xs mt-2 font-medium" style={{ color: 'hsl(var(--text-tertiary))' }}>
+        {/* Toggle button - same accent color */}
+        <p className="text-center text-xs mt-2.5 font-medium" style={{ color: 'hsl(var(--text-tertiary))' }}>
           <span style={{ color: 'hsl(var(--text-secondary))' }}>{mode === 'login' ? '还没有账号？' : '已有账号？'}</span>
-          <button type="button" onClick={() => { setMode(mode === 'login' ? 'register' : 'login'); setError(''); }} className="ml-1.5 font-bold text-xs px-3 py-1.5 rounded-full transition-all hover:scale-105 active:scale-95" style={{ color: '#fff', background: 'hsl(260, 70%, 60%)', boxShadow: '0 2px 8px hsla(260,70%,60%,0.35)' }}>{mode === 'login' ? '注册' : '登录'}</button>
+          <button type="button" onClick={() => { setMode(mode === 'login' ? 'register' : 'login'); setError(''); }} className="ml-1.5 font-bold text-xs px-3 py-1.5 rounded-full transition-all hover:scale-105 active:scale-95 btn-primary">{mode === 'login' ? '注册' : '登录'}</button>
         </p>
       </form>
     </div>
@@ -219,7 +220,7 @@ function WeeklyChart({ onExpand, isAdmin }: { onExpand: () => void; isAdmin?: bo
               )}
 
               {/* Day label */}
-              <span className={`text-[8px] md:text-[10px] font-semibold ${d.isToday ? 'text-accent' : 'text-[hsl(var(--text-secondary))]'}`}>{d.day}</span>
+              <span className={`text-[8px] md:text-[10px] font-semibold ${d.isToday ? '' : 'text-[hsl(var(--text-secondary))]'}`} style={d.isToday ? { color: 'hsl(var(--accent-h), var(--accent-s), calc(var(--accent-l) * 0.25))' } : {}}>{d.day}</span>
               {d.isReport && !d.isEnsemble && <span className="text-[6px] md:text-[7px] font-bold px-1 rounded text-accent bg-[var(--accent-soft)]">汇报</span>}
             </div>
           ))}
