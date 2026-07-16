@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
-import { X, Send, Sparkles, Bot, User, ChevronRight, Wand2, Paperclip, Image } from 'lucide-react';
+import { X, Send, Sparkles, Bot, User, ChevronRight, Wand2, Paperclip } from 'lucide-react';
 import { aiEvents } from '@/lib/ai-events';
 
 interface ChatMessage {
@@ -204,7 +204,7 @@ export default function AIBookmark() {
           )}
 
           {/* Messages */}
-          <div className="flex-1 overflow-y-auto p-4 space-y-3" style={{ scrollbarWidth: 'thin' }}>
+          <div className="flex-1 overflow-y-auto p-4 pb-8 space-y-3" style={{ scrollbarWidth: 'thin' }}>
             {messages.map(msg => (
               <div key={msg.id} className={`flex gap-2.5 ${msg.role === 'user' ? 'flex-row-reverse' : ''}`}>
                 <div className="w-7 h-7 rounded-lg flex-shrink-0 flex items-center justify-center neu-sm"
@@ -257,17 +257,13 @@ export default function AIBookmark() {
               <button title="附件" className="w-7 h-7 rounded-lg flex items-center justify-center neu-sm-hover shrink-0" style={{ color: 'hsl(var(--text-tertiary))' }}>
                 <Paperclip className="w-3.5 h-3.5" />
               </button>
-              <button title="图片" className="w-7 h-7 rounded-lg flex items-center justify-center neu-sm-hover shrink-0" style={{ color: 'hsl(var(--text-tertiary))' }}>
-                <Image className="w-3.5 h-3.5" />
-              </button>
-              <div className="w-px h-5 mx-0.5" style={{ background: 'hsl(var(--border))' }} />
               <input ref={inputRef} type="text" value={input} onChange={e => setInput(e.target.value)} onKeyDown={handleKeyDown}
                 placeholder={`问 ${model === 'deepseek' ? 'DeepSeek' : 'Kimi'}...`}
                 className="flex-1 bg-transparent text-sm md:text-sm focus:outline-none placeholder:text-neutral-400 py-1" style={{ color: 'hsl(var(--text))', fontSize: '16px' }} />
               <button onClick={() => handleSend()} disabled={!input.trim() || isTyping}
-                className="w-8 h-8 rounded-xl flex items-center justify-center transition-all disabled:opacity-30"
-                style={{ background: 'var(--accent)', color: '#fff' }}>
-                <Send className="w-3.5 h-3.5" />
+                className="w-10 h-10 rounded-xl flex items-center justify-center transition-all disabled:opacity-30 neu-hover"
+                style={{ background: 'var(--accent)', color: '#fff', boxShadow: '0 2px 8px var(--accent-glow)' }}>
+                <Send className="w-4 h-4" />
               </button>
             </div>
           </div>

@@ -95,6 +95,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       {/* AI Bookmark */}
       {isLoggedIn && <AIBookmark />}
 
+      {/* Mobile tab gradient blur overlay */}
+      {device === 'mobile' && isLoggedIn && <div className="tab-gradient-blur" />}
+
+      {/* Mobile tab gradient blur overlay */}
+      {device === 'mobile' && isLoggedIn && <div className="tab-gradient-blur" />}
+
       {/* ========== MOBILE: Bottom Pill Nav ========== */}
       {device === 'mobile' && isLoggedIn && (
         <div className="fixed bottom-5 left-1/2 -translate-x-1/2 z-50">

@@ -152,9 +152,13 @@ export default function Settings() {
           {/* Custom color */}
           <div className="flex items-center gap-3">
             <label className="text-xs font-bold" style={{ color: 'hsl(var(--text-secondary))' }}>自定义</label>
-            <input type="color" value={customColor} onChange={e => handleCustomColorChange(e.target.value)}
+            <input type="color" value={customColor} onChange={e => setCustomColor(e.target.value)}
               className="w-8 h-8 rounded-lg border-0 cursor-pointer neu-sm" style={{ padding: '2px' }} />
             <span className="text-xs font-mono font-bold" style={{ color: 'hsl(var(--text-secondary))' }}>{customColor}</span>
+            <button onClick={() => handleCustomColorChange(customColor)}
+              className="neu neu-hover px-3 py-1.5 rounded-lg text-xs font-bold" style={{ color: 'var(--accent)' }}>
+              确认
+            </button>
           </div>
         </div>
 

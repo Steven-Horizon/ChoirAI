@@ -260,6 +260,25 @@
     transform: scale(0.95);
   }
 
+  /* ========== MOBILE TAB GRADIENT BLUR ========== */
+  @media (max-width: 1023px) {
+    .tab-gradient-blur {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 25vh;
+      pointer-events: none;
+      z-index: 40;
+      background: linear-gradient(to top, hsla(var(--bg-h), var(--bg-s), var(--bg-l), 0.95) 0%, hsla(var(--bg-h), var(--bg-s), var(--bg-l), 0.7) 40%, transparent 100%);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+  }
+  @media (min-width: 1024px) {
+    .tab-gradient-blur { display: none; }
+  }
+
   /* ========== AI BOOKMARK HOVER ========== */
   .ai-bookmark {
     transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
