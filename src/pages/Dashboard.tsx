@@ -191,7 +191,7 @@ function WeeklyChart({ onExpand, isAdmin }: { onExpand: () => void; isAdmin?: bo
                 <span className="text-[7px] md:text-[8px] font-bold px-1.5 py-0.5 rounded-md mb-1" style={{ background: 'var(--accent-soft)', color: 'var(--accent)' }}>当日排练</span>
               )}
               {/* Date label - 当日用主题深色 */}
-              <span className={`text-[8px] md:text-[10px] font-bold ${d.isToday ? '' : 'text-[hsl(var(--text-tertiary))]'}`} style={d.isToday ? { color: 'hsl(var(--accent-h), var(--accent-s), calc(var(--accent-l) * 0.4))' } : {}}>{d.date}</span>
+              <span className={`text-[8px] md:text-[10px] font-bold ${d.isToday ? '' : 'text-[hsl(var(--text-tertiary))]'}`} style={d.isToday ? { color: 'hsl(var(--accent-h), calc(var(--accent-s) * 0.85), calc(var(--accent-l) * 0.35))' } : {}}>{d.date}</span>
 
               {/* ENSEMBLE CARD for Sat/Sun */}
               {d.isEnsemble ? (
@@ -440,7 +440,7 @@ function ExpandedProgress({ onClose, isAdmin }: { onClose: () => void; isAdmin?:
               {data.map((d, di) => (
                 <div key={di} className="flex-1 flex flex-col items-center gap-1.5">
                   {/* Date - today uses dark theme color */}
-                  <span className={`text-[10px] md:text-[11px] font-bold ${d.isToday ? '' : 'text-[hsl(var(--text-tertiary))]'}`} style={d.isToday ? { color: 'hsl(var(--accent-h), var(--accent-s), calc(var(--accent-l) * 0.4))' } : {}}>{d.date}</span>
+                  <span className={`text-[10px] md:text-[11px] font-bold ${d.isToday ? '' : 'text-[hsl(var(--text-tertiary))]'}`} style={d.isToday ? { color: 'hsl(var(--accent-h), calc(var(--accent-s) * 0.85), calc(var(--accent-l) * 0.35))' } : {}}>{d.date}</span>
 
                   {/* SATURDAY = Ensemble Card */}
                   {di === 5 && satEnsemble?.enabled ? (
@@ -492,7 +492,7 @@ function ExpandedProgress({ onClose, isAdmin }: { onClose: () => void; isAdmin?:
                     </div>
                   )}
 
-                  <span className={`text-[10px] md:text-xs font-bold ${d.isToday ? '' : 'text-[hsl(var(--text-tertiary))]'}`} style={d.isToday ? { color: 'hsl(var(--accent-h), var(--accent-s), calc(var(--accent-l) * 0.4))' } : {}}>{d.day}</span>
+                  <span className={`text-[10px] md:text-xs font-bold ${d.isToday ? '' : 'text-[hsl(var(--text-tertiary))]'}`} style={d.isToday ? { color: 'hsl(var(--accent-h), calc(var(--accent-s) * 0.85), calc(var(--accent-l) * 0.35))' } : {}}>{d.day}</span>
                 </div>
               ))}
             </div>

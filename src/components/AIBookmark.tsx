@@ -187,12 +187,12 @@ export default function AIBookmark() {
             <div className="flex gap-1 p-1" style={{ borderRadius: '12px', background: 'hsl(var(--bg-deep))' }}>
               <button onClick={() => setModel('deepseek')}
                 className={`flex-1 text-center py-2 rounded-[10px] text-[11px] font-bold transition-all ${model === 'deepseek' ? 'text-white shadow-md' : 'text-[hsl(var(--text-tertiary))]'}`}
-                style={model === 'deepseek' ? { background: 'linear-gradient(135deg, rgba(59,130,246,0.8), rgba(37,99,235,0.7))', backdropFilter: 'blur(12px)' } : {}}>
+                style={model === 'deepseek' ? { background: 'linear-gradient(135deg, #3b82f6, #2563eb)', color: '#fff', boxShadow: '0 2px 8px rgba(59,130,246,0.3)' } : {}}>
                 DeepSeek
               </button>
               <button onClick={() => setModel('kimi')}
                 className={`flex-1 text-center py-2 rounded-[10px] text-[11px] font-bold transition-all ${model === 'kimi' ? 'text-white shadow-md' : 'text-[hsl(var(--text-tertiary))]'}`}
-                style={model === 'kimi' ? { background: 'linear-gradient(135deg, rgba(75,85,99,0.7), rgba(55,65,81,0.6))', backdropFilter: 'blur(12px)' } : {}}>
+                style={model === 'kimi' ? { background: 'linear-gradient(135deg, #4b5563, #374151)', color: '#fff', boxShadow: '0 2px 8px rgba(75,85,99,0.3)' } : {}}>
                 Kimi
               </button>
             </div>
@@ -272,9 +272,9 @@ export default function AIBookmark() {
                 placeholder={`问 ${model === 'deepseek' ? 'DeepSeek' : 'Kimi'}...`}
                 className="flex-1 bg-transparent text-sm md:text-sm focus:outline-none placeholder:text-neutral-400 py-1" style={{ color: 'hsl(var(--text))', fontSize: '16px' }} />
               <button onClick={() => handleSend()} disabled={!input.trim() || isTyping}
-                className="w-10 h-10 rounded-xl flex items-center justify-center transition-all disabled:opacity-30 neu-hover"
-                style={{ background: 'var(--accent)', color: '#fff', boxShadow: '0 2px 8px var(--accent-glow)' }}>
-                <Send className="w-4 h-4" />
+                className="w-10 h-10 rounded-xl flex items-center justify-center transition-all disabled:opacity-30"
+                style={{ background: 'linear-gradient(135deg, var(--accent), hsla(var(--accent-h),var(--accent-s),calc(var(--accent-l) - 8%),1))', color: '#fff', boxShadow: '0 2px 10px var(--accent-glow), inset 0 1px 0 rgba(255,255,255,0.3)' }}>
+                <Send className="w-4 h-4" style={{ filter: 'drop-shadow(0 1px 1px rgba(0,0,0,0.2))' }} />
               </button>
             </div>
           </div>

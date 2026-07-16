@@ -268,7 +268,7 @@ export default function PracticeRoom() {
       </div>
 
       {/* Tabs */}
-      <div className="flex items-center gap-1 p-2 neu border-b border-[hsl(var(--border))] overflow-x-auto overscroll-x-contain mb-4" style={{ borderRadius: "14px", scrollbarWidth: 'none' }}>
+      <div className="flex items-center gap-2 mb-4 overflow-x-auto overscroll-x-contain pb-1" style={{ scrollbarWidth: 'none' }}>
         {activeDefs.map(def => {
           const Icon = ICON_MAP[def.icon] || Mic;
           return (

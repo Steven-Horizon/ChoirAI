@@ -247,7 +247,7 @@ export default function ScoreLibrary() {
 
               {/* Submit */}
               <button type="submit" disabled={uploading || !title || (uploadMode === 'link' && !externalUrl.trim())}
-                className="w-full btn-primary py-3 rounded-xl text-sm font-bold disabled:opacity-40">
+                className="w-full py-3 rounded-xl text-sm font-bold disabled:opacity-40 glass neu-hover" style={{ color: "var(--accent)", background: "linear-gradient(135deg, rgba(255,255,255,0.7), rgba(255,255,255,0.5))", backdropFilter: "blur(20px)" }}>
                 {uploading ? '上传中...' : '确认上传'}
               </button>
             </form>
