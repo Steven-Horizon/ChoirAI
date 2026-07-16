@@ -5,6 +5,7 @@ import {
   Loader2, ChevronRight, Play, Calendar
 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
+import { aiEvents } from '@/lib/ai-events';
 import { API_BASE } from '@/config';
 
 interface Exercise {
@@ -283,7 +284,7 @@ export default function TrainingPlans() {
           <Target className="w-12 h-12 text-neutral-700 mx-auto mb-4" />
           <p className="text-[hsl(var(--text-tertiary))] mb-2">还没有训练计划</p>
           <p className="text-xs text-[hsl(var(--text-secondary))] mb-4">和AI助手聊天，让它帮你制定计划</p>
-          <Link to="/ai-agent" className="text-accent hover:text-amber-300 text-sm">去AI助手</Link>
+          <button onClick={() => aiEvents.emit()} className="neu neu-hover px-4 py-2 rounded-xl text-sm font-bold" style={{ color: 'var(--accent)' }}>唤醒AI助手</button>
         </div>
       ) : (
         <div className="space-y-3">

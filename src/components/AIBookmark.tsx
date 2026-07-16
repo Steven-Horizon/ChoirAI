@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
-import { X, Send, Sparkles, Bot, User, ChevronRight, Wand2 } from 'lucide-react';
+import { X, Send, Sparkles, Bot, User, ChevronRight, Wand2, Paperclip, Image } from 'lucide-react';
+import { aiEvents } from '@/lib/ai-events';
 
 interface ChatMessage {
   id: string;
@@ -14,7 +15,7 @@ export default function AIBookmark() {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
-  const [model, setModel] = useState<'deepseek' | 'kimi'>('deepseek');
+  const [model, setModel] = useState<'deepseek' | 'kimi'>('kimi');
   const [error, setError] = useState('');
 
   // Drag state
@@ -29,6 +30,7 @@ export default function AIBookmark() {
 
   useEffect(() => { messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' }); }, [messages, isTyping]);
   useEffect(() => { if (isOpen) setTimeout(() => inputRef.current?.focus(), 300); }, [isOpen]);
+  useEffect(() => { const unsub = aiEvents.subscribe(() => setIsOpen(true)); return () => { unsub(); }; }, []);
   useEffect(() => {
     if (isOpen) document.body.style.overflow = 'hidden';
     else document.body.style.overflow = '';
@@ -125,7 +127,7 @@ export default function AIBookmark() {
           onPointerDown={onPointerDown}
           onPointerMove={onPointerMove}
           onPointerUp={onPointerUp}
-          className={`fixed right-0 z-50 flex flex-col items-center justify-center gap-2 rounded-l-2xl rounded-r-none neu-hover ${dragging ? 'cursor-grabbing' : 'cursor-grab'}`}
+          className={`ai-bookmark fixed right-0 z-50 flex flex-col items-center justify-center gap-2 rounded-l-2xl rounded-r-none ${dragging ? 'cursor-grabbing' : 'cursor-grab'}`}
           style={{
             top: `${pos.y}%`, transform: 'translateY(-50%)',
             width: '48px', height: '70px',
@@ -180,13 +182,15 @@ export default function AIBookmark() {
 
           {/* Model Selector */}
           <div className="px-4 pt-3">
-            <div className="neu-inset p-1 flex gap-1" style={{ borderRadius: '12px' }}>
+            <div className="flex gap-1 p-1" style={{ borderRadius: '12px', background: 'hsl(var(--bg-deep))' }}>
               <button onClick={() => setModel('deepseek')}
-                className={`flex-1 text-center py-1.5 rounded-[10px] text-[11px] font-bold transition-all ${model === 'deepseek' ? 'bg-accent text-white shadow-md' : 'text-[hsl(var(--text-tertiary))]'}`}>
+                className={`flex-1 text-center py-2 rounded-[10px] text-[11px] font-bold transition-all ${model === 'deepseek' ? 'text-white shadow-md' : 'text-[hsl(var(--text-tertiary))]'}`}
+                style={model === 'deepseek' ? { background: 'linear-gradient(135deg, rgba(59,130,246,0.8), rgba(37,99,235,0.7))', backdropFilter: 'blur(12px)' } : {}}>
                 DeepSeek
               </button>
               <button onClick={() => setModel('kimi')}
-                className={`flex-1 text-center py-1.5 rounded-[10px] text-[11px] font-bold transition-all ${model === 'kimi' ? 'bg-accent text-white shadow-md' : 'text-[hsl(var(--text-tertiary))]'}`}>
+                className={`flex-1 text-center py-2 rounded-[10px] text-[11px] font-bold transition-all ${model === 'kimi' ? 'text-white shadow-md' : 'text-[hsl(var(--text-tertiary))]'}`}
+                style={model === 'kimi' ? { background: 'linear-gradient(135deg, rgba(75,85,99,0.7), rgba(55,65,81,0.6))', backdropFilter: 'blur(12px)' } : {}}>
                 Kimi
               </button>
             </div>
@@ -249,7 +253,14 @@ export default function AIBookmark() {
 
           {/* Input - pb-20 on mobile to avoid bottom tab bar */}
           <div className="p-3 pb-16 md:pb-3" style={{ borderTop: '1px solid rgba(0,0,0,0.06)' }}>
-            <div className="flex items-center gap-2 rounded-2xl px-4 py-2.5 neu-inset">
+            <div className="flex items-center gap-1.5 rounded-2xl px-3 py-2 neu-inset">
+              <button title="附件" className="w-7 h-7 rounded-lg flex items-center justify-center neu-sm-hover shrink-0" style={{ color: 'hsl(var(--text-tertiary))' }}>
+                <Paperclip className="w-3.5 h-3.5" />
+              </button>
+              <button title="图片" className="w-7 h-7 rounded-lg flex items-center justify-center neu-sm-hover shrink-0" style={{ color: 'hsl(var(--text-tertiary))' }}>
+                <Image className="w-3.5 h-3.5" />
+              </button>
+              <div className="w-px h-5 mx-0.5" style={{ background: 'hsl(var(--border))' }} />
               <input ref={inputRef} type="text" value={input} onChange={e => setInput(e.target.value)} onKeyDown={handleKeyDown}
                 placeholder={`问 ${model === 'deepseek' ? 'DeepSeek' : 'Kimi'}...`}
                 className="flex-1 bg-transparent text-sm md:text-sm focus:outline-none placeholder:text-neutral-400 py-1" style={{ color: 'hsl(var(--text))', fontSize: '16px' }} />

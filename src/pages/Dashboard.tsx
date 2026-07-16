@@ -11,10 +11,10 @@ import { getCoachSuggestions, getTodayPlan, getVoicePartName } from '@/lib/ai-co
 
 // ========== VOICE PART COLORS ==========
 const PART_COLORS: Record<string, { fill: string; bg: string; label: string }> = {
-  soprano: { fill: '#f472b6', bg: 'rgba(244,114,182,0.15)', label: '女高音' },
-  alto:    { fill: '#22d3ee', bg: 'rgba(34,211,238,0.15)', label: '女中音' },
-  tenor:   { fill: '#fbbf24', bg: 'rgba(251,191,36,0.15)', label: '男高音' },
-  bass:    { fill: '#d4a574', bg: 'rgba(212,165,116,0.15)', label: '男低音' },
+  soprano: { fill: '#ec4899', bg: 'rgba(236,72,153,0.12)', label: '女高音' },
+  alto:    { fill: '#0ea5e9', bg: 'rgba(14,165,233,0.12)', label: '女中音' },
+  tenor:   { fill: '#f59e0b', bg: 'rgba(245,158,11,0.12)', label: '男高音' },
+  bass:    { fill: '#8b5cf6', bg: 'rgba(139,92,246,0.12)', label: '男低音' },
 };
 
 // ========== GET REAL WEEK DATA (7 days with dates) ==========
