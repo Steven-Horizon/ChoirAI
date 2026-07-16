@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { Link } from 'react-router-dom';
-import { ArrowLeft, Mic, CheckCircle, XCircle, Star, Volume2, Headphones, Clock, Plus, X } from 'lucide-react';
+import { Mic, CheckCircle, XCircle, Star, Volume2, Headphones, Clock, Plus, X } from 'lucide-react';
 import { usePitchDetection } from '@/hooks/usePitchDetection';
 import * as Tone from 'tone';
 
