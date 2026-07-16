@@ -139,8 +139,8 @@ function AuthScreen({ onLogin, onRegister }: { onLogin: (n: string, p: string) =
           {loading ? '请稍候...' : mode === 'login' ? '登录' : '注册'}
         </button>
         <p className="text-center text-xs mt-2 font-medium" style={{ color: 'hsl(var(--text-tertiary))' }}>
-          {mode === 'login' ? '还没有账号？' : '已有账号？'}
-          <button type="button" onClick={() => { setMode(mode === 'login' ? 'register' : 'login'); setError(''); }} className="ml-1.5 font-bold text-xs px-3 py-1 rounded-full transition-all hover:scale-105 active:scale-95" style={{ color: '#fff', background: 'var(--accent)', boxShadow: '2px 2px 5px var(--accent-glow)' }}>{mode === 'login' ? '注册' : '登录'}</button>
+          <span style={{ color: 'hsl(var(--text-secondary))' }}>{mode === 'login' ? '还没有账号？' : '已有账号？'}</span>
+          <button type="button" onClick={() => { setMode(mode === 'login' ? 'register' : 'login'); setError(''); }} className="ml-1.5 font-bold text-xs px-3 py-1.5 rounded-full transition-all hover:scale-105 active:scale-95" style={{ color: '#fff', background: 'hsl(260, 70%, 60%)', boxShadow: '0 2px 8px hsla(260,70%,60%,0.35)' }}>{mode === 'login' ? '注册' : '登录'}</button>
         </p>
       </form>
     </div>
