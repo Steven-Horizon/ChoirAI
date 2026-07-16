@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-  Mic2, Shield, Wind, Monitor, Music, CalendarCheck,
+  Mic2, Shield, Wind, CalendarCheck,
   Sparkles, Sun, Moon, Zap, Lock, User,
   Plus, X, ChevronLeft, AlertCircle, ChevronRight, ArrowRight,
 } from 'lucide-react';
@@ -44,10 +44,10 @@ function getWeekData() {
       isToday,
       isReport,
       isFuture: !isPastOrToday,
-      soprano: isPastOrToday ? 10 : 0,
-      alto: isPastOrToday ? 10 : 0,
-      tenor: isPastOrToday ? 10 : 0,
-      bass: isPastOrToday ? 10 : 0,
+      soprano: isPastOrToday ? [85, 72, 90, 78, 88, 0, 0][i] : 0,
+      alto: isPastOrToday ? [78, 88, 82, 91, 75, 0, 0][i] : 0,
+      tenor: isPastOrToday ? [92, 75, 85, 80, 94, 0, 0][i] : 0,
+      bass: isPastOrToday ? [80, 91, 76, 86, 82, 0, 0][i] : 0,
     });
   }
   return allDays;
@@ -152,8 +152,12 @@ function WeeklyChart({ onExpand }: { onExpand: () => void }) {
         <div className="flex-1 flex items-end gap-1 md:gap-2">
           {data.map((d, di) => (
             <div key={di} className="flex-1 flex flex-col items-center gap-1">
-              {/* Date label on top */}
-              <span className={`text-[8px] md:text-[10px] font-bold ${d.isToday ? 'text-accent' : 'text-[hsl(var(--text-tertiary))]'}`}>{d.date}</span>
+              {/* 合拍标注 - 主题色圆角矩形 */}
+              {d.isToday && (
+                <span className="text-[7px] md:text-[8px] font-bold px-1.5 py-0.5 rounded-md mb-1" style={{ background: 'var(--accent-soft)', color: 'var(--accent)' }}>当日排练</span>
+              )}
+              {/* Date label - 当日用主题深色 */}
+              <span className={`text-[8px] md:text-[10px] font-bold ${d.isToday ? '' : 'text-[hsl(var(--text-tertiary))]'}`} style={d.isToday ? { color: 'hsl(var(--accent-h), calc(var(--accent-s) * 0.7), calc(var(--accent-l) * 0.55))' } : {}}>{d.date}</span>
               {/* Bars */}
               <div className="flex items-end gap-[1px] md:gap-[2px] w-full justify-center" style={{ height: '170px' }}>
               {parts.map(p => {
@@ -216,30 +220,7 @@ function TodoPanel() {
   );
 }
 
-// ========== SHORTCUT GRID ==========
-function Shortcuts({ navigate }: { navigate: (p: string) => void }) {
-  const items = [
-    { icon: Wind, label: '开声', path: '/warmup', grad: 'from-pink-300/30 to-rose-200/20' },
-    { icon: Music, label: '谱子', path: '/scores', grad: 'from-sky-300/30 to-blue-200/20' },
-    { icon: Monitor, label: '排练', path: '/hall', grad: 'from-amber-300/30 to-yellow-200/20' },
-    { icon: Mic2, label: '练习', path: '/practice', grad: 'from-emerald-300/30 to-green-200/20' },
-  ];
 
-  return (
-    <div className="grid grid-cols-4 gap-3">
-      {items.map(item => (
-        <button key={item.label} onClick={() => navigate(item.path)}
-          className="neu neu-hover flex flex-col items-center gap-2 py-4 transition-all"
-          style={{ borderRadius: '16px' }}>
-          <div className={`w-11 h-11 rounded-xl bg-gradient-to-br ${item.grad} flex items-center justify-center`}>
-            <item.icon className="w-5 h-5" style={{ color: 'hsl(var(--text-secondary))' }} />
-          </div>
-          <span className="text-[11px] font-bold" style={{ color: 'hsl(var(--text-secondary))' }}>{item.label}</span>
-        </button>
-      ))}
-    </div>
-  );
-}
 
 // ========== AI SUGGESTIONS + WARMUP PANEL ==========
 function AISuggestionsPanel({ navigate, voicePart }: { navigate: any; voicePart: string }) {
@@ -258,21 +239,24 @@ function AISuggestionsPanel({ navigate, voicePart }: { navigate: any; voicePart:
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-5 gap-4 mb-5">
-      {/* Left: Warmup - all 5 entries */}
+      {/* Left: Warmup - clickable entries */}
       <div className="lg:col-span-2 neu p-4">
-        <div className="flex items-center justify-between mb-3">
+        <button onClick={() => navigate('/warmup')} className="w-full flex items-center justify-between mb-3 text-left">
           <div className="flex items-center gap-2">
             <Sun className="w-4 h-4" style={{ color: 'hsl(30,80%,50%)' }} />
             <span className="text-sm font-bold" style={{ color: 'hsl(var(--text))' }}>今日开声</span>
           </div>
-          <span className="text-[10px] font-semibold" style={{ color: 'hsl(var(--text-tertiary))' }}>{warmup.morning.length + warmup.evening.length}条</span>
-        </div>
+          <div className="flex items-center gap-1">
+            <span className="text-[10px] font-semibold" style={{ color: 'hsl(var(--text-tertiary))' }}>{warmup.morning.length + warmup.evening.length}条</span>
+            <ArrowRight className="w-3 h-3" style={{ color: 'hsl(var(--text-tertiary))' }} />
+          </div>
+        </button>
         <div className="grid grid-cols-2 gap-3">
           <div>
             <div className="text-[10px] font-semibold mb-2" style={{ color: 'hsl(var(--text-tertiary))' }}>白天 ({warmup.morning.length})</div>
             <div className="space-y-1.5">
               {warmup.morning.map((e, i) => (
-                <div key={i} className="neu-inset px-2.5 py-1.5 rounded-lg text-[10px] font-medium truncate" style={{ color: 'hsl(var(--text-secondary))' }}>{e.name}</div>
+                <button key={i} onClick={() => navigate('/warmup')} className="w-full text-left neu-sm neu-sm-hover px-2.5 py-1.5 text-[10px] font-medium truncate" style={{ color: 'hsl(var(--text-secondary))' }}>{e.name}</button>
               ))}
               {warmup.morning.length === 0 && <div className="text-[10px]" style={{ color: 'hsl(var(--text-tertiary))' }}>—</div>}
             </div>
@@ -281,7 +265,7 @@ function AISuggestionsPanel({ navigate, voicePart }: { navigate: any; voicePart:
             <div className="text-[10px] font-semibold mb-2" style={{ color: 'hsl(var(--text-tertiary))' }}>晚上 ({warmup.evening.length})</div>
             <div className="space-y-1.5">
               {warmup.evening.map((e, i) => (
-                <div key={i} className="neu-inset px-2.5 py-1.5 rounded-lg text-[10px] font-medium truncate" style={{ color: 'hsl(var(--text-secondary))' }}>{e.name}</div>
+                <button key={i} onClick={() => navigate('/warmup')} className="w-full text-left neu-sm neu-sm-hover px-2.5 py-1.5 text-[10px] font-medium truncate" style={{ color: 'hsl(var(--text-secondary))' }}>{e.name}</button>
               ))}
               {warmup.evening.length === 0 && <div className="text-[10px]" style={{ color: 'hsl(var(--text-tertiary))' }}>—</div>}
             </div>
@@ -555,9 +539,6 @@ function AdminDashboard({ userName, voicePart, isAdmin }: { userName: string; vo
 
       {/* AI Suggestions + Warmup side by side */}
       <AISuggestionsPanel navigate={navigate} voicePart={voicePart} />
-
-      {/* Shortcuts */}
-      <div className="mb-5"><Shortcuts navigate={navigate} /></div>
 
       {/* Admin Stats */}
       {isAdmin && stats && (
